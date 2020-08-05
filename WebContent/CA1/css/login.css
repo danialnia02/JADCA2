@@ -1,0 +1,92 @@
+body {
+	background:#27282e;
+	margin:0;
+	padding:0;
+}
+
+.loginBox {
+  width: 300px;
+  padding: 40px;
+  margin:auto;
+  margin-top:5%;
+  justify-content:center;
+  background: #191919;
+  text-align: center;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+.loginBox h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.loginBox input[type = "text"], .loginBox input[type = "password"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  width: 200px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+.loginBox input[type = "text"]:focus, .loginBox input[type = "password"]:focus{
+  width: 280px;
+  border-color: #2ecc71;
+}
+.loginBox input[type = "submit"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 40px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.loginBox input[type = "submit"]:hover{
+  background: #2ecc71;
+}
+
+.registerBox {
+	width: 300px;
+  	padding:40px;
+  	margin:auto;
+  	margin-top:1%;
+  	background: #191919;
+  	text-align: center;
+  	border: 1px solid gray;
+  	border-radius: 10px;
+}
+
+.registerBox input[type = "submit"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 40px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.registerBox input[type = "submit"]:hover{
+  background: #2ecc71;
+}
+
+.registerBox h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
