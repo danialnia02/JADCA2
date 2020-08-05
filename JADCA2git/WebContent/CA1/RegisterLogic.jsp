@@ -28,7 +28,6 @@ try{
 	newAccount.setRole("customer");
 	
 	
-	
 	request.setAttribute("newAccount",newAccount);	
 	
 	request.getRequestDispatcher("../RegisterLogic").include(request,response);

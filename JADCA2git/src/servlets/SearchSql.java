@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +37,7 @@ public class SearchSql extends HttpServlet {
 			request.setAttribute("SearchSql", rs);
 			
 		}catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

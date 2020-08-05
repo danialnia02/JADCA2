@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
-
+<%@page import="dbaccess.users"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,10 +11,12 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
 	rel="stylesheet" />
-<body style="background: #27282E">
-	<%@include file="./sqlQueries.jsp" %>
-	<%String userId=(String)session.getAttribute("id");
-	String[] Profile=getAccountInfo(out,userId);%>
+<body style="background: #27282E">	
+	<%
+	users userData = (users) session.getAttribute("userData");
+	String userId=userData.getUserId();
+	session.setAttribute("userId",userId);
+	%>
 
 	
 	<h1 class=backButton><a href="MainPage.jsp" style="color:white; text-decoration:none;">
@@ -33,13 +35,43 @@ Back</a></h1>
 			<form action="UpdateProfile.jsp" method="post">				
 				<div class="txtb">
 					<label>Name :</label> <input type="text" name="username"
-						value="<%=Profile[1] %>"
+						value="<%=userData.getUsername() %>"
 						 required>
 				</div>
 
 				<div class="txtb">
 					<label>Email :</label> <input type="text" name="email"
-						value="<%=Profile[2] %>"
+						value="<%=userData.getEmail() %>"
+						required>
+				</div>		
+				
+				<div class="txtb">
+					<label>phoneNumber :</label> <input type="number" name="phoneNumber"
+						value="<%=userData.getPhoneNumber() %>"
+						required>
+				</div>
+				
+				<div class="txtb">
+					<label>deliveryAddress :</label> <input type="text" name="deliveryAdderess"
+						value="<%=userData.getDeliveryAddress() %>"
+						required>
+				</div>
+				
+				<div class="txtb">
+					<label>postalCode :</label> <input type="text" name="postalCode"
+						value="<%=userData.getPostalCode() %>"
+						required>
+				</div>
+				
+				<div class="txtb">
+					<label>paymentType :</label> <input type="text" name="paymentType"
+						value="<%=userData.getPaymentType() %>"
+						required>
+				</div>
+				
+				<div class="txtb">
+					<label>cardNumber :</label> <input type="text" name="cardNumber"
+						value="<%=userData.getCardNumber() %>"
 						required>
 				</div>
 				
@@ -53,21 +85,6 @@ Back</a></h1>
 
 
 </body>
-<%!public String[] getAccountInfo(JspWriter out,String userId) throws java.io.IOException {
-
-		try {
-			Connection conn = DriverManager.getConnection(connURL);
-			ResultSet rs = getAccountInfo(out, userId, conn);
-			rs.next();
-
-			String[] Product = {rs.getString("id"),rs.getString("username"),rs.getString("email") };
-			conn.close();
-			return Product;
-		} catch (Exception e) {
-			System.err.println("Error :" + e);
-		}
-		return null;
-	}%>
 
 	
 

@@ -2,9 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
 <%@page import="dbaccess.product"%>
-<%-- <%@page import="javax.servlet.http.HttpServlet"%>
-<%@page import="javax.servlet.http.HttpServletRequest"%>
-<%@page import="javax.servlet.http.HttpServletResponse"%> --%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
@@ -28,7 +25,7 @@
 
 			out.print("<h1> " + categoryNames + "</h1>");
 			out.print("<form action=ListProduct.jsp  method=post>" + "<input type= hidden name = category value ="
-					+ allProducts.get(count).getCategoryName() + ">"
+					+ categoryNames + ">"
 					+ "<input id = btn value = 'View more' type = submit></form>");
 			out.print("<div class='flex-container'>");
 			int counter = 0;
@@ -78,7 +75,7 @@
 			out.print("</div>");
 		} catch (Exception e) {
 			System.out.println("here");
-			System.err.println("Error :" + e);
+			e.printStackTrace();
 		}
 	}%>
 
@@ -92,7 +89,7 @@
 			}
 		} catch (Exception e) {
 			System.out.println("here2");
-			System.err.println("Error :" + e);
+			e.printStackTrace();
 		}
 	}%>
 
@@ -106,14 +103,14 @@
 	<%		
 	product product = null;
 	try {
-		uBean = (users) session.getAttribute("userData");		
+		users uBean = (users) session.getAttribute("userData");		
 
 		request.setAttribute("username", username);
 		request.setAttribute("role", role);
 		request.setAttribute("id", id);
 	} catch (Exception e) {
 		System.out.println("here3");
-		System.err.println("Error :" + e);
+		e.printStackTrace();
 	}
 
 	//get category names	
@@ -128,7 +125,7 @@
 		}
 	} catch (Exception e) {
 		System.out.println("here4");
-		System.err.println("Error :" + e);
+		e.printStackTrace();
 	}
 
 	//get product based on category	
@@ -147,7 +144,7 @@
 		}
 	} catch (Exception e) {
 		System.out.println("here5");
-		System.err.println("Error :" + e);
+		e.printStackTrace();
 	}	
 	GetAllCategories(out, (String) session.getAttribute("role"), categoryNames, allProducts);
 	%>

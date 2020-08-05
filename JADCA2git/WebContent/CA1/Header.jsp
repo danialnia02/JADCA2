@@ -151,28 +151,41 @@ header {
 			<li class="nav-item has-dropdown"><a href="#">Categories</a>
 				<ul class="dropdown">
 					<%
-					
-					users uBean = (users) session.getAttribute("userData");;
-					// all of userInfo
-					String username=uBean.getUsername();
-					String role=uBean.getRole();
-					String id=uBean.getUserId();
-					String phoneNumber=uBean.getPhoneNumber();
-					String deliveryAddress=uBean.getDeliveryAddress();
-					String postalCode=uBean.getPostalCode();
-					String paymentType=uBean.getPaymentType();
-					String cardNumber=uBean.getCardNumber();
-					
-					System.out.println(username);
-					System.out.println(role);
-					
+						String username = null;
+					String role = null;
+					String id = null;
+					String phoneNumber = null;
+					String deliveryAddress = null;
+					String postalCode = null;
+					String cardNumber = null;
+					String userid = null;
+					String paymentType = null;
+					try {
+						users uBean = (users) session.getAttribute("userData");
+						;
+						// all of userInfo
+						username = uBean.getUsername();
+						role = uBean.getRole();
+						id = uBean.getUserId();
+						phoneNumber = uBean.getPhoneNumber();
+						deliveryAddress = uBean.getDeliveryAddress();
+						postalCode = uBean.getPostalCode();
+						paymentType = uBean.getPaymentType();
+						cardNumber = uBean.getCardNumber();
+						userid = (String) session.getAttribute("id");
+						session.setAttribute("userid", userid);
+						
+						session.setAttribute("userData",uBean);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
 					request.getRequestDispatcher("../HeaderSql").include(request, response);
-					
-					ResultSet rs = (ResultSet) request.getAttribute("HeadersSql");					
-					
-					Header(out,rs);
-					String userid = (String)session.getAttribute("id");
-					session.setAttribute("userid", userid);
+
+					ResultSet rs = (ResultSet) request.getAttribute("HeadersSql");
+
+					Header(out, rs);
 					%>
 				</ul></li>
 
@@ -181,11 +194,11 @@ header {
 				if (username == null || role == null) {
 				out.print("<li class =nav-item><a href=Login.jsp>Login</a></li>"
 				+ "<li class = nav-item><a href=Register.jsp>Register</a></li>");
-			} else if ( role.equals("customer")) {
+			} else if (role.equals("customer")) {
 				out.print("<li class =nav-item><a href=Cart.jsp>Cart</a>");
 				out.print("<li class =nav-item><a href=Profile.jsp>Profile</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp>Log out</a></li>");
-			} else if ( role.equals("admin")) {
+			} else if (role.equals("admin")) {
 
 				out.print("<li class =nav-item><a href=addProduct.jsp>Add Product</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp >Log out</a></li>");
@@ -212,17 +225,16 @@ header {
 
 
 </body>
-<%!public ResultSet Header(JspWriter out,ResultSet rs){
+<%!public ResultSet Header(JspWriter out, ResultSet rs) {
 
-		try {			
-			rs.next();			
+		try {
+			rs.next();
 			do {
-				System.out.println(rs.getString("CategoryName"));
 				out.print("<li class='dropdown-item'><form action='ListProduct.jsp?category="
 						+ rs.getString("CategoryName") + "' method=post>" + "<input value="
 						+ rs.getString("CategoryName") + " type=submit name=category></form></li>");
-			} while (rs.next());			
-		} catch (Exception e) {			
+			} while (rs.next());
+		} catch (Exception e) {
 			System.err.println("Error :" + e);
 		}
 		return null;

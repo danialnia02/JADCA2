@@ -16,56 +16,61 @@
 	<%@ include file="Header.jsp"%>
 
 	<%
-		try {			
+		try {
+			
 		String itemId = request.getParameter("item");
-		users userInfo = (users) session.getAttribute("userInfo");		
+		System.out.println("here");
+		users userInfo = (users) session.getAttribute("userInfo");
 		String userId = userInfo.getUserId();		
-		session.setAttribute("itemId",itemId);	
+		request.setAttribute("itemId",itemId);
+		request.setAttribute("userId",userId);
 		
 		//get the information of the selected Item
-		ResultSet res = EditProduct(out, Integer.parseInt(itemId), conn);
-		res.next();
-		//System.out.println(res.getString("productId"));
-		int outputNumber = 0;	
+		
+		request.getRequestDispatcher("../EditProductSql").include(request, response);
+		ResultSet EditProductSql = (ResultSet) request.getAttribute("EditProductSql");					
+		EditProductSql.next();
+		System.out.println(EditProductSql.getString("productName"));
+		int outputNumber = 0;
+		
 		try{
 			//get quantity if the user has already inserted into the cart;
-			ResultSet rs = getQuantityInCart(out, userId, itemId, conn);	
-			rs.next();						
-			
-			outputNumber=Integer.parseInt(res.getString("StockQuantity"))- Integer.parseInt(rs.getString("itemQuantity"));
-			
+			ResultSet getQuantityInCartSql = (ResultSet) request.getAttribute("getQuantityInCartSql");
+			getQuantityInCartSql.next();
+			outputNumber=Integer.parseInt(EditProductSql.getString("StockQuantity"))- Integer.parseInt(getQuantityInCartSql.getString("itemQuantity"));
 		}catch(Exception e){
-			outputNumber=Integer.parseInt(res.getString("StockQuantity"));			
-		} 
+			outputNumber=Integer.parseInt(EditProductSql.getString("StockQuantity"));		
+		}
+					
 	%>
 
 	<section>
-		<h1><%=res.getString("ProductName")%></h1>
+		<h1><%=EditProductSql.getString("ProductName")%></h1>
 		<div style="display: flex;">
 
 			<div>
 				<div id="imgContainer">
-					<img src="<%=res.getString("ImageLocation")%>">
+					<img src="<%=EditProductSql.getString("ImageLocation")%>">
 				</div>
 
 				<div id="descriptionTitle">PRODUCT DESCRIPTION</div>
 				<div id="description">
-					<%=res.getString("DetailDescription")%>
+					<%=EditProductSql.getString("DetailDescription")%>
 
 				</div>
 			</div>
 			<div class="container">
 
 				<h1>
-					$<%=res.getString("RetailPrice")%></h1>
+					$<%=EditProductSql.getString("RetailPrice")%></h1>
 
-				<div>Stock:<%=res.getString("StockQuantity")%></div>
+				<div>Stock:<%=EditProductSql.getString("StockQuantity")%></div>
 
 				<div>
 					<form action="addToCart.jsp">
 						<label for="quantity">Quantity:</label> <input type="number"
 							id="quantity" name="quantity" value="1" min="1" max='<%= showOutput(out,outputNumber) %>'>
-							<input type=hidden name=itemId value='<%=res.getString("productId") %>'>
+							<input type=hidden name=itemId value='<%=EditProductSql.getString("productId") %>'>
 						<input type="submit" id="submit" value="Add to cart">
 					</form>
 				</div>
@@ -75,8 +80,7 @@
 		</div>
 	</section>
 
-	<%
-		conn.close();
+	<%		
 	} catch (Exception e) {
 		System.err.println("Error here: " + e);
 	}

@@ -30,10 +30,16 @@ public class EditProductSql extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String itemId=(String) request.getAttribute("itemId");
+		try {
+			String itemId=(String) request.getAttribute("itemId");
+			System.out.println(itemId);
+			database udatabase = new database();
+			ResultSet rs = udatabase.EditProductSql(itemId);
+			request.setAttribute("EditProductSql", rs);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		database udatabase = new database();
-		ResultSet rs = udatabase.EditProductSql(itemId);
 	}
 
 	/**

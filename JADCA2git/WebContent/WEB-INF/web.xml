@@ -69,4 +69,32 @@
         <servlet-name>RegisterLogic</servlet-name>
         <url-pattern>/Register</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EditProductSql</servlet-name>
+        <servlet-class>servlets.EditProductSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProductSql</servlet-name>
+        <url-pattern>/EditProduct</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getQuantityInCartSQL</servlet-name>
+        <servlet-class>servlets.getQuantityInCartSQL</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getQuantityInCartSQL</servlet-name>
+        <url-pattern>/getQuantityInCart</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>UpdateCustomerProfileSql</servlet-name>
+        <servlet-class>servlets.UpdateCustomerProfileSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomerProfileSql</servlet-name>
+        <url-pattern>/UpdateCustomerProfile</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -106,15 +106,15 @@ public class database {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(connURL);						
-			PreparedStatement pstmt = null;			
-			if(category.equals("nothing")) {
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			if (category.equals("nothing") || category.equals("all")) {
 				pstmt = conn.prepareStatement("SELECT * FROM product");
-			}else {
+			} else {
 				pstmt = conn.prepareStatement("SELECT * FROM product WHERE `CategoryName` = ?");
 				pstmt.setString(1, category);
 			}
-			
+
 			ResultSet rs = pstmt.executeQuery();
 
 			return rs;
@@ -144,57 +144,100 @@ public class database {
 		conn.close();
 		return null;
 	}
-	
-	public boolean RegisterLogic(String username,String email,String password,String phoneNumber,String deliveryAddress,String postalCode,String paymentType,String cardNumber)throws SQLException{
-				
-		
+
+	public boolean RegisterLogic(String username, String email, String password, String phoneNumber,
+			String deliveryAddress, String postalCode, String paymentType, String cardNumber) throws SQLException {
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
-			pstmt= conn.prepareStatement("Insert into user(username,email,password,role,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber) values(?,?,?,?,?,?,?,?,?)");
-			pstmt.setString(1,username);
-			pstmt.setString(2,email);
-			pstmt.setString(3,password);
-			pstmt.setString(4,"customer");
-			pstmt.setInt(5,Integer.parseInt(phoneNumber));
-			pstmt.setString(6,deliveryAddress);
-			pstmt.setString(7,postalCode);
-			pstmt.setString(8,paymentType);
-			pstmt.setInt(9,Integer.parseInt(cardNumber));
-			
-			int number =pstmt.executeUpdate();
-			if(number>0) {
+			pstmt = conn.prepareStatement(
+					"Insert into user(username,email,password,role,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber) values(?,?,?,?,?,?,?,?,?)");
+			pstmt.setString(1, username);
+			pstmt.setString(2, email);
+			pstmt.setString(3, password);
+			pstmt.setString(4, "customer");
+			pstmt.setInt(5, Integer.parseInt(phoneNumber));
+			pstmt.setString(6, deliveryAddress);
+			pstmt.setString(7, postalCode);
+			pstmt.setString(8, paymentType);
+			pstmt.setInt(9, Integer.parseInt(cardNumber));
+
+			int number = pstmt.executeUpdate();
+			if (number > 0) {
 				System.out.println(number + " user added!");
-				//conn.close();
-			}				
-			return true;					
-		}catch (Exception e) {
-			System.out.println("here");
+				// conn.close();
+			}
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		conn.close();
 		return false;
 	}
-	
-	public ResultSet EditProductSql(String itemId) throws SQLException{
-		
+
+	public ResultSet EditProductSql(String itemId) throws SQLException {
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-				conn=DriverManager.getConnection(connURL);
-				PreparedStatement pstmt = null;
-				pstmt = conn.prepareStatement("SELECT * from product where `productId` = ?");
-				pstmt.setString(1, itemId);
-				
-				ResultSet rs = pstmt.executeQuery();
-				conn.close();
-				
-				return rs;				
-		}catch(Exception e) {
-			
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			pstmt = conn.prepareStatement("SELECT * from product where `productId` = ?");
+			pstmt.setString(1, itemId);
+
+			ResultSet rs = pstmt.executeQuery();
+			conn.close();
+
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		conn.close();
 		return null;
+	}
+
+	public ResultSet getQuantityInCart(String id, String itemId) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			Statement stmt = conn.createStatement();
+			PreparedStatement ptsmt;
+			ptsmt = conn.prepareStatement("Select itemQuantity from cart where productId=? and buyerId=?");
+			ptsmt.setInt(1, Integer.parseInt(itemId));
+			ptsmt.setInt(2, Integer.parseInt(id));
+			ResultSet rs = ptsmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			System.err.println("Error :" + e);
+		}
+		return null;
+	}
+
+	public void UpdateCustomerProfileSql(String id, String username, String email, String phonenumber,
+			String deliveryAddress, String postalCode, String paymentType, String cardNumber) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			pstmt = conn.prepareStatement(
+					"Update user set username=?, email=?, phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ?");
+			pstmt.setString(1, id);
+			pstmt.setString(2, username);
+			pstmt.setString(3, phonenumber);
+			pstmt.setString(4, deliveryAddress);
+			pstmt.setString(5, postalCode);
+			pstmt.setString(6, paymentType);
+			pstmt.setString(7, cardNumber);
+
+			int number = pstmt.executeUpdate();
+			if (number > 0)
+				System.out.println(number + " records updated!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public String getConnURL() {
