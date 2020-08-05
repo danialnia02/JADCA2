@@ -151,7 +151,8 @@ header {
 			<li class="nav-item has-dropdown"><a href="#">Categories</a>
 				<ul class="dropdown">
 					<%
-					users uBean = new users();
+					
+					users uBean = (users) session.getAttribute("userData");;
 					// all of userInfo
 					String username=uBean.getUsername();
 					String role=uBean.getRole();
@@ -161,6 +162,9 @@ header {
 					String postalCode=uBean.getPostalCode();
 					String paymentType=uBean.getPaymentType();
 					String cardNumber=uBean.getCardNumber();
+					
+					System.out.println(username);
+					System.out.println(role);
 					
 					request.getRequestDispatcher("../HeaderSql").include(request, response);
 					
@@ -174,14 +178,14 @@ header {
 
 
 			<%
-				if ((String) session.getAttribute("username") == null || (String) session.getAttribute("role") == null) {
+				if (username == null || role == null) {
 				out.print("<li class =nav-item><a href=Login.jsp>Login</a></li>"
 				+ "<li class = nav-item><a href=Register.jsp>Register</a></li>");
-			} else if ((Boolean) session.getAttribute("role").equals("customer")) {
+			} else if ( role.equals("customer")) {
 				out.print("<li class =nav-item><a href=Cart.jsp>Cart</a>");
 				out.print("<li class =nav-item><a href=Profile.jsp>Profile</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp>Log out</a></li>");
-			} else if ((Boolean) session.getAttribute("role").equals("admin")) {
+			} else if ( role.equals("admin")) {
 
 				out.print("<li class =nav-item><a href=addProduct.jsp>Add Product</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp >Log out</a></li>");

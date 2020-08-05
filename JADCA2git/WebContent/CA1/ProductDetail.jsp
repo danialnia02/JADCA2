@@ -16,13 +16,12 @@
 	<%@ include file="Header.jsp"%>
 
 	<%
-		try {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection(connURL);		
+		try {			
 		String itemId = request.getParameter("item");
-
-		String userId = (String) session.getAttribute("id");		
+		users userInfo = (users) session.getAttribute("userInfo");		
+		String userId = userInfo.getUserId();		
 		session.setAttribute("itemId",itemId);	
+		
 		//get the information of the selected Item
 		ResultSet res = EditProduct(out, Integer.parseInt(itemId), conn);
 		res.next();

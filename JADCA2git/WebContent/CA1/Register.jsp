@@ -24,7 +24,12 @@ Back</a></h1>
   <h1>Registration</h1>
   <input type="text" name="username" placeholder="Username" required>
   <input type ="text" name="email" placeholder="Email" required>
-  <input type="password" name="password" placeholder="Password" required>  
+  <input type="password" name="password" placeholder="Password" required>
+  <input type="number" name="phoneNumber" placeholder="phoneNumber" required>  
+  <input type="text" name="deliveryAddress" placeholder="deliveryAddress" required>  
+  <input type="number" name="postalCode" placeholder="postalCode" required>  
+  <input type="text" name="paymentType" placeholder="paymentType" required>  
+  <input type="number" name="cardNumber" placeholder="cardNumber" required>    
   <input type="submit" value="Submit">
 </form>
 
@@ -67,6 +72,24 @@ body {
   transition: 0.25s;
 }
 .registerBox input[type = "text"]:focus, .registerBox input[type = "password"]:focus{
+  width: 280px;
+  border-color: #2ecc71;
+}
+.registerBox input[type = "number"], .registerBox input[type = "password"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  width: 200px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+.registerBox input[type = "number"]:focus, .registerBox input[type = "password"]:focus{
   width: 280px;
   border-color: #2ecc71;
 }

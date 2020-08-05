@@ -1,4 +1,4 @@
-package models;
+package servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,19 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import dbaccess.database;
 import java.sql.*;
-import dbaccess.users;
 
 /**
- * Servlet implementation class RegisterLogic
+ * Servlet implementation class EditProductSql
  */
-@WebServlet("/RegisterLogic")
-public class RegisterLogic extends HttpServlet {
+@WebServlet("/EditProductSql")
+public class EditProductSql extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterLogic() {
+    public EditProductSql() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,25 +29,11 @@ public class RegisterLogic extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		users newAccount = (users)request.getAttribute("newAccount");
-		try {
-			String username = newAccount.getUsername();
-			String email= newAccount.getEmail();
-			String password = newAccount.getPassword();
-			String phoneNumber = newAccount.getPhoneNumber();
-			String deliveryAddress = newAccount.getDeliveryAddress();
-			String postalCode = newAccount.getPostalCode();
-			String paymentType = newAccount.getPaymentType();
-			String cardNumber = newAccount.getCardNumber();
-			
-						
-			database udatabase = new database();
-			boolean accountCreated =udatabase.RegisterLogic(username,email,password,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber);			
-			request.setAttribute("RegisterLogicSql",accountCreated);
-			
-		}catch(Exception e) {			
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+		String itemId=(String) request.getAttribute("itemId");
+		
+		database udatabase = new database();
+		ResultSet rs = udatabase.EditProductSql(itemId);
 	}
 
 	/**

@@ -1,25 +1,43 @@
 <%@page import ="java.sql.*"%>
 <%@include file="./sqlQueries.jsp" %>
+<%@page import="dbaccess.users" %>
 <%
 try{
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection conn = DriverManager.getConnection(connURL);
 
 
-	String name =  request.getParameter("username") ;
+	String username =  request.getParameter("username") ;
 	String email = request.getParameter("email");
-	String password= request.getParameter("password");
+	String password = request.getParameter("password");
+	String phoneNumber = request.getParameter("phoneNumber");
+	String deliveryAddress= request.getParameter("deliveryAddress");
+	String postalCode = request.getParameter("postalCode");
+	String paymentType = request.getParameter("paymentType");
+	String cardNumber = request.getParameter("cardNumber");
+	
+	users newAccount = new users();
+	newAccount.setUsername(username);
+	newAccount.setEmail(email);
+	newAccount.setPassword(password);
+	newAccount.setPhoneNumber(phoneNumber);
+	newAccount.setDeliveryAddress(deliveryAddress);
+	newAccount.setPostalCode(postalCode);
+	newAccount.setPaymentType(paymentType);
+	newAccount.setCardNumber(cardNumber);
+	newAccount.setRole("customer");
 	
 	
-	try{
-		int number=RegisterLogic(out,name,email,password,conn);
-		System.out.println(number);
-		
-		response.sendRedirect("Login.jsp?number="+ number);		
-	}catch(Exception e){		
-		System.out.println("Error :" + e);
-		response.sendRedirect("Login.jsp?errCode=invalidLogin");
-	}	
+	
+	request.setAttribute("newAccount",newAccount);	
+	
+	request.getRequestDispatcher("../RegisterLogic").include(request,response);
+	boolean accountCreated = (boolean) request.getAttribute("RegisterLogicSql");
+	if(accountCreated == true){
+		response.sendRedirect("Login.jsp?errCode=true");
+	}else{
+		response.sendRedirect("Login.jsp?errCode=invalidLogin");  
+	}
 	
 	conn.close();
  } catch (Exception e) {

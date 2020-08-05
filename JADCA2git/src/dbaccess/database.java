@@ -106,10 +106,8 @@ public class database {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(connURL);			
-			
-			PreparedStatement pstmt = null;
-			
+			conn = DriverManager.getConnection(connURL);						
+			PreparedStatement pstmt = null;			
 			if(category.equals("nothing")) {
 				pstmt = conn.prepareStatement("SELECT * FROM product");
 			}else {
@@ -132,40 +130,71 @@ public class database {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
 			pstmt = conn.prepareStatement("SELECT * FROM product WHERE ProductName like ? ");
 			pstmt.setString(1, "%" + input + "%");
 
 			ResultSet rs = pstmt.executeQuery();
+			conn.close();
+			return rs;
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		conn.close();
 		return null;
 	}
 	
-	public int RegisterLogic(String username,String email,String password,String phoneNumber,String deliveryAddress,String postalCode,String paymentType,String cardNumber)throws SQLException{
+	public boolean RegisterLogic(String username,String email,String password,String phoneNumber,String deliveryAddress,String postalCode,String paymentType,String cardNumber)throws SQLException{
+				
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			PreparedStatement pstmt;
-			pstmt= conn.prepareStatement("Insert into user(username,email,password,role,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber) values(?,?,?,'customer',?,?,?,?,?)");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			pstmt= conn.prepareStatement("Insert into user(username,email,password,role,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber) values(?,?,?,?,?,?,?,?,?)");
 			pstmt.setString(1,username);
 			pstmt.setString(2,email);
 			pstmt.setString(3,password);
-			pstmt.setString(4,phoneNumber);
-			pstmt.setString(5,deliveryAddress);
-			pstmt.setString(6,postalCode);
-			pstmt.setString(7,paymentType);
-			pstmt.setString(8,cardNumber);
+			pstmt.setString(4,"customer");
+			pstmt.setInt(5,Integer.parseInt(phoneNumber));
+			pstmt.setString(6,deliveryAddress);
+			pstmt.setString(7,postalCode);
+			pstmt.setString(8,paymentType);
+			pstmt.setInt(9,Integer.parseInt(cardNumber));
 			
 			int number =pstmt.executeUpdate();
-			if(number>0)
+			if(number>0) {
 				System.out.println(number + " user added!");
-			return number;					
+				//conn.close();
+			}				
+			return true;					
 		}catch (Exception e) {
-			System.err.println(e);
+			System.out.println("here");
+			e.printStackTrace();
 		}
-		return 0;
+		conn.close();
+		return false;
+	}
+	
+	public ResultSet EditProductSql(String itemId) throws SQLException{
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+				conn=DriverManager.getConnection(connURL);
+				PreparedStatement pstmt = null;
+				pstmt = conn.prepareStatement("SELECT * from product where `productId` = ?");
+				pstmt.setString(1, itemId);
+				
+				ResultSet rs = pstmt.executeQuery();
+				conn.close();
+				
+				return rs;				
+		}catch(Exception e) {
+			
+		}
+		conn.close();
+		return null;
 	}
 
 	public String getConnURL() {
