@@ -42,7 +42,7 @@ public class database {
 		return uBean;
 	}
 
-	// check password
+	//
 	public ResultSet GetAllCategories() throws SQLException {
 
 		try {
@@ -51,7 +51,6 @@ public class database {
 			String sqlstr = "SELECT * from productcategory";
 			PreparedStatement pstmt = conn.prepareStatement(sqlstr);
 			ResultSet rs = pstmt.executeQuery();
-			Statement stmt = conn.createStatement();
 
 			return rs;
 
@@ -275,8 +274,85 @@ public class database {
 		return null;
 	}
 
+	public void deleteProductSql(String productId) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM product where productId = ?");
+			pstmt.setString(1, productId);
+			int number = pstmt.executeUpdate();
+
+			if (number > 0) {
+				System.out.println(productId + " account deleted!");
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+	}
+
 	public String getConnURL() {
 		return connURL;
+	}
+
+	public ResultSet IndividualAccountSql() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user");
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			System.out.println("error getting individual account info");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ResultSet getNoOfDistinctRoles() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn
+					.prepareStatement("SELECT COUNT(distinct role) as 'total_no_of_rows' from user");
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			System.out.println("error getting cont of distinct roles");
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void updateAccountSql(String userId, String role, String buttonType) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			String sqlString = "";
+			PreparedStatement pstmt = null;
+
+			if (buttonType == "Update") {
+				sqlString = "Update user set role=? where userId=?";
+				pstmt = conn.prepareStatement(sqlString);
+				pstmt.setString(1, role);
+				pstmt.setString(2, userId);
+			} else {
+				sqlString = "DELETE from user where userId =?";
+				pstmt = conn.prepareStatement(sqlString);
+				pstmt.setString(1, userId);
+			}
+
+			int number = pstmt.executeUpdate();
+			if (number > 0) {
+				System.out.println(userId + " updated!");
+			}
+
+		} catch (Exception e) {
+			System.out.println("error updating acount through root page");
+			e.printStackTrace();
+		}
 	}
 
 	public void setConnURL(String connURL) {

@@ -140,7 +140,7 @@
 				<input class="btn" type="submit" value="Update product">
 
 			</form>
-			<form action="deleteProduct.jsp?">
+			<form action="deleteProduct.jsp" method="post">
 				<input type=hidden name=itemId value=<%=productInfo.getProductId()%>>
 				<input class="btn" type="submit" value="Delete Product">
 			</form>

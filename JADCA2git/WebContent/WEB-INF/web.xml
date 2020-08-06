@@ -106,4 +106,31 @@
         <servlet-name>EditProduct2Sql</servlet-name>
         <url-pattern>/EditProduct2</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>deleteProductSql</servlet-name>
+        <servlet-class>servlets.deleteProductSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteProductSql</servlet-name>
+        <url-pattern>/deleteProduct</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>IndividualAccountSql</servlet-name>
+        <servlet-class>servlets.IndividualAccountSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IndividualAccountSql</servlet-name>
+        <url-pattern>/IndividualAccount</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UpdateAccountSql</servlet-name>
+        <servlet-class>servlets.UpdateAccountSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateAccountSql</servlet-name>
+        <url-pattern>/UpdateAccount</url-pattern>
+    </servlet-mapping>
 </web-app>

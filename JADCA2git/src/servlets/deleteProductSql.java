@@ -6,21 +6,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import dbaccess.database;
-import java.sql.*;
-
 /**
- * Servlet implementation class EditProductSQL
+ * Servlet implementation class deleteProductSql
  */
-@WebServlet("/EditProductSQL")
-public class EditProductSQL extends HttpServlet {
+@WebServlet("/deleteProductSql")
+public class deleteProductSql extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditProductSQL() {
+    public deleteProductSql() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +28,13 @@ public class EditProductSQL extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String itemId = (String) request.getAttribute("itemId");				
-			database udatabase =new database();			
-			ResultSet rs = udatabase.EditProductSql(itemId);										
-			request.setAttribute("EditProductSQL", rs);						
-			
+			String productId = (String) request.getAttribute("productId");
+			database udatabase = new database();
+			udatabase.deleteProductSql(productId);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
+		}		
 	}
 
 	/**

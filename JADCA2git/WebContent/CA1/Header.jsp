@@ -204,7 +204,7 @@ header {
 				out.print("<li class =nav-item><a href=addProduct.jsp>Add Product</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp >Log out</a></li>");
 			}
-			else if ((Boolean) session.getAttribute("role").equals("root")) {
+			else if (role.equals("root")) {
 			response.sendRedirect("RootPage.jsp");
 			}
 			%>
