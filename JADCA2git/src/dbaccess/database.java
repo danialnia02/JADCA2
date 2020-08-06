@@ -186,43 +186,37 @@ public class database {
 			pstmt = conn.prepareStatement("SELECT * from product where `productId` = ?");
 			pstmt.setString(1, itemId);
 
-			ResultSet rs = pstmt.executeQuery();
-			conn.close();
+			ResultSet rs = pstmt.executeQuery();						
 
 			return rs;
-		} catch (Exception e) {
+		} catch (Exception e) {			
 			e.printStackTrace();
 		}
 		conn.close();
 		return null;
 	}
 
-	public ResultSet getQuantityInCart(String id, String itemId) throws SQLException {
+	public int getQuantityInCart(String id, String itemId) throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(connURL);
-			Statement stmt = conn.createStatement();
+			conn = DriverManager.getConnection(connURL);			
 			PreparedStatement ptsmt;
-			ptsmt = conn.prepareStatement("Select itemQuantity from cart where productId=? and buyerId=?");
+			ptsmt = conn.prepareStatement("SELECT cd.itemQuantity from cart c, cartDetails cd where cd.productId = ? and c.userId=?");
 			ptsmt.setInt(1, Integer.parseInt(itemId));
 			ptsmt.setInt(2, Integer.parseInt(id));
 			ResultSet rs = ptsmt.executeQuery();
-			return rs;
+			rs.next();
+			return Integer.parseInt(rs.getString("itemQuantity"));
 
 		} catch (Exception e) {
 			System.err.println("Error :" + e);
 		}
-		return null;
+		return 0;
 	}
 
 	public void UpdateCustomerProfileSql(String id, String phonenumber,
 			String deliveryAddress, String postalCode, String paymentType, String cardNumber) {
-		try {			
-			/*
-			 * System.out.println(id); System.out.println(phonenumber);
-			 * System.out.println(deliveryAddress); System.out.println(postalCode);
-			 * System.out.println(paymentType); System.out.println(cardNumber);
-			 */
+		try {						
 			
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);

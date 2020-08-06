@@ -15,42 +15,46 @@
 <body style="background: #27282E">
 	<%@ include file="Header.jsp"%>
 
-	<%
-		try {
-			
-		String itemId = request.getParameter("item");
-		System.out.println("here");
-		users userInfo = (users) session.getAttribute("userInfo");
-		String userId = userInfo.getUserId();		
+	<%try{
+		String userId= null;
+		users userInfo = (users) session.getAttribute("userInfo");		
+		
+		//check if user exists
+		try{
+			userInfo.getUserId();
+		}catch(Exception e){
+			userId="0";
+			e.printStackTrace();
+		}
+		
+		String itemId= request.getParameter("item");		
 		request.setAttribute("itemId",itemId);
-		request.setAttribute("userId",userId);
 		
 		//get the information of the selected Item
+		request.getRequestDispatcher("../EditProductSQL").include(request,response);		
+		ResultSet EditProductSql =(ResultSet) request.getAttribute("EditProductSQL");
+		EditProductSql.next();			
 		
-		request.getRequestDispatcher("../EditProductSql").include(request, response);
-		ResultSet EditProductSql = (ResultSet) request.getAttribute("EditProductSql");					
-		EditProductSql.next();
-		System.out.println(EditProductSql.getString("productName"));
-		int outputNumber = 0;
-		
-		try{
-			//get quantity if the user has already inserted into the cart;
-			ResultSet getQuantityInCartSql = (ResultSet) request.getAttribute("getQuantityInCartSql");
-			getQuantityInCartSql.next();
-			outputNumber=Integer.parseInt(EditProductSql.getString("StockQuantity"))- Integer.parseInt(getQuantityInCartSql.getString("itemQuantity"));
-		}catch(Exception e){
-			outputNumber=Integer.parseInt(EditProductSql.getString("StockQuantity"));		
+		//check stock quantity against the number in user's cart
+		int StockQuantity = Integer.parseInt(EditProductSql.getString("StockQuantity"));
+		System.out.println(StockQuantity);
+		request.getRequestDispatcher("../getQuantityInCartSql").include(request,response);		
+		int quantityInCart = (int) request.getAttribute("quantityInCart");
+		System.out.println(quantityInCart);
+		if (quantityInCart != 0){
+			StockQuantity = StockQuantity - quantityInCart;			
 		}
-					
+		
+	
 	%>
 
-	<section>
-		<h1><%=EditProductSql.getString("ProductName")%></h1>
+	<section>		
+		<h1> <%=EditProductSql.getString("ProductName")%></h1>		
 		<div style="display: flex;">
 
 			<div>
 				<div id="imgContainer">
-					<img src="<%=EditProductSql.getString("ImageLocation")%>">
+					<img src=" <%=EditProductSql.getString("ImageLocation")%> ">
 				</div>
 
 				<div id="descriptionTitle">PRODUCT DESCRIPTION</div>
@@ -62,16 +66,19 @@
 			<div class="container">
 
 				<h1>
-					$<%=EditProductSql.getString("RetailPrice")%></h1>
+					$ <%=EditProductSql.getString("RetailPrice")%> </h1>
 
-				<div>Stock:<%=EditProductSql.getString("StockQuantity")%></div>
+				<div>
+					Stock:<%=EditProductSql.getString("StockQuantity")%> </div>
 
 				<div>
 					<form action="addToCart.jsp">
 						<label for="quantity">Quantity:</label> <input type="number"
-							id="quantity" name="quantity" value="1" min="1" max='<%= showOutput(out,outputNumber) %>'>
-							<input type=hidden name=itemId value='<%=EditProductSql.getString("productId") %>'>
-						<input type="submit" id="submit" value="Add to cart">
+							id="quantity" name="quantity" value="1" min="1"
+							max=" <%=showOutput(out, StockQuantity)%> "> <input
+							type=hidden name=itemId
+							value='<%=EditProductSql.getString("productId")%> '> <input
+							type="submit" id="submit" value="Add to cart">
 					</form>
 				</div>
 
@@ -79,14 +86,16 @@
 
 		</div>
 	</section>
-
-	<%		
-	} catch (Exception e) {
-		System.err.println("Error here: " + e);
+	<%
+	}catch(Exception e){
+		System.out.println("error");
+		e.printStackTrace();
 	}
 	%>
-	<%!public int showOutput(JspWriter out, int number) throws java.io.IOException {				
-		return number;
+
+	<%!public int showOutput(JspWriter out, int number) throws java.io.IOException {
+		System.out.println(number);
+		return number;		
 	}%>
 
 

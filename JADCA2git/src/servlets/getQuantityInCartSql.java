@@ -36,7 +36,8 @@ public class getQuantityInCartSql extends HttpServlet {
 			String userId = (String) request.getAttribute("userId");
 			String itemId = (String) request.getAttribute("itemId");
 			database udatabase = new database();
-			
+			int quantityInCart = udatabase.getQuantityInCart(userId, itemId);
+			request.setAttribute("quantityInCart",quantityInCart);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

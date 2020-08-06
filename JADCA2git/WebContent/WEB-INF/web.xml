@@ -71,11 +71,11 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>EditProductSql</servlet-name>
-        <servlet-class>servlets.EditProductSql</servlet-class>
+        <servlet-name>EditProductSQL</servlet-name>
+        <servlet-class>servlets.EditProductSQL</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EditProductSql</servlet-name>
+        <servlet-name>EditProductSQL</servlet-name>
         <url-pattern>/EditProduct</url-pattern>
     </servlet-mapping>
     

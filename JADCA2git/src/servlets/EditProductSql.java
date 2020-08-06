@@ -11,16 +11,16 @@ import dbaccess.database;
 import java.sql.*;
 
 /**
- * Servlet implementation class EditProductSql
+ * Servlet implementation class EditProductSQL
  */
-@WebServlet("/EditProductSql")
-public class EditProductSql extends HttpServlet {
+@WebServlet("/EditProductSQL")
+public class EditProductSQL extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditProductSql() {
+    public EditProductSQL() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +31,15 @@ public class EditProductSql extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String itemId=(String) request.getAttribute("itemId");
-			System.out.println(itemId);
-			database udatabase = new database();
-			ResultSet rs = udatabase.EditProductSql(itemId);
-			request.setAttribute("EditProductSql", rs);
+			String itemId = (String) request.getAttribute("itemId");			
+			database udatabase =new database();
+			System.out.println("hereeee");
+			ResultSet rs = udatabase.EditProductSql(itemId);							
+			
+			request.setAttribute("EditProductSQL", rs);			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**
