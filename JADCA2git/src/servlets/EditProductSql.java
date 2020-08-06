@@ -31,12 +31,13 @@ public class EditProductSQL extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String itemId = (String) request.getAttribute("itemId");			
+			String itemId = (String) request.getAttribute("itemId");				
 			database udatabase =new database();
 			System.out.println("hereeee");
-			ResultSet rs = udatabase.EditProductSql(itemId);							
+			ResultSet rs = udatabase.EditProductSql(itemId);										
+			request.setAttribute("EditProductSQL", rs);						
 			
-			request.setAttribute("EditProductSQL", rs);			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

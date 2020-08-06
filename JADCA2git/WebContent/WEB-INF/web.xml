@@ -97,4 +97,13 @@
         <servlet-name>UpdateCustomerProfileSQL</servlet-name>
         <url-pattern>/UpdateCustomerProfile</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EditProduct2Sql</servlet-name>
+        <servlet-class>servlets.EditProduct2Sql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProduct2Sql</servlet-name>
+        <url-pattern>/EditProduct2</url-pattern>
+    </servlet-mapping>
 </web-app>

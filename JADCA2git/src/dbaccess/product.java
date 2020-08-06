@@ -10,20 +10,7 @@ public class product {
 	private  String discountPrice;
 	private  String stockQuantity;
 	private  String categoryName;
-	private  String imageLocation;
-	
-	public product(String productId,String productName,String description,String detailDescription,String costPrice,String retailPrice,String discountPrice,String stockQuantity,String categoryName,String imageLocation) {
-		this.productId=productId;
-		this.productName=productName;
-		this.description=description;
-		this.detailDescription=detailDescription;
-		this.costPrice=costPrice;
-		this.retailPrice=retailPrice;
-		this.discountPrice=discountPrice;
-		this.stockQuantity=stockQuantity;
-		this.categoryName=categoryName;
-		this.imageLocation=imageLocation;
-	}
+	private  String imageLocation;	
 	
 	public String getProductId() {
 		return productId;

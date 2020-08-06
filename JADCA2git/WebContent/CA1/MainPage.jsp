@@ -25,8 +25,7 @@
 
 			out.print("<h1> " + categoryNames + "</h1>");
 			out.print("<form action=ListProduct.jsp  method=post>" + "<input type= hidden name = category value ="
-					+ categoryNames + ">"
-					+ "<input id = btn value = 'View more' type = submit></form>");
+					+ categoryNames + ">" + "<input id = btn value = 'View more' type = submit></form>");
 			out.print("<div class='flex-container'>");
 			int counter = 0;
 			for (count = 0; count < allProducts.size(); count++) {
@@ -37,12 +36,11 @@
 						out.print("<div class='card'> <div>" + "<img src= " + allProducts.get(count).getImageLocation()
 								+ " alt='" + allProducts.get(count).getProductName()
 								+ "' style='width:100%; vertical-align: middle; height:100%; min-height:200px;'>"
-								+ "</div>" 
-								+ "<div class='container'>"
+								+ "</div>" + "<div class='container'>"
 
 								+ "<p style='margin:0;'><b>" + allProducts.get(count).getProductName() + "</b></p>"
-								+ "<p id = price style =margin:0; color: #14AE0B;>$"+ allProducts.get(count).getRetailPrice() + "</p>" 
-								+ "</div>"
+								+ "<p id = price style =margin:0; color: #14AE0B;>$"
+								+ allProducts.get(count).getRetailPrice() + "</p>" + "</div>"
 
 								+ "<form method = POST action= ProductDetail.jsp > "
 								+ "<input type = hidden name = item value = " + allProducts.get(count).getProductId()
@@ -63,13 +61,12 @@
 								+ "<input type = hidden name = 'editProduct' value = "
 								+ allProducts.get(count).getProductId() + ">"
 								+ "<input id = detailBtn type = submit value = Edit></form>"
-								
+
 								+ "</div>");
 					}
 
 					//loop	
 
-					
 				}
 			}
 			out.print("</div>");
@@ -83,7 +80,7 @@
 			ArrayList<product> allProducts) {
 		try {
 			for (int i = 0; i < categoryNames.size(); i++) {
-				out.println("<div>");				
+				out.println("<div>");
 				MainPage(out, categoryNames.get(i), allProducts, role);
 				out.println("/<div>");
 			}
@@ -100,13 +97,15 @@
 	</header>
 
 
-	<%		
-	product product = null;
+	<%
+		//start of code	
+	users uBean = new users();
 	try {
-		users uBean = (users) session.getAttribute("userData");		
+		uBean = (users) session.getAttribute("userData");
 
 		request.setAttribute("username", username);
 		request.setAttribute("role", role);
+		session.setAttribute("role",role);
 		request.setAttribute("id", id);
 	} catch (Exception e) {
 		System.out.println("here3");
@@ -132,21 +131,32 @@
 	request.getRequestDispatcher("../MainPageSql").include(request, response);
 	ResultSet MainPageSql = (ResultSet) request.getAttribute("MainPageSql");
 
-	ArrayList<product> allProducts = new ArrayList<product>();
+	ArrayList<product> allProducts = new ArrayList<product>();		
 	try {
 		while (MainPageSql.next()) {
-			allProducts.add(new product((String) MainPageSql.getString("productId"),
-			(String) MainPageSql.getString("productName"), (String) MainPageSql.getString("description"),
-			(String) MainPageSql.getString("detailDescription"), (String) MainPageSql.getString("costPrice"),
-			(String) MainPageSql.getString("retailPrice"), (String) MainPageSql.getString("discountPrice"),
-			(String) MainPageSql.getString("stockQuantity"), (String) MainPageSql.getString("categoryName"),
-			(String) MainPageSql.getString("imageLocation")));
+			product product = new product();
+			product.setProductId(MainPageSql.getString("productId"));
+			 product.setProductName(MainPageSql.getString("ProductName"));
+			product.setDescription(MainPageSql.getString("Description"));
+			product.setDetailDescription(MainPageSql.getString("DetailDescription"));
+			product.setCostPrice(MainPageSql.getString("CostPrice"));
+			product.setRetailPrice(MainPageSql.getString("RetailPrice"));
+			product.setDiscountPrice(MainPageSql.getString("DiscountPrice"));
+			product.setStockQuantity(MainPageSql.getString("StockQuantity"));
+			product.setCategoryName(MainPageSql.getString("CategoryName"));
+			product.setImageLocation(MainPageSql.getString("ImageLocation"));
+			
+			System.out.println(MainPageSql.getString("ProductName"));
+			
+			allProducts.add(product);
 		}
+				
+		
 	} catch (Exception e) {
 		System.out.println("here5");
 		e.printStackTrace();
-	}	
-	GetAllCategories(out, (String) session.getAttribute("role"), categoryNames, allProducts);
+	}
+	GetAllCategories(out, role, categoryNames, allProducts);
 	%>
 
 </body>

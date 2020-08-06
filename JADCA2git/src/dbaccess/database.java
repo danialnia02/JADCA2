@@ -70,8 +70,7 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = conn.prepareStatement("select * from product");
-			ResultSet rs = pstmt.executeQuery();
-			Statement stmt = conn.createStatement();
+			ResultSet rs = pstmt.executeQuery();			
 
 			return rs;
 
@@ -215,7 +214,7 @@ public class database {
 	}
 
 	public void UpdateCustomerProfileSql(String id, String phonenumber,
-			String deliveryAddress, String postalCode, String paymentType, String cardNumber) {
+			String deliveryAddress, String postalCode, String paymentType, String cardNumber) throws SQLException{
 		try {						
 			
 			Class.forName("com.mysql.jdbc.Driver");
@@ -236,7 +235,36 @@ public class database {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ResultSet EditProduct2(String productName, String Description, String DetailDescription,
+			String price, String Stock, String ProductCategory, String ImageLocation, String itemId)
+			throws SQLException {
+		System.out.println(productName);
+		System.out.println(Description);
+		System.out.println(DetailDescription);
+		System.out.println(price);
+		System.out.println(Stock);
+		System.out.println(ProductCategory);
+		System.out.println(ImageLocation);
+		System.out.println(itemId);
 
+		/*
+		 * try { Statement stmt = conn.createStatement(); PreparedStatement ptsmt; ptsmt
+		 * = conn.prepareStatement(
+		 * "Update product set ProductName= ?,Description =?,DetailDescription =?,CostPrice =?,RetailPrice =?,StockQuantity =?,ProductCategory =?,ImageLocation =? where productId=?"
+		 * ); ptsmt.setString(1, productName); ptsmt.setString(2, Description);
+		 * ptsmt.setString(3, DetailDescription); ptsmt.setFloat(4,
+		 * Float.parseFloat(price)); ptsmt.setFloat(5, Float.parseFloat(price));
+		 * ptsmt.setInt(6, Integer.parseInt(Stock)); ptsmt.setString(7,
+		 * ProductCategory); ptsmt.setString(8, ImageLocation); ptsmt.setInt(9,
+		 * Integer.parseInt(itemId)); int number = ptsmt.executeUpdate();
+		 * 
+		 * if (number > 0) System.out.println(number + " records updated!");
+		 * 
+		 * } catch (Exception e) { System.err.println("Error :" + e); }
+		 */
+		return null;
 	}
 
 	public String getConnURL() {

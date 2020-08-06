@@ -21,8 +21,7 @@
 }
 	
 	String categoryName = request.getParameter("editCategory");
-	String categoryNameID = request.getParameter("editCategoryID");	
-	
+	String categoryNameID = request.getParameter("editCategoryID");		
 	%>
 
 	<section>
@@ -110,8 +109,8 @@ h1{
 <%!public void getIndivCategoryName(JspWriter out) throws java.io.IOException {
 
 		try {
-			Connection conn = DriverManager.getConnection(connURL);
-			ResultSet rs = HeaderSql(out, conn);
+			ResultSet rs = null;
+			//ResultSet rs = HeaderSql(out);
 			rs.next();
 			rs.next();
 			out.print("<select class='select-css' name='ProductCategory' size='1'>");
@@ -119,8 +118,7 @@ h1{
 				out.print("<option value='"+ rs.getString("ProductCategory")+"'>"+rs.getString("ProductCategory")+"</option>");
 				
 			}while(rs.next());	
-			out.print("</select>");			
-			conn.close();			
+			out.print("</select>");						
 		} catch (Exception e) {
 			System.err.println("Error :" + e);
 		}	

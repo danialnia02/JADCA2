@@ -1,6 +1,5 @@
-
-	<%@page import="java.sql.*"%>
-	<%@include file="./sqlQueries.jsp"%>
+	<%@page import="java.sql.*"%>	
+	<%@page import="dbaccess.product"%>
 	<%
 	try{
 		String productName = request.getParameter("productName");
@@ -8,14 +7,26 @@
 		String DetailDescription = request.getParameter("DetailDescription");
 		String Price = request.getParameter("Price");
 		String Stock = request.getParameter("stock");
-		String ProductCategory = request.getParameter("ProductCategory");		
-		String itemId= (String)session.getAttribute("itemId");
-		String imgLocation = request.getParameter("image");
-				
-		Connection conn=DriverManager.getConnection(connURL);
-		ResultSet rs = EditProduct2(out,productName,description,DetailDescription,Price,Stock,ProductCategory,imgLocation,itemId,conn);
+		String categoryName = request.getParameter("categoryName");		
+		String itemId= request.getParameter("itemId");
+		String imgLocation = request.getParameter("image");		
+		product updatedProduct= new product();
 		
-		conn.close();
+		updatedProduct.setProductId(itemId);
+		updatedProduct.setProductName(productName);
+		updatedProduct.setDescription(description);
+		updatedProduct.setDetailDescription(DetailDescription);
+		updatedProduct.setRetailPrice(Price);
+		updatedProduct.setStockQuantity(Stock);
+		updatedProduct.setCategoryName(categoryName);
+		updatedProduct.setImageLocation(imgLocation);
+		
+		
+		
+		request.setAttribute("updatedProduct",updatedProduct);
+		request.getRequestDispatcher("../EditProductSQL2").include(request, response);		
+		
+		
 		if((Boolean)session.getAttribute("role").equals("admin")){
 			response.sendRedirect("MainPage.jsp"); 
 		}else{
