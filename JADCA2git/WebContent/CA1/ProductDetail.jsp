@@ -75,7 +75,7 @@
 					<form action="addToCart.jsp">
 						<label for="quantity">Quantity:</label> <input type="number"
 							id="quantity" name="quantity" value="1" min="1"
-							max=" <%=showOutput(out, StockQuantity)%> "> <input
+							max="<%=showOutput(out, StockQuantity)%>"> <input
 							type=hidden name=itemId
 							value='<%=EditProductSql.getString("productId")%> '> <input
 							type="submit" id="submit" value="Add to cart">
