@@ -215,21 +215,26 @@ public class database {
 		return null;
 	}
 
-	public void UpdateCustomerProfileSql(String id, String username, String email, String phonenumber,
+	public void UpdateCustomerProfileSql(String id, String phonenumber,
 			String deliveryAddress, String postalCode, String paymentType, String cardNumber) {
-		try {
+		try {			
+			/*
+			 * System.out.println(id); System.out.println(phonenumber);
+			 * System.out.println(deliveryAddress); System.out.println(postalCode);
+			 * System.out.println(paymentType); System.out.println(cardNumber);
+			 */
+			
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
 			pstmt = conn.prepareStatement(
-					"Update user set username=?, email=?, phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ?");
-			pstmt.setString(1, id);
-			pstmt.setString(2, username);
-			pstmt.setString(3, phonenumber);
-			pstmt.setString(4, deliveryAddress);
-			pstmt.setString(5, postalCode);
-			pstmt.setString(6, paymentType);
-			pstmt.setString(7, cardNumber);
+					"Update user set phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ? where userId = ?");						
+			pstmt.setString(1, phonenumber);
+			pstmt.setString(2, deliveryAddress);
+			pstmt.setString(3, postalCode);
+			pstmt.setString(4, paymentType);
+			pstmt.setString(5, cardNumber);
+			pstmt.setString(6, id);
 
 			int number = pstmt.executeUpdate();
 			if (number > 0)

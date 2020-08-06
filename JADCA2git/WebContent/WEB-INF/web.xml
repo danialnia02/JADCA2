@@ -90,11 +90,11 @@
     
     
     <servlet>
-        <servlet-name>UpdateCustomerProfileSql</servlet-name>
-        <servlet-class>servlets.UpdateCustomerProfileSql</servlet-class>
+        <servlet-name>UpdateCustomerProfileSQL</servlet-name>
+        <servlet-class>servlets.UpdateCustomerProfileSQL</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UpdateCustomerProfileSql</servlet-name>
+        <servlet-name>UpdateCustomerProfileSQL</servlet-name>
         <url-pattern>/UpdateCustomerProfile</url-pattern>
     </servlet-mapping>
 </web-app>

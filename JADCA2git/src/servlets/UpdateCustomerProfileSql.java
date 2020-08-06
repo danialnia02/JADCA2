@@ -8,44 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dbaccess.database;
-import java.sql.*;
+import dbaccess.users;
 
 /**
- * Servlet implementation class updateCustomerProfile
+ * Servlet implementation class UpdateCustomerProfileSQL
  */
-@WebServlet("/updateCustomerProfile")
-public class UpdateCustomerProfileSql extends HttpServlet {
+@WebServlet("/UpdateCustomerProfileSQL")
+public class UpdateCustomerProfileSQL extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UpdateCustomerProfileSQL() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public UpdateCustomerProfileSql() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String id = request.getParameter("id");
-			String username = request.getParameter("username");
-			String email = request.getParameter("email");
-			String phoneNumber = request.getParameter("phoneNumber");
-			String deliveryAddress = request.getParameter("deliveryAddress");
-			String postalCode = request.getParameter("postalCode");
-			String paymentType = request.getParameter("paymentType");
-			String cardNumber = request.getParameter("cardNumber");
+			users updatedAccount = (users) request.getAttribute("updatedAccount");			
 
 			database udatabase = new database();
 
-			udatabase.UpdateCustomerProfileSql(id, username, email, phoneNumber, deliveryAddress, postalCode,
-					paymentType, cardNumber);
+			udatabase.UpdateCustomerProfileSql(updatedAccount.getUserId(),updatedAccount.getPhoneNumber(), updatedAccount.getDeliveryAddress(), updatedAccount.getPostalCode(),
+					updatedAccount.getPaymentType(), updatedAccount.getCardNumber());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,13 +44,12 @@ public class UpdateCustomerProfileSql extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
 }
+

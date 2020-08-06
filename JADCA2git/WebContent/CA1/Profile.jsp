@@ -15,7 +15,7 @@
 	<%
 	users userData = (users) session.getAttribute("userData");
 	String userId=userData.getUserId();
-	session.setAttribute("userId",userId);
+	session.setAttribute("userId",userId);	
 	%>
 
 	
@@ -32,18 +32,7 @@ Back</a></h1>
 		<h1>Edit Your Profile</h1>
 
 		<div class="contact-form">
-			<form action="UpdateProfile.jsp" method="post">				
-				<div class="txtb">
-					<label>Name :</label> <input type="text" name="username"
-						value="<%=userData.getUsername() %>"
-						 required>
-				</div>
-
-				<div class="txtb">
-					<label>Email :</label> <input type="text" name="email"
-						value="<%=userData.getEmail() %>"
-						required>
-				</div>		
+			<form action="UpdateProfile.jsp" method="post">								
 				
 				<div class="txtb">
 					<label>phoneNumber :</label> <input type="number" name="phoneNumber"
@@ -52,7 +41,7 @@ Back</a></h1>
 				</div>
 				
 				<div class="txtb">
-					<label>deliveryAddress :</label> <input type="text" name="deliveryAdderess"
+					<label>deliveryAddress :</label> <input type="text" name="deliveryAddress"
 						value="<%=userData.getDeliveryAddress() %>"
 						required>
 				</div>
