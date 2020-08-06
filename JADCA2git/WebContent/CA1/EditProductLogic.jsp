@@ -24,7 +24,7 @@
 		
 		
 		request.setAttribute("updatedProduct",updatedProduct);
-		request.getRequestDispatcher("../EditProductSQL2").include(request, response);		
+		request.getRequestDispatcher("../EditProduct2Sql").include(request, response);		
 		
 		
 		if((Boolean)session.getAttribute("role").equals("admin")){

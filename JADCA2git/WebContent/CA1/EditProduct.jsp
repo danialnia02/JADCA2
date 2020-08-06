@@ -80,15 +80,6 @@
 	productInfo.setCategoryName(itemInfo.getString("categoryName"));
 	productInfo.setImageLocation(itemInfo.getString("imageLocation"));
 
-	System.out.println(productInfo.getProductId());
-	System.out.println(productInfo.getProductName());
-	System.out.println(productInfo.getDescription());
-	System.out.println(productInfo.getCostPrice());
-	System.out.println(productInfo.getRetailPrice());
-	System.out.println(productInfo.getDiscountPrice());
-	System.out.println(productInfo.getStockQuantity());
-	System.out.println(productInfo.getImageLocation());
-
 	session.setAttribute("itemId", productInfo.getProductId());
 	%>
 
@@ -143,6 +134,8 @@
 					<label>Image location :</label> <input type="text" name="image"
 						placeholder="Enter an image"
 						value=<%=productInfo.getImageLocation()%> required>
+						
+						<input type=hidden name=itemId value=<%=productInfo.getProductId()%>>
 				</div>
 				<input class="btn" type="submit" value="Update product">
 

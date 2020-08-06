@@ -144,9 +144,7 @@
 			product.setDiscountPrice(MainPageSql.getString("DiscountPrice"));
 			product.setStockQuantity(MainPageSql.getString("StockQuantity"));
 			product.setCategoryName(MainPageSql.getString("CategoryName"));
-			product.setImageLocation(MainPageSql.getString("ImageLocation"));
-			
-			System.out.println(MainPageSql.getString("ProductName"));
+			product.setImageLocation(MainPageSql.getString("ImageLocation"));					
 			
 			allProducts.add(product);
 		}

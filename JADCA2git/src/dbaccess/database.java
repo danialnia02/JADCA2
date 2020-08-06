@@ -70,7 +70,7 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = conn.prepareStatement("select * from product");
-			ResultSet rs = pstmt.executeQuery();			
+			ResultSet rs = pstmt.executeQuery();
 
 			return rs;
 
@@ -185,10 +185,10 @@ public class database {
 			pstmt = conn.prepareStatement("SELECT * from product where `productId` = ?");
 			pstmt.setString(1, itemId);
 
-			ResultSet rs = pstmt.executeQuery();						
+			ResultSet rs = pstmt.executeQuery();
 
 			return rs;
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		conn.close();
@@ -198,9 +198,10 @@ public class database {
 	public int getQuantityInCart(String id, String itemId) throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(connURL);			
+			conn = DriverManager.getConnection(connURL);
 			PreparedStatement ptsmt;
-			ptsmt = conn.prepareStatement("SELECT cd.itemQuantity from cart c, cartDetails cd where cd.productId = ? and c.userId=?");
+			ptsmt = conn.prepareStatement(
+					"SELECT cd.itemQuantity from cart c, cartDetails cd where cd.productId = ? and c.userId=?");
 			ptsmt.setInt(1, Integer.parseInt(itemId));
 			ptsmt.setInt(2, Integer.parseInt(id));
 			ResultSet rs = ptsmt.executeQuery();
@@ -213,15 +214,15 @@ public class database {
 		return 0;
 	}
 
-	public void UpdateCustomerProfileSql(String id, String phonenumber,
-			String deliveryAddress, String postalCode, String paymentType, String cardNumber) throws SQLException{
-		try {						
-			
+	public void UpdateCustomerProfileSql(String id, String phonenumber, String deliveryAddress, String postalCode,
+			String paymentType, String cardNumber) throws SQLException {
+		try {
+
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
 			pstmt = conn.prepareStatement(
-					"Update user set phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ? where userId = ?");						
+					"Update user set phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ? where userId = ?");
 			pstmt.setString(1, phonenumber);
 			pstmt.setString(2, deliveryAddress);
 			pstmt.setString(3, postalCode);
@@ -236,10 +237,9 @@ public class database {
 			e.printStackTrace();
 		}
 	}
-	
-	public ResultSet EditProduct2(String productName, String Description, String DetailDescription,
-			String price, String Stock, String ProductCategory, String ImageLocation, String itemId)
-			throws SQLException {
+
+	public ResultSet EditProduct2(String productName, String Description, String DetailDescription, String price,
+			String Stock, String ProductCategory, String ImageLocation, String itemId) throws SQLException {
 		System.out.println(productName);
 		System.out.println(Description);
 		System.out.println(DetailDescription);
@@ -249,21 +249,29 @@ public class database {
 		System.out.println(ImageLocation);
 		System.out.println(itemId);
 
-		/*
-		 * try { Statement stmt = conn.createStatement(); PreparedStatement ptsmt; ptsmt
-		 * = conn.prepareStatement(
-		 * "Update product set ProductName= ?,Description =?,DetailDescription =?,CostPrice =?,RetailPrice =?,StockQuantity =?,ProductCategory =?,ImageLocation =? where productId=?"
-		 * ); ptsmt.setString(1, productName); ptsmt.setString(2, Description);
-		 * ptsmt.setString(3, DetailDescription); ptsmt.setFloat(4,
-		 * Float.parseFloat(price)); ptsmt.setFloat(5, Float.parseFloat(price));
-		 * ptsmt.setInt(6, Integer.parseInt(Stock)); ptsmt.setString(7,
-		 * ProductCategory); ptsmt.setString(8, ImageLocation); ptsmt.setInt(9,
-		 * Integer.parseInt(itemId)); int number = ptsmt.executeUpdate();
-		 * 
-		 * if (number > 0) System.out.println(number + " records updated!");
-		 * 
-		 * } catch (Exception e) { System.err.println("Error :" + e); }
-		 */
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement ptsmt = null;
+			ptsmt = conn.prepareStatement(
+					"Update product set ProductName= ?,Description =?,DetailDescription =?,RetailPrice =?,StockQuantity =?,ImageLocation =? where productId=?");
+			ptsmt.setString(1, productName);
+			ptsmt.setString(2, Description);
+			ptsmt.setString(3, DetailDescription);
+			ptsmt.setFloat(4, Float.parseFloat(price));
+			ptsmt.setInt(5, Integer.parseInt(Stock));
+			ptsmt.setString(6, ImageLocation);
+			ptsmt.setInt(7, Integer.parseInt(itemId));
+			int number = ptsmt.executeUpdate();
+
+			if (number > 0)
+				System.out.println(number + " records updated!");
+
+		} catch (Exception e) {
+			System.out.println("here2");
+			System.err.println("Error :" + e);
+		}
+
 		return null;
 	}
 
