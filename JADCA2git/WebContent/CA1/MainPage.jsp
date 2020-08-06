@@ -147,11 +147,8 @@
 			product.setDiscountPrice(MainPageSql.getString("DiscountPrice"));
 			product.setStockQuantity(MainPageSql.getString("StockQuantity"));
 			product.setCategoryName(MainPageSql.getString("CategoryName"));
-<<<<<<< Upstream, based on branch 'master' of https://github.com/danialnia02/JADCA2.git
 			product.setImageLocation(MainPageSql.getString("ImageLocation"));					
-=======
-			product.setImageLocation(MainPageSql.getString("ImageLocation"));
->>>>>>> 91879c7 fixed main page
+
 			
 			allProducts.add(product);
 		}
