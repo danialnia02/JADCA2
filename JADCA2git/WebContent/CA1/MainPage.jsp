@@ -28,11 +28,13 @@
 					+ categoryNames + ">" + "<input id = btn value = 'View more' type = submit></form>");
 			out.print("<div class='flex-container'>");
 			int counter = 0;
-			for (count = 0; count < allProducts.size(); count++) {
-				if (allProducts.get(count).getCategoryName().equals(categoryNames) && (counter < 4)) {
-					//loop
 
+			for (count = 0; count < allProducts.size(); count++) {
+				
+				if (allProducts.get(count).getCategoryName().equals(categoryNames) && counter < 4) {
+					//loop
 					if (role == null || !role.equals("admin")) {
+						
 						out.print("<div class='card'> <div>" + "<img src= " + allProducts.get(count).getImageLocation()
 								+ " alt='" + allProducts.get(count).getProductName()
 								+ "' style='width:100%; vertical-align: middle; height:100%; min-height:200px;'>"
@@ -48,6 +50,7 @@
 
 								+ "</div>");
 					} else {
+						
 						out.print("<div class='card'> <div>" + "<img src= '" + allProducts.get(count).getImageLocation()
 								+ "' alt='" + allProducts.get(count).getProductName()
 								+ "' style='width:100%; vertical-align: middle;  min-height:200px;'>" + "</div>"
@@ -64,7 +67,7 @@
 
 								+ "</div>");
 					}
-
+						counter++;
 					//loop	
 
 				}
@@ -144,7 +147,11 @@
 			product.setDiscountPrice(MainPageSql.getString("DiscountPrice"));
 			product.setStockQuantity(MainPageSql.getString("StockQuantity"));
 			product.setCategoryName(MainPageSql.getString("CategoryName"));
+<<<<<<< Upstream, based on branch 'master' of https://github.com/danialnia02/JADCA2.git
 			product.setImageLocation(MainPageSql.getString("ImageLocation"));					
+=======
+			product.setImageLocation(MainPageSql.getString("ImageLocation"));
+>>>>>>> 91879c7 fixed main page
 			
 			allProducts.add(product);
 		}

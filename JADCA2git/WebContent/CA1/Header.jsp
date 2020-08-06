@@ -178,6 +178,7 @@ header {
 						session.setAttribute("userData",uBean);
 
 					} catch (Exception e) {
+						System.out.println("idiot");
 						e.printStackTrace();
 					}
 
