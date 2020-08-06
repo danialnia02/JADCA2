@@ -71,7 +71,16 @@ Back</a></h1>
 		</div>
 
 	</section>
-
+	
+	<div style="margin-top:5%; font-size:30px;">Transaction history</div>
+<div class="row">
+  <div class="column">
+    <img src="img/Redemption.jpg" alt="Snow" style="width:75%">
+    
+  </div>
+	<p style="padding-top:4%;">asdasd</p>
+	
+</div>
 
 </body>
 
@@ -79,10 +88,27 @@ Back</a></h1>
 
 <style>
 
+.row {
+  display: flex;
+  border-style: solid;
+  margin: 0 10% 0 10%;
+}
+
+
 h1.backButton{
 	display:block;
 	margin:0;
 }
+
+.column{
+	margin: 3% 0 3% 10%;
+}
+
+p {
+	color:black;
+	font-size: 24px;
+}
+
 h1 {
 	color: white;
 	display: flex;
@@ -92,7 +118,7 @@ h1 {
 
 div {
 	color: #C9E5C3;
-	margin: 3% 10% 0;
+	margin: 3% 0 0 10%;
 }
 
 #description {
@@ -252,6 +278,9 @@ img {
 .select-css option {
 	font-weight: normal;
 }
+
+
+
 </style>
 
 </html>
