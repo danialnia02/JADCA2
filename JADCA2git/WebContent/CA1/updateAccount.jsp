@@ -1,6 +1,3 @@
-
-<%@include file="./sqlQueries.jsp"%>
-
 <%
 try{
 	

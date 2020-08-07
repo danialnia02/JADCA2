@@ -13,7 +13,6 @@
 <title>Root Page</title>
 </head>
 <body style="background: #27282E">
-	<%@include file="./sqlQueries.jsp"%>
 	<%
 		users userData = (users) session.getAttribute("userData");
 	session.setAttribute("userData", userData);
@@ -33,12 +32,18 @@
 	request.getRequestDispatcher("../getNoOfDistinctRoles").include(request, response);
 	ResultSet getNoOfDistinctRoles = (ResultSet) request.getAttribute("getNoOfDistinctRoles");
 
+	request.getRequestDispatcher("../GetRolesSql").include(request, response);
+	ResultSet GetRolesSql = (ResultSet) request.getAttribute("GetRolesSql");
+
 	request.setAttribute("category", "nothing");
 	request.getRequestDispatcher("../ListProductSql").include(request, response);
 	ResultSet ListProductSql = (ResultSet) request.getAttribute("ListProductSql");
 
 	request.getRequestDispatcher("../GetAllCategories").include(request, response);
 	ResultSet GetAllCategories = (ResultSet) request.getAttribute("GetAllCategories");
+
+	request.getRequestDispatcher("../GetColumnNamesSql").include(request, response);
+	ResultSet GetColumnNamesSql = (ResultSet) request.getAttribute("GetColumnNamesSql");
 	%>
 	<a href="Logout.jsp"><button style="background: grey;">Logout</button></a>
 
@@ -52,7 +57,7 @@
 				<th colspan="3"><img src="img/deleteButton.png" class="logo"
 					alt="add_new_account"> <a href="addAccount.jsp" value=""></a></img></th>
 				<%
-					IndividualAccount(out, IndividualAccountSql, getNoOfDistinctRoles);
+					IndividualAccount(out, IndividualAccountSql, GetRolesSql, getNoOfDistinctRoles);
 				%>
 			
 		</table>
@@ -62,7 +67,7 @@
 		<table>
 			<tr>
 				<%
-					getColumnNames(out);
+					getColumnNames(out,GetColumnNamesSql);
 				%>
 				<%
 					getIndivdualProduct(out, ListProductSql);
@@ -103,11 +108,8 @@
 		;
 	}%>
 <!--  get all existing column names -->
-<%!public void getColumnNames(JspWriter out) throws java.io.IOException {
-		try {
-			Connection conn = DriverManager.getConnection(connURL);
-
-			ResultSet rs = getColumnNames(out, conn);
+<%!public void getColumnNames(JspWriter out,ResultSet rs) throws java.io.IOException {
+		try {			
 
 			while (rs.next()) {
 
@@ -146,7 +148,8 @@
 	}%>
 
 <!-- code to get the information of all existing users -->
-<%!public void IndividualAccount(JspWriter out, ResultSet rs, ResultSet GetRoles) throws java.io.IOException {
+<%!public void IndividualAccount(JspWriter out, ResultSet rs, ResultSet GetRoles, ResultSet getNoOfDistinctRoles)
+			throws java.io.IOException {
 		try {
 			while (rs.next()) {
 				out.print("<tr><form action='updateAccount.jsp' method='post'>"
@@ -156,7 +159,7 @@
 						+ rs.getString("username") + " readonly>" + "</td>"
 						+ "<td><input type='text' name='currentRole' placeholder='currentRole' value="
 						+ rs.getString("role") + " readonly>" + "</td>" + "<td>");
-				GetRoles(out, GetRoles);
+				GetRoles(out, GetRoles, getNoOfDistinctRoles);
 				out.print("</td>" + "<td><input type='submit' class='deleteBtn' name='buttonType' value='Delete'></td>"
 						+ "<td><input type='submit' name='buttonType' class='updatebtn' value='Update'></td></form>");
 			}
@@ -167,14 +170,12 @@
 		;
 	}%>
 <!-- code to get all possible and existing roles -->
-<%!public void GetRoles(JspWriter out, ResultSet GetRoles) throws java.io.IOException {
+<%!public void GetRoles(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 
 		try {
 
-			Connection conn = DriverManager.getConnection(connURL);
-			ResultSet rs = GetRoles(out, conn);
+			//Connection conn = DriverManager.getConnection(connURL);			
 			out.print("<select name='role' id= test size='1'>");
-			ResultSet rs2 = getNoOfDistinctRoles(out, conn);
 
 			rs2.next();
 			int countToRepeat = Integer.parseInt(rs2.getString("total_no_of_rows"));
@@ -195,7 +196,6 @@
 				count++;
 			}
 			out.print("</select>");
-			conn.close();
 
 		} catch (Exception e) {
 			System.out.println("here5");

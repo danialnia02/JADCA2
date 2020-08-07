@@ -1,6 +1,5 @@
 
 <%@page import="java.sql.*"%>
-<%@ include file="sqlQueries.jsp"%>
 
 <%
 	String itemId = request.getParameter("itemId");

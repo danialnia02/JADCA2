@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
-<%@page import="dbaccess.product"%>
+<%@page import="models.product"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,8 +12,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
 	rel="stylesheet" />
-<body style="background: #27282E">
-	<%@include file="./sqlQueries.jsp"%>
+<body style="background: #27282E">	
 
 	<%
 		if ((String) session.getAttribute("role") == null || (Boolean) session.getAttribute("role").equals("customer")) {

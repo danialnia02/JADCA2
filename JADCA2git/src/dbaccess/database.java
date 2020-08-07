@@ -326,6 +326,22 @@ public class database {
 
 		return null;
 	}
+	
+	public ResultSet getColumnNamesSql() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn
+					.prepareStatement("SELECT COUNT(distinct role) as 'total_no_of_rows' from user");
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			System.out.println("error getting cont of distinct roles");
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 	public void updateAccountSql(String userId, String role, String buttonType) throws SQLException {
 		try {
@@ -357,15 +373,15 @@ public class database {
 		}
 	}
 
-	public void newCategorySql(String newCategoryName,String type,String oldCategoryName) throws SQLException {
+	public void newCategorySql(String newCategoryName, String type, String oldCategoryName) throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
 			String sqlString = "";
-			if(type.equals("null")) {
-				sqlString ="INSERT into productCategory values(?)";
-			}else {
+			if (type.equals("null")) {
+				sqlString = "INSERT into productCategory values(?)";
+			} else {
 				sqlString = "UPDATE productCategory set categoryName=? where Categoryname = ?";
 			}
 			pstmt = conn.prepareStatement(sqlString);
@@ -379,6 +395,23 @@ public class database {
 			System.out.println("failed to add new categoroy named " + newCategoryName);
 			e.printStackTrace();
 		}
+	}
+
+	public ResultSet GetRoles() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			pstmt = conn.prepareStatement("SELECT DISTINCT role FROM user");
+
+			ResultSet rs = pstmt.executeQuery();
+
+			return rs;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void setConnURL(String connURL) {

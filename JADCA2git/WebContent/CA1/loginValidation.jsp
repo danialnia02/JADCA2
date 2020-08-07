@@ -8,8 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
-	<%@include file="./sqlQueries.jsp"%>
+<body>	
 	<%
 		String username = request.getParameter("username");
 	String password = request.getParameter("password");
@@ -31,4 +30,4 @@
 	}
 	%>
 </body>
-</html>
+</html> 

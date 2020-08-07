@@ -1,10 +1,8 @@
 <%@page import ="java.sql.*"%>
-<%@include file="./sqlQueries.jsp" %>
 <%@page import="models.users" %>
 <%
 try{
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection conn = DriverManager.getConnection(connURL);
+	Class.forName("com.mysql.jdbc.Driver");	
 
 
 	String username =  request.getParameter("username") ;

@@ -133,4 +133,31 @@
         <servlet-name>UpdateAccountSql</servlet-name>
         <url-pattern>/UpdateAccount</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GetRolesSql</servlet-name>
+        <servlet-class>servlets.GetRolesSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetRolesSql</servlet-name>
+        <url-pattern>/GetRoles</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GetColumnNamesSql</servlet-name>
+        <servlet-class>servlets.GetColumnNamesSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetColumnNamesSql</servlet-name>
+        <url-pattern>/GetColumnNames</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getNoOfDistinctRoles</servlet-name>
+        <servlet-class>servlets.getNoOfDistinctRoles</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getNoOfDistinctRoles</servlet-name>
+        <url-pattern>/getNoOfDistinctRole</url-pattern>
+    </servlet-mapping>
 </web-app>

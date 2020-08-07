@@ -6,21 +6,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import dbaccess.database;
-import models.users;
-
+import java.sql.*;
 /**
- * Servlet implementation class UpdateCustomerProfileSQL
+ * Servlet implementation class GetRolesSql
  */
-@WebServlet("/UpdateCustomerProfileSQL")
-public class UpdateCustomerProfileSQL extends HttpServlet {
+@WebServlet("/GetRolesSql")
+public class GetRolesSql extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateCustomerProfileSQL() {
+    public GetRolesSql() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +29,12 @@ public class UpdateCustomerProfileSQL extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			users updatedAccount = (users) request.getAttribute("updatedAccount");			
-
-			database udatabase = new database();
-
-			udatabase.UpdateCustomerProfileSql(updatedAccount.getUserId(),updatedAccount.getPhoneNumber(), updatedAccount.getDeliveryAddress(), updatedAccount.getPostalCode(),
-					updatedAccount.getPaymentType(), updatedAccount.getCardNumber());
-
-		} catch (Exception e) {
+			database udatabase= new database();
+			ResultSet rs = udatabase.GetRoles();
+			request.setAttribute("GetRolesSql",rs);	
+		}catch(Exception e) {
 			e.printStackTrace();
-		}
+		}		
 	}
 
 	/**
@@ -52,4 +46,3 @@ public class UpdateCustomerProfileSQL extends HttpServlet {
 	}
 
 }
-
