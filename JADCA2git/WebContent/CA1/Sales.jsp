@@ -10,16 +10,19 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<%@ include file="RootHeader.jsp"%>
 
 <%
 		users userData = (users) session.getAttribute("userData");
 		session.setAttribute("userData", userData);
 
 	try {
-		if (userData.getRole() == null || !userData.getRole().equals("root")) {
+		if (userData.getRole() == null || userData.getRole().equals("customer")) {
 
 			response.sendRedirect("MainPage.jsp");
+		} else if(userData.getRole().equals("admin")) {
+			%> <%@ include file="Header.jsp"%> <% 
+		} else {
+			%> <%@ include file="RootHeader.jsp"%> <% 
 		}
 	} catch (Exception e) {
 		response.sendRedirect("MainPage.jsp");
@@ -45,7 +48,7 @@
 			
 			out.print("<tr class='header'>");
 			while (rs.next() && counter < 2) {
-
+				
 				out.print("<th>" + rs.getString("Column") + "</th>");
 				counter++;
 			}
@@ -131,9 +134,8 @@
   <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for names..">
   <table id="myTable">
   
-		
 				<%
-					getColumnNames(out,getNoOfDistinctRoles);
+					getColumnNames(out,ListProductSql);
 				%>
 				<%
 					getIndivdualProduct(out, ListProductSql);
