@@ -11,7 +11,6 @@
 <title>Insert title here</title>
 </head>
 <%@ include file="RootHeader.jsp"%>
-<%@include file="./sqlQueries.jsp"%>
 
 <%
 		users userData = (users) session.getAttribute("userData");
@@ -40,12 +39,10 @@
 	ResultSet GetAllCategories = (ResultSet) request.getAttribute("GetAllCategories");
 	%>
 	
-<%!public void getColumnNames(JspWriter out) throws java.io.IOException {
+<%!public void getColumnNames(JspWriter out, ResultSet rs) throws java.io.IOException {
 		try {
-			int counter = 0;
-			Connection conn = DriverManager.getConnection(connURL);
-
-			ResultSet rs = getColumnNames(out, conn);
+			int counter = 0;			
+			
 			out.print("<tr class='header'>");
 			while (rs.next() && counter < 2) {
 
@@ -136,7 +133,7 @@
   
 		
 				<%
-					getColumnNames(out);
+					getColumnNames(out,getNoOfDistinctRoles);
 				%>
 				<%
 					getIndivdualProduct(out, ListProductSql);

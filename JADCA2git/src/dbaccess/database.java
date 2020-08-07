@@ -451,7 +451,7 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = conn.prepareStatement(
-					"select count(*) as count from cartDetails cd, Cart c were cd.cartId= c.cartId and userid=? and status='viewing'");
+					"select count(*) as count from cartDetils cd, Cart c were cd.cartId= c.cartId and userid=? and status='viewing'");
 			pstmt.setString(1, userId);
 
 			ResultSet rs = pstmt.executeQuery();
