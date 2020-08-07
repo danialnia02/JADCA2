@@ -58,7 +58,7 @@
 		</table>
 	</div>
 
-	<div class="container">
+	<div class="container" style="overflow-x:auto;">
 		<table>
 			<tr>
 				<%
