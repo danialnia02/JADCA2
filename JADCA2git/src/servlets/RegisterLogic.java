@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dbaccess.database;
 import java.sql.*;
-import dbaccess.users;
+import models.users;
 
 /**
  * Servlet implementation class RegisterLogic

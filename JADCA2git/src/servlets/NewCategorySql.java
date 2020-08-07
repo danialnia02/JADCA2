@@ -1,27 +1,23 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dbaccess.database;
-import models.product;
-
 /**
- * Servlet implementation class EditProduct2Sql
+ * Servlet implementation class NewCategorySql
  */
-@WebServlet("/EditProduct2Sql")
-public class EditProduct2Sql extends HttpServlet {
+@WebServlet("/NewCategorySql")
+public class NewCategorySql extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public EditProduct2Sql() {
+	public NewCategorySql() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -32,14 +28,14 @@ public class EditProduct2Sql extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			product updatedProduct = (product) request.getAttribute("updatedProduct");
+			String newCategoryName = (String)request.getAttribute("newCategoryName");
+			String oldCategoryName = (String)request.getAttribute("oldCategoryName");
+			String type = (String) request.getAttribute("type");
 			database udatabase = new database();
-			ResultSet rs = udatabase.EditProduct2(updatedProduct.getProductName(),updatedProduct.getDescription(),updatedProduct.getDetailDescription(),updatedProduct.getRetailPrice(),updatedProduct.getStockQuantity(),updatedProduct.getCategoryName(),updatedProduct.getImageLocation(),updatedProduct.getProductId());
-			request.setAttribute("EditProduct2Sql", rs);
+			udatabase.newCategorySql(newCategoryName,type,oldCategoryName);	
 		}catch(Exception e) {
-			System.out.println("here");
 			e.printStackTrace();
-		}
+		}			
 	}
 
 	/**

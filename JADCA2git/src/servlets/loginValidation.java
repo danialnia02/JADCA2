@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import models.*;
-import dbaccess.users;
 import dbaccess.database;
 import java.sql.*;
 

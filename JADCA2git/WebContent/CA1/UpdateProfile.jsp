@@ -1,4 +1,4 @@
-<%@page import="dbaccess.users"%>
+<%@page import="models.users"%>
 
 <%
 try{	

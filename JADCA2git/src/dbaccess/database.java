@@ -1,6 +1,7 @@
 package dbaccess;
 
 import java.sql.*;
+import models.users;
 
 public class database {
 	String connURL = "jdbc:mysql://localhost:3306/jaeproject?user=root&password=password&serverTimezone=UTC";
@@ -328,12 +329,13 @@ public class database {
 
 	public void updateAccountSql(String userId, String role, String buttonType) throws SQLException {
 		try {
+			System.out.println(buttonType);
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			String sqlString = "";
 			PreparedStatement pstmt = null;
 
-			if (buttonType == "Update") {
+			if (buttonType.equals("Update")) {
 				sqlString = "Update user set role=? where userId=?";
 				pstmt = conn.prepareStatement(sqlString);
 				pstmt.setString(1, role);
@@ -351,6 +353,30 @@ public class database {
 
 		} catch (Exception e) {
 			System.out.println("error updating acount through root page");
+			e.printStackTrace();
+		}
+	}
+
+	public void newCategorySql(String newCategoryName,String type,String oldCategoryName) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = null;
+			String sqlString = "";
+			if(type.equals("null")) {
+				sqlString ="INSERT into productCategory values(?)";
+			}else {
+				sqlString = "UPDATE productCategory set categoryName=? where Categoryname = ?";
+			}
+			pstmt = conn.prepareStatement(sqlString);
+			pstmt.setString(1, newCategoryName);
+			pstmt.setString(2, oldCategoryName);
+
+			pstmt.executeUpdate();
+			System.out.println("new category added! : " + newCategoryName);
+
+		} catch (Exception e) {
+			System.out.println("failed to add new categoroy named " + newCategoryName);
 			e.printStackTrace();
 		}
 	}

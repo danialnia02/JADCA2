@@ -4,6 +4,8 @@
 <%@page import="java.sql.*"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
+<%@page import=" models.users"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,20 +15,28 @@
 <body style="background: #27282E">
 	<%@include file="./sqlQueries.jsp"%>
 	<%
-		if ((String) session.getAttribute("role") == null || !(Boolean) session.getAttribute("role").equals("root")) {
+		users userData = (users) session.getAttribute("userData");
+	session.setAttribute("userData", userData);
 
+	try {
+		if (userData.getRole() == null || !userData.getRole().equals("root")) {
+
+			response.sendRedirect("MainPage.jsp");
+		}
+	} catch (Exception e) {
 		response.sendRedirect("MainPage.jsp");
 	}
+
 	request.getRequestDispatcher("../IndividualAccountSql").include(request, response);
 	ResultSet IndividualAccountSql = (ResultSet) request.getAttribute("IndividualAccountSql");
 
 	request.getRequestDispatcher("../getNoOfDistinctRoles").include(request, response);
 	ResultSet getNoOfDistinctRoles = (ResultSet) request.getAttribute("getNoOfDistinctRoles");
-	
-	request.setAttribute("category","nothing");
+
+	request.setAttribute("category", "nothing");
 	request.getRequestDispatcher("../ListProductSql").include(request, response);
 	ResultSet ListProductSql = (ResultSet) request.getAttribute("ListProductSql");
-	
+
 	request.getRequestDispatcher("../GetAllCategories").include(request, response);
 	ResultSet GetAllCategories = (ResultSet) request.getAttribute("GetAllCategories");
 	%>
@@ -55,7 +65,7 @@
 					getColumnNames(out);
 				%>
 				<%
-					getIndivdualProduct(out,ListProductSql);
+					getIndivdualProduct(out, ListProductSql);
 				%>
 			
 		</table>
@@ -69,20 +79,23 @@
 				<th><form action='NewCategory.jsp'>
 						<input type='submit' class='updatebtn' value='New Category'>
 					</form></th>
-					<%getCategoryNames(out,GetAllCategories); %>
+				<%
+					getCategoryNames(out, GetAllCategories);
+				%>
+			
 		</table>
 
 	</div>
 </body>
 
 <!--  get all existing column names -->
-<%!public void getCategoryNames(JspWriter out,ResultSet rs) throws java.io.IOException {
-		try {						
+<%!public void getCategoryNames(JspWriter out, ResultSet rs) throws java.io.IOException {
+		try {
 			while (rs.next()) {
-				out.print("<tr><th>" + rs.getString("categoryName") + "</th>" + "<th><form action='editCategory.jsp?'>"					
+				out.print("<tr><th>" + rs.getString("categoryName") + "</th>" + "<th><form action='editCategory.jsp?'>"
 						+ " <input type='hidden' name='editCategory' value=" + rs.getString("categoryName") + ">"
 						+ "<input type='submit' class='updatebtn' value='Edit'>" + "</form></th>");
-			}			
+			}
 		} catch (Exception e) {
 			System.out.println("here1");
 			e.printStackTrace();
@@ -107,8 +120,8 @@
 
 	}%>
 <!--  appending code for individual products -->
-<%!public void getIndivdualProduct(JspWriter out,ResultSet rs) throws java.io.IOException {
-		try {			
+<%!public void getIndivdualProduct(JspWriter out, ResultSet rs) throws java.io.IOException {
+		try {
 			//code to get all existing products			
 			while (rs.next()) {
 				out.print("<tr><th>" + rs.getString("productId") + "</th>" + "<th>" + rs.getString("ProductName")
@@ -124,7 +137,7 @@
 						+ "<input type='submit' class='updatebtn' value='Edit'>" + "</form>"
 
 				);
-			}			
+			}
 		} catch (Exception e) {
 			System.out.println("here3");
 			e.printStackTrace();

@@ -10,6 +10,8 @@ try{
 	String role = request.getParameter("role");		
 	String buttonType = request.getParameter("buttonType");
 	
+	System.out.println(buttonType);
+	
 	request.setAttribute("userId",id);
 	request.setAttribute("password",password);
 	request.setAttribute("role",role);

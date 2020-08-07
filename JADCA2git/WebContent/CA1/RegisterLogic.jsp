@@ -1,6 +1,6 @@
 <%@page import ="java.sql.*"%>
 <%@include file="./sqlQueries.jsp" %>
-<%@page import="dbaccess.users" %>
+<%@page import="models.users" %>
 <%
 try{
 	Class.forName("com.mysql.jdbc.Driver");

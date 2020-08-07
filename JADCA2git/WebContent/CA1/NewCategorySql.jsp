@@ -15,25 +15,23 @@
 	<%@include file="./Header.jsp"%>
 	<%
 	try{		
-		Connection conn = DriverManager.getConnection(connURL);
+		
 		
 		String newCategoryName= request.getParameter("CategoryName");
-		String categoryNameid= request.getParameter("editCategoryID");
-		String categoryName = request.getParameter("editCategoryName");
-		String insertSql="", type="",categoryId="";		
-		if(newCategoryName==null){
-			type="Update";
-			insertSql=categoryName;
-			categoryId=categoryNameid;
-			System.out.println("here"+categoryId);
-		}else{
-			type="Insert";
-			insertSql=newCategoryName;
-		}
-		System.out.println(categoryId);
-		CategorySql(out,type,insertSql,categoryId,conn);
-		conn.close();
-		response.sendRedirect("RootPage.jsp");
+		String oldCategoryName= request.getParameter("OldCategoryName");				
+		String type=(String) session.getAttribute("update");		
+		System.out.println(type);
+		
+		request.setAttribute("newCategoryName",newCategoryName);
+		request.setAttribute("type",type);
+		request.setAttribute("oldCategoryName",oldCategoryName);
+		request.getRequestDispatcher("../NewCategorySql").include(request, response);
+		
+		//response.sendRedirect("RootPage.jsp");
+		
+		
+		
+		
 	}catch(Exception e){
 		System.err.println("Error :" + e);
 	}	

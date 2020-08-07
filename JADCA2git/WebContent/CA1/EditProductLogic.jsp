@@ -1,5 +1,5 @@
 	<%@page import="java.sql.*"%>	
-	<%@page import="dbaccess.product"%>
+	<%@page import="models.product"%>
 	<%
 	try{
 		String productName = request.getParameter("productName");
