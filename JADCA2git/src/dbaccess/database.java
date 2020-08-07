@@ -4,7 +4,10 @@ import java.sql.*;
 import models.users;
 
 public class database {
+	// String connURL =
+	// "jdbc:mysql://us-cdbr-east-02.cleardb.com/heroku_74e134f8b35c7fb?user=b3f5d9ea8a0e54&password=59c9e3b1&serverTimezone=UTC";
 	String connURL = "jdbc:mysql://localhost:3306/jaeproject?user=root&password=password&serverTimezone=UTC";
+
 	Connection conn = null;
 
 	// getUserDetails
@@ -88,7 +91,7 @@ public class database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
-			PreparedStatement pstmt = conn.prepareStatement("SELECT DISTINCT CategoryName FROM productcategory");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT CategoryName FROM productcategory");
 			ResultSet rs = pstmt.executeQuery();
 			// Statement stmt = conn.createStatement();
 
@@ -268,7 +271,7 @@ public class database {
 				System.out.println(number + " records updated!");
 
 		} catch (Exception e) {
-			System.out.println("here2");
+			System.out.println("here22222");
 			System.err.println("Error :" + e);
 		}
 
@@ -326,13 +329,13 @@ public class database {
 
 		return null;
 	}
-	
+
 	public ResultSet getColumnNamesSql() throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
-			PreparedStatement pstmt = conn
-					.prepareStatement("SELECT COUNT(distinct role) as 'total_no_of_rows' from user");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT COLUMN_NAME 'Column' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA ='jaeproject' AND TABLE_NAME = 'product' ORDER BY ORDINAL_POSITION");
 			ResultSet rs = pstmt.executeQuery();
 			return rs;
 		} catch (Exception e) {
@@ -413,6 +416,117 @@ public class database {
 		}
 		return null;
 	}
+
+	public void addProductLogic(String productName, String Description, String DetailDescription, String price,
+			String Stock, String categoryName, String ImageLocation) throws SQLException {
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement ptsmt;
+			ptsmt = conn.prepareStatement(
+					"INSERT INTO product(ProductName,Description,DetailDescription,costPrice,RetailPrice,DiscountPrice,StockQuantity,CategoryName,ImageLocation) values(?,?,?,?,?,?,?,?,?)");
+			ptsmt.setString(1, productName);
+			ptsmt.setString(2, Description);
+			ptsmt.setString(3, DetailDescription);
+			ptsmt.setFloat(4, Float.parseFloat(price));
+			ptsmt.setFloat(5, Float.parseFloat(price));
+			ptsmt.setFloat(6, Float.parseFloat(price));
+			ptsmt.setInt(7, Integer.parseInt(Stock));
+			ptsmt.setString(8, categoryName);
+			ptsmt.setString(9, ImageLocation);
+			int number = ptsmt.executeUpdate();
+			if (number > 0)
+				System.out.println(number + " records inserted");
+
+		} catch (Exception e) {
+			System.out.println("creating a new product");
+			e.printStackTrace();
+		}
+	}
+
+	public ResultSet currentCartCountSql(String userId) throws SQLException {
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"select count(*) as count from cartDetails cd, Cart c were cd.cartId= c.cartId and userid=? and status='viewing'");
+			pstmt.setString(1, userId);
+
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ResultSet currentCartSql(String userId) throws SQLException {
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"select p.productID, p.ProductName,p.ImageLocation, p.Retailprice, cd.itemQuantity from product p, cart c, cartdetails cd where cd.productId=p.productId and c.cartId=cd.cartId and c.status = 'viewing' and c.userId=?");
+			pstmt.setString(1, userId);
+
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ResultSet currentCartSql2(String userId) throws SQLException {
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement(
+					"select count(*) as count, p.productID, p.ProductName,p.ImageLocation, p.Retailprice, cd.itemQuantity from product p, cart c, cartdetails cd where cd.productId=p.productId and c.cartId=cd.cartId and c.status = 'viewing' and c.userId=?");
+			pstmt.setString(1, userId);
+
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/////////////////////////////////////
 
 	public void setConnURL(String connURL) {
 		this.connURL = connURL;

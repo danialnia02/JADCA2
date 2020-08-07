@@ -1,4 +1,3 @@
-<%@ include file="sqlQueries.jsp"%>
 <%@page import="java.sql.*"%>
 
 <%
@@ -9,8 +8,6 @@
 
 	String userid = (String) session.getAttribute("id");
 	System.out.println("userid: "+userid);
-	
-	Connection conn = DriverManager.getConnection(connURL);
 	
 	//get the number of items buying
 	ResultSet res=getBuyingItemIds(out,userid,conn);

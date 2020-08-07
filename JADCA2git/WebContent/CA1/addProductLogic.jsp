@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page import="models.product"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,25 +9,34 @@
 </head>
 <body>
 	<%@page import="java.sql.*"%>
-	<%@include file="./sqlQueries.jsp"%>
 	<%
-	try{
+		try {
 		String productName = request.getParameter("productName");
 		String description = request.getParameter("description");
 		String DetailDescription = request.getParameter("DetailDescription");
 		String Price = request.getParameter("Price");
 		String Stock = request.getParameter("stock");
-		String ProductCategory = request.getParameter("ProductCategory");		
-		String itemId= (String)session.getAttribute("itemId");
-		String imgLocation =request.getParameter("image");
+		String CategoryName= request.getParameter("CategoryName");
+		String itemId = (String) session.getAttribute("itemId");
+		String imgLocation = request.getParameter("image");
+		System.out.println(CategoryName);
 		
+		product NewProduct = new product();
+		NewProduct.setProductName(productName);
+		NewProduct.setDescription(description);
+		NewProduct.setDetailDescription(DetailDescription);
+		NewProduct.setRetailPrice(Price);
+		NewProduct.setStockQuantity(Stock);
+		NewProduct.setCategoryName(CategoryName);
+		NewProduct.setImageLocation(imgLocation);
+		
+		request.setAttribute("NewProduct",NewProduct);
+		
+		request.getRequestDispatcher("../addProductLogicSql").include(request, response);
 				
-		Connection conn=DriverManager.getConnection(connURL);
-		InsertProduct2(out,productName,description,DetailDescription,Price,Stock,ProductCategory,imgLocation,conn);
-		conn.close();
 		response.sendRedirect("MainPage.jsp");
-	}catch(Exception e){
-		System.err.println("Err :"+e);
+	} catch (Exception e) {
+		System.err.println("Err :" + e);
 	}
 	%>
 

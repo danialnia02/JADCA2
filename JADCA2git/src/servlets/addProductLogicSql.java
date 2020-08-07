@@ -1,28 +1,26 @@
 package servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import models.*;
+import java.sql.*;
 import dbaccess.database;
+import models.product;
 
 /**
- * Servlet implementation class loginValidation
+ * Servlet implementation class addProductLogicSql
  */
-@WebServlet("/loginValidation")
-public class loginValidation extends HttpServlet {
+@WebServlet("/addProductLogicSql")
+public class addProductLogicSql extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	users uBean = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public loginValidation() {
+	public addProductLogicSql() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -33,29 +31,22 @@ public class loginValidation extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// HttpSession session = request.getSession();
-		try {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-
-			database udatabase = new database();
-			uBean = udatabase.getUserDetails(username, password);
-
-			request.setAttribute("userData", uBean);
-//			session.setAttribute("username", uBean.getUsername());
-//			session.setAttribute("role", uBean.getRole());
-//			session.setAttribute("id", uBean.getUserId());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		// TODO Auto-generated method stub
+		product NewProduct = (product) request.getAttribute("NewProduct");
+		database udatabase = new database();
+		udatabase.addProductLogic(NewProduct.getProductName(), NewProduct.getDescription(),
+				NewProduct.getDetailDescription(), NewProduct.getRetailPrice(), NewProduct.getStockQuantity(),
+				NewProduct.getCategoryName(), NewProduct.getImageLocation());
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
-
 	}
 
 }

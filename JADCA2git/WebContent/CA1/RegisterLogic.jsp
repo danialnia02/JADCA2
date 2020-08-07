@@ -34,9 +34,7 @@ try{
 		response.sendRedirect("Login.jsp?errCode=true");
 	}else{
 		response.sendRedirect("Login.jsp?errCode=invalidLogin");  
-	}
-	
-	conn.close();
+	}	
  } catch (Exception e) {
  out.println("Error :" + e);
  }

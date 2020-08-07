@@ -8,26 +8,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>	
+<body>
 	<%
+		try {
 		String username = request.getParameter("username");
-	String password = request.getParameter("password");
-	/*Connection conn = DriverManager.getConnection(connURL); */
+		String password = request.getParameter("password");		
 
-	request.setAttribute("username", username);
-	request.setAttribute("password", password);
+		request.setAttribute("username", username);
+		request.setAttribute("password", password);
 
-	users uBean = new users();
+		users uBean = new users();
 
-	request.getRequestDispatcher("../loginValidation").include(request, response);
-	uBean = (users) request.getAttribute("userData");	
+		request.getRequestDispatcher("../loginValidation").include(request, response);
+		uBean = (users) request.getAttribute("userData");
 
-	if (uBean.getPassword() != null) {
-		session.setAttribute("userData",uBean);
-		response.sendRedirect("MainPage.jsp");	
-	} else {
+		if (uBean.getPassword() != null) {
+			session.setAttribute("userData", uBean);
+			response.sendRedirect("MainPage.jsp");
+		} else {
+			response.sendRedirect("Login.jsp");
+		}
+	} catch (Exception e) {
 		response.sendRedirect("Login.jsp");
+		e.printStackTrace();
 	}
 	%>
 </body>
-</html> 
+</html>

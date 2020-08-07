@@ -111,12 +111,11 @@
 <%!public void getColumnNames(JspWriter out,ResultSet rs) throws java.io.IOException {
 		try {			
 
-			while (rs.next()) {
-
+			while (rs.next()) {				
 				out.print("<th>" + rs.getString("Column") + "</th>");
 			}
 		} catch (Exception e) {
-			System.out.println("here2");
+			System.out.println("here2222");
 			e.printStackTrace();
 		}
 
@@ -175,10 +174,9 @@
 		try {
 
 			//Connection conn = DriverManager.getConnection(connURL);			
-			out.print("<select name='role' id= test size='1'>");
-
-			rs2.next();
-			int countToRepeat = Integer.parseInt(rs2.getString("total_no_of_rows"));
+			out.print("<select name='role' id= test size='1'>");			
+			rs2.next();			
+			int countToRepeat = Integer.parseInt(rs2.getString("total_no_of_rows"));			
 			String[] stringArray = new String[10];
 
 			int count = 0;

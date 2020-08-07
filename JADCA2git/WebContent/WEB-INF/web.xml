@@ -160,4 +160,40 @@
         <servlet-name>getNoOfDistinctRoles</servlet-name>
         <url-pattern>/getNoOfDistinctRole</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getProductLogicSql</servlet-name>
+        <servlet-class>servlets.getProductLogicSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getProductLogicSql</servlet-name>
+        <url-pattern>/getProductLogic</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>currentCartCountSql</servlet-name>
+        <servlet-class>servlets.currentCartCountSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>currentCartCountSql</servlet-name>
+        <url-pattern>/currentCartCount</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>currentCartSql</servlet-name>
+        <servlet-class>servlets.currentCartSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>currentCartSql</servlet-name>
+        <url-pattern>/currentCart</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>currentCartSql2</servlet-name>
+        <servlet-class>servlets.currentCartSql2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>currentCartSql2</servlet-name>
+        <url-pattern>/currentCart2</url-pattern>
+    </servlet-mapping>
 </web-app>
