@@ -12,10 +12,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Root Page</title>
 </head>
+<%@ include file="RootHeader.jsp"%>
 <body style="background: #27282E">
 	<%
 		users userData = (users) session.getAttribute("userData");
-	session.setAttribute("userData", userData);
+		session.setAttribute("userData", userData);
 
 	try {
 		if (userData.getRole() == null || !userData.getRole().equals("root")) {
@@ -45,7 +46,6 @@
 	request.getRequestDispatcher("../GetColumnNamesSql").include(request, response);
 	ResultSet GetColumnNamesSql = (ResultSet) request.getAttribute("GetColumnNamesSql");
 	%>
-	<a href="Logout.jsp"><button style="background: grey;">Logout</button></a>
 
 	<div class="container">
 		<table>
@@ -63,7 +63,7 @@
 		</table>
 	</div>
 
-	<div class="container">
+	<div class="container" style="overflow-x:auto;">
 		<table>
 			<tr>
 				<%
