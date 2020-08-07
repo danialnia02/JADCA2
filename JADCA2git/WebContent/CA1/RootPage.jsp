@@ -12,11 +12,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Root Page</title>
 </head>
+<%@ include file="RootHeader.jsp"%>
 <body style="background: #27282E">
 	<%@include file="./sqlQueries.jsp"%>
 	<%
 		users userData = (users) session.getAttribute("userData");
-	session.setAttribute("userData", userData);
+		session.setAttribute("userData", userData);
 
 	try {
 		if (userData.getRole() == null || !userData.getRole().equals("root")) {
@@ -40,7 +41,6 @@
 	request.getRequestDispatcher("../GetAllCategories").include(request, response);
 	ResultSet GetAllCategories = (ResultSet) request.getAttribute("GetAllCategories");
 	%>
-	<a href="Logout.jsp"><button style="background: grey;">Logout</button></a>
 
 	<div class="container">
 		<table>
