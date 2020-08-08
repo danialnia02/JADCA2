@@ -72,7 +72,7 @@
 						+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
 						+ "</form>" + "<td><form action='EditProduct.jsp?'>"
 						+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
-						+ "<input type='submit' class='updatebtn' value='Edit'>" + "</form>"
+						+ "<input type='submit' class='updateBtn' value='Edit'>" + "</form>"
 
 				);
 			}
@@ -134,7 +134,7 @@
 
 <div class="main-cards">
   <div class="card" style="overflow-x:auto;">
-  <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for names..">
+  <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for products">
   <table id="myTable">
 				<%
 					getColumnNames(out,getColumnNamesSql);
@@ -328,18 +328,32 @@ th {
       column-count: 2;
     }
   }
+  
+.deleteBtn {
+	background: #F44336;
+	cursor: pointer;
+	border:none;
+	border-style: outset;
+	color:white;
+}
+
+.updateBtn {
+	background: #4CAF50;
+	cursor: pointer;
+	border:none;
+	border-style: outset;
+	color:white;
+}
 </style>
 
 <script>
 function searchProduct() {
-  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
 
     td = tr[i].getElementsByTagName("td")[1];
