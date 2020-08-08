@@ -130,8 +130,7 @@
   <div class="card" style="overflow-x:auto;">
   <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for names..">
   <table id="myTable">
-  
-		
+  		
 				<%
 					getColumnNames(out,getNoOfDistinctRoles);
 				%>
