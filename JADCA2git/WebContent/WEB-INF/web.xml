@@ -196,4 +196,13 @@
         <servlet-name>currentCartSql2</servlet-name>
         <url-pattern>/currentCart2</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>OverallInventorySql</servlet-name>
+        <servlet-class>servlets.OverallInventorySql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OverallInventorySql</servlet-name>
+        <url-pattern>/OverallInventory</url-pattern>
+    </servlet-mapping>
 </web-app>

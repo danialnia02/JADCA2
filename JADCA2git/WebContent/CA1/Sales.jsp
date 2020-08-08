@@ -40,6 +40,9 @@
 
 	request.getRequestDispatcher("../GetAllCategories").include(request, response);
 	ResultSet GetAllCategories = (ResultSet) request.getAttribute("GetAllCategories");
+	
+	request.getRequestDispatcher("../GetColumnNamesSql").include(request, response);
+	ResultSet getColumnNamesSql = (ResultSet) request.getAttribute("GetColumnNamesSql");	
 	%>
 	
 <%!public void getColumnNames(JspWriter out, ResultSet rs) throws java.io.IOException {
@@ -134,7 +137,7 @@
   <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for names..">
   <table id="myTable">
 				<%
-					getColumnNames(out,ListProductSql);
+					getColumnNames(out,getColumnNamesSql);
 				%>
 				<%
 					getIndivdualProduct(out, ListProductSql);

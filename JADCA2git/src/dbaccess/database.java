@@ -498,8 +498,20 @@ public class database {
 		}
 		return null;
 	}
-
 	
+	public ResultSet OverallInventorySql() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select count(productId) as totalNumberOfProducts,(sum(stockquantity)) as totalStockQuantity ,(sum(costPrice*stockquantity)) as totalCostPrice from product");
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 	
