@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -19,8 +19,6 @@
 <%
 
 		Gson gsonObj = new Gson();
-		Map<Object,Object> map = null;
-		List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		users userData = (users) session.getAttribute("userData");
 		session.setAttribute("userData", userData);
 
@@ -56,25 +54,51 @@
 	request.getRequestDispatcher("../OverallInventorySql").include(request, response);
 	ResultSet OverallInventory = (ResultSet) request.getAttribute("OverallInventorySql");
 	
-	ArrayList<Double> OverallInventoryList = getOverallInventory(out,OverallInventory);
+	request.getRequestDispatcher("../TotalProductsInCategory").include(request, response);
+	ResultSet totalProductsInCategory = (ResultSet) request.getAttribute("TotalProductsInCategory");
 	
+	String dataPoints = gsonObj.toJson(productStats(out, totalProductsInCategory,OverallInventory));
 	%>
 	
-<%!public ArrayList<Double> getOverallInventory(JspWriter out, ResultSet rs) throws java.io.IOException {
-	int count = 1;
-	ArrayList<Double> overallInventory = new ArrayList<Double>();
+<%!public List<Map<Object,Object>> productStats(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
+	Map<Object,Object> map = null;
+	List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
+	double totalStock = getOverallInventory(out,rs2);
+
+	try {
+		while(rs.next()) { 
+			
+
+			String category = rs.getString(1);
+			double stockQuantity = Double.parseDouble(rs.getString(2));
+			int stockPercentage = (int)Math.round((stockQuantity/totalStock)*100);
+			System.out.println((int) Math.ceil(stockPercentage));
+			map = new HashMap<Object,Object>(); 
+			map.put("Label", category); 
+			map.put("y", stockPercentage); 
+			list.add(map);
+
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	}
+	return list;
+}
+%>
+	
+<%!public double getOverallInventory(JspWriter out, ResultSet rs) throws java.io.IOException {
+	double totalProduct = 0;
 	try {
 		while(rs.next()) {
 			
-			overallInventory.add(Double.valueOf(rs.getString(1)));
-			overallInventory.add(Double.valueOf(rs.getString(2)));
-			overallInventory.add(Double.valueOf(rs.getString(3)));
+			totalProduct = Double.parseDouble(rs.getString(2));
+			
 			
 		}
 }catch(Exception e){
 		e.printStackTrace();
 	}
-	return overallInventory;
+	return totalProduct;
 }
 	%>
 
@@ -130,6 +154,32 @@
 		}
 		;
 	}%>
+<script type="text/javascript">
+window.onload = function() { 
+	 
+	var chart = new CanvasJS.Chart("chartContainer", {
+		animationEnabled: true,
+		title:{
+			text: "Total stock distribution"
+		},
+		legend: {
+			verticalAlign: "center",
+			horizontalAlign: "right"
+		},
+		data: [{
+			type: "pie",
+			showInLegend: true,
+			indexLabel: "{y}%",
+			indexLabelPlacement: "inside",
+			legendText: "{Label}: {y}%",
+			toolTipContent: "<b>{Label}</b>: {y}%",
+			dataPoints : <%out.print(dataPoints);%>
+		}]
+	});
+	chart.render();
+	 
+	}
+</script>
 
 <body>
 
@@ -197,8 +247,7 @@
 	</table>
 </div>
   <div class="card">
-  Total stock quantity:
-  <%out.print(OverallInventoryList.get(1)); %>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>  
   </div>
   <div class="card">Total Sales</div>
 </div>

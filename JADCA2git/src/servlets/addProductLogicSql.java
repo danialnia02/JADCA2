@@ -34,9 +34,14 @@ public class addProductLogicSql extends HttpServlet {
 		// TODO Auto-generated method stub
 		product NewProduct = (product) request.getAttribute("NewProduct");
 		database udatabase = new database();
-		udatabase.addProductLogic(NewProduct.getProductName(), NewProduct.getDescription(),
-				NewProduct.getDetailDescription(), NewProduct.getRetailPrice(), NewProduct.getStockQuantity(),
-				NewProduct.getCategoryName(), NewProduct.getImageLocation());
+		try {
+			udatabase.addProductLogic(NewProduct.getProductName(), NewProduct.getDescription(),
+					NewProduct.getDetailDescription(), NewProduct.getRetailPrice(), NewProduct.getStockQuantity(),
+					NewProduct.getCategoryName(), NewProduct.getImageLocation());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

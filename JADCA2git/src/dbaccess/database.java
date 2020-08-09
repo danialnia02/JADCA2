@@ -517,7 +517,7 @@ public class database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection(connURL);
-			PreparedStatement pstmt = conn.prepareStatement("select sum(stockquantity) as TotalStockQuantity from product");
+			PreparedStatement pstmt = conn.prepareStatement("select categoryName, sum(stockquantity) as totalStockQuantity from product group by categoryName");
 			
 			ResultSet rs = pstmt.executeQuery();
 			return rs;
