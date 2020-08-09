@@ -66,15 +66,29 @@
 		try {
 			//code to get all existing products			
 			while (rs.next()) {
-				out.print("<tr><td>" + rs.getString("productId") + "</td>" + "<td>" + rs.getString("ProductName")
-						+ "</td>"
-						+ "<td><form action='deleteProduct.jsp?'>" + " <input type='hidden' name='itemId' value="
-						+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
-						+ "</form>" + "<td><form action='EditProduct.jsp?'>"
-						+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
-						+ "<input type='submit' class='updatebtn' value='Edit'>" + "</form>"
-
-				);
+				int stockQuantity = Integer.parseInt(rs.getString("stockQuantity"));
+				if(stockQuantity <= 5) {
+					out.print("<tr class='low'><td>" + rs.getString("productId") + "</td>" + "<td>" + rs.getString("ProductName")
+					+ "</td>"
+					+ "<td><form action='deleteProduct.jsp?'>" + " <input type='hidden' name='itemId' value="
+					+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
+					+ "</form>" + "<td><form action='EditProduct.jsp?'>"
+					+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
+					+ "<input type='submit' class='updateBtn' value='Edit'>" + "</form>");
+					
+				} else {
+					
+					out.print("<tr><td>" + rs.getString("productId") + "</td>" + "<td>" + rs.getString("ProductName")
+					+ "</td>"
+					+ "<td><form action='deleteProduct.jsp?'>" + " <input type='hidden' name='itemId' value="
+					+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
+					+ "</form>" + "<td><form action='EditProduct.jsp?'>"
+					+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
+					+ "<input type='submit' class='updateBtn' value='Edit'>" + "</form>");
+					
+				}
+				
+				
 			}
 		} catch (Exception e) {
 			System.out.println("here3");
@@ -134,7 +148,7 @@
 
 <div class="main-cards">
   <div class="card" style="overflow-x:auto;">
-  <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for names..">
+  <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for products">
   <table id="myTable">
 				<%
 					getColumnNames(out,getColumnNamesSql);
@@ -199,6 +213,10 @@
 
 th {
 	width:40%;
+}
+
+.low {
+	background:#DC191B;
 }
 
 .grid-container {
@@ -328,18 +346,32 @@ th {
       column-count: 2;
     }
   }
+  
+.deleteBtn {
+	background: #F44336;
+	cursor: pointer;
+	border:none;
+	border-style: outset;
+	color:white;
+}
+
+.updateBtn {
+	background: #4CAF50;
+	cursor: pointer;
+	border:none;
+	border-style: outset;
+	color:white;
+}
 </style>
 
 <script>
 function searchProduct() {
-  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
 
     td = tr[i].getElementsByTagName("td")[1];
