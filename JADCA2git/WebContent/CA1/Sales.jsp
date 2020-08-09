@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="java.sql.*"%>
+    
+<%@ page import="com.google.gson.Gson"%>
+<%@ page import="com.google.gson.JsonObject"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.*" %>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@page import=" models.users"%>
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="canvasjs.min.js"></script>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
 
 <%
+
+		Gson gsonObj = new Gson();
+		Map<Object,Object> map = null;
+		List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
 		users userData = (users) session.getAttribute("userData");
 		session.setAttribute("userData", userData);
 
@@ -43,7 +52,32 @@
 	
 	request.getRequestDispatcher("../GetColumnNamesSql").include(request, response);
 	ResultSet getColumnNamesSql = (ResultSet) request.getAttribute("GetColumnNamesSql");	
+	
+	request.getRequestDispatcher("../OverallInventorySql").include(request, response);
+	ResultSet OverallInventory = (ResultSet) request.getAttribute("OverallInventorySql");
+	
+	ArrayList<Double> OverallInventoryList = getOverallInventory(out,OverallInventory);
+	
 	%>
+	
+<%!public ArrayList<Double> getOverallInventory(JspWriter out, ResultSet rs) throws java.io.IOException {
+	int count = 1;
+	ArrayList<Double> overallInventory = new ArrayList<Double>();
+	try {
+		while(rs.next()) {
+			
+			overallInventory.add(Double.valueOf(rs.getString(1)));
+			overallInventory.add(Double.valueOf(rs.getString(2)));
+			overallInventory.add(Double.valueOf(rs.getString(3)));
+			
+		}
+}catch(Exception e){
+		e.printStackTrace();
+	}
+	return overallInventory;
+}
+	%>
+
 	
 <%!public void getColumnNames(JspWriter out, ResultSet rs) throws java.io.IOException {
 		try {
@@ -156,10 +190,16 @@
 				<%
 					getIndivdualProduct(out, ListProductSql);
 				%>
+				<%
+				getOverallInventory(out,OverallInventory );
+				%>
 				
 	</table>
 </div>
-  <div class="card">Total Inventory</div>
+  <div class="card">
+  Total stock quantity:
+  <%out.print(OverallInventoryList.get(1)); %>
+  </div>
   <div class="card">Total Sales</div>
 </div>
 
