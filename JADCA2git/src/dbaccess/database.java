@@ -513,6 +513,20 @@ public class database {
 		return null;
 	}
 	
+	public ResultSet totalProductsInCategory() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select sum(stockquantity) as TotalStockQuantity from product");
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	
 	

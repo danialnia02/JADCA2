@@ -205,4 +205,13 @@
         <servlet-name>OverallInventorySql</servlet-name>
         <url-pattern>/OverallInventory</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>TotalProductsInCategory</servlet-name>
+        <servlet-class>servlets.TotalProductsInCategory</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TotalProductsInCategory</servlet-name>
+        <url-pattern>/TotalProductsInCategorys</url-pattern>
+    </servlet-mapping>
 </web-app>

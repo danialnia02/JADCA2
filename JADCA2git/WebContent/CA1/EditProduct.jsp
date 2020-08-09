@@ -150,26 +150,6 @@
 
 </body>
 
-<%!public void GetCategories(JspWriter out) throws java.io.IOException {
-
-		try {
-			Connection conn = DriverManager.getConnection(connURL);
-			ResultSet rs = HeaderSql(out, conn);
-			rs.next();
-			rs.next();
-			out.print("<select class='select-css' name='ProductCategory' size='1'>");
-			do {
-				out.print("<option value='" + rs.getString("categoryName") + "'>" + rs.getString("categoryName")
-						+ "</option>");
-
-			} while (rs.next());
-			out.print("</select>");
-			conn.close();
-		} catch (Exception e) {
-			System.err.println("here Error :" + e);
-		}
-	}%>
-
 
 <style>
 h1 .backButton {

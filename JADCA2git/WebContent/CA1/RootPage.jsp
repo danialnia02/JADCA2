@@ -172,7 +172,6 @@
 <%!public void GetRoles(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 
 		try {
-
 			//Connection conn = DriverManager.getConnection(connURL);			
 			out.print("<select name='role' id= test size='1'>");			
 			rs2.next();			
