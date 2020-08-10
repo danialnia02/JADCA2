@@ -10,6 +10,8 @@
 <nav class="navbar">
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href=Sales.jsp>Sales</a></li>
+			<li class="nav-item"><a href=Customers.jsp>Customers</a></li>
+			<li class="nav-item"><a href=Orders.jsp>Orders</a></li>
 			<li class="nav-item"><a href=Roles.jsp>Roles</a></li>
 			<li class =nav-item><a href=Logout.jsp >Log out</a></li>
 

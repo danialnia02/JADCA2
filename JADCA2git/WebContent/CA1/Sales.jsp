@@ -67,12 +67,10 @@
 
 	try {
 		while(rs.next()) { 
-			
 
 			String category = rs.getString(1);
 			double stockQuantity = Double.parseDouble(rs.getString(2));
 			int stockPercentage = (int)Math.round((stockQuantity/totalStock)*100);
-			System.out.println((int) Math.ceil(stockPercentage));
 			map = new HashMap<Object,Object>(); 
 			map.put("Label", category); 
 			map.put("y", stockPercentage); 

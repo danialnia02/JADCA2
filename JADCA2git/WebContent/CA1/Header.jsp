@@ -202,9 +202,10 @@ header {
 			} else if (role.equals("admin")) {
 				out.print("<li class =nav-item><a href=addProduct.jsp>Add Product</a></li>");
 				out.print("<li class =nav-item><a href=Sales.jsp>Sales</a></li>");
-				out.print("<li class =nav-item><a href=Logout.jsp >Log out</a></li>");
-			}
-			else if (role.equals("root")) {
+				out.print("<li class=nav-item><a href=Customers.jsp>Customers</a></li>");
+				out.print("<li class=nav-item><a href=Orders.jsp>Orders</a></li>");
+				out.print("<li class =nav-item><a href=Logout.jsp>Log out</a></li>");
+			} else if (role.equals("root")) {
 			response.sendRedirect("RootPage.jsp");
 			}
 			%>
