@@ -557,6 +557,21 @@ public class database {
 		return null;
 	}
 	
+	public ResultSet Least4Products() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select  p.productId, count(cd.productId) as count,p.productName from cartdetails cd, product p,cart c where p.productId= cd.productId and cd.cartId= c.cartId group by cd.productId order by count asc limit 4");
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 	
 	

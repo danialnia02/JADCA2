@@ -63,6 +63,8 @@
 	request.getRequestDispatcher("../Top4Products").include(request, response);
 	ResultSet top4Products = (ResultSet) request.getAttribute("Top4Products");
 	
+	request.getRequestDispatcher("../Least4Products").include(request, response);
+	ResultSet least4Products = (ResultSet) request.getAttribute("Least4Products");
 	
 	String stockData = gsonObj.toJson(productStats(out, totalProductsInCategory,OverallInventory));
 	String salesData = gsonObj.toJson(salesStats(out,totalSalesDistribution));
@@ -73,7 +75,7 @@
 		while(rs.next()) { 
 
 			out.print("<div class='overviewcard'>");
-			out.print("<div class='overviewcard__icon'>" + rs.getString("productName")+ "</div>");
+			out.print("<div class='overviewcard__icon'><b>" + rs.getString("productName")+ "</b></div>");
 			out.print("<div class='overviewcard__info'> Qty:" +rs.getString("count")+"</div>");
 			out.print("</div>");
 
@@ -83,6 +85,22 @@
 	}
 }
 	%>
+	
+<%!public void leastFourProduct(JspWriter out, ResultSet rs)throws java.io.IOException {
+	try {
+		while(rs.next()) { 
+
+			out.print("<div class='overviewcard'>");
+			out.print("<div class='overviewcard__icon'><b>" + rs.getString("productName")+ "</b></div>");
+			out.print("<div class='overviewcard__info'> Qty:" +rs.getString("count")+"</div>");
+			out.print("</div>");
+
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	}
+}
+%>
 	
 <%!public List<Map<Object,Object>> salesStats(JspWriter out, ResultSet rs) throws java.io.IOException {
 	Map<Object,Object> map = null;
@@ -100,16 +118,13 @@
 	}
 	
 	try {
-		System.out.println("excuted");
 		rs.beforeFirst();
 		while(rs.next()) { 
-			System.out.println("excuted");
 			String category = rs.getString("categoryName");
 			double salesFromCategory = Double.parseDouble(rs.getString("totalProfitsFromCategory"));
 			System.out.println(salesFromCategory);
 			int salesPercentage = (int)Math.round((salesFromCategory/totalSales)*100);
-			System.out.println(salesFromCategory);
-			System.out.println(salesPercentage);
+			
 			map = new HashMap<Object,Object>(); 
 			map.put("Label", category); 
 			map.put("y", salesPercentage); 
@@ -279,22 +294,8 @@ window.onload = function() {
 
 <h1 class="salesHeader">Least selling items</h1>
 <div class="main-overview">
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
+    <%  leastFourProduct(out, least4Products); %>
+  
 </div>
 
 <div class="main-cards">
@@ -308,7 +309,7 @@ window.onload = function() {
 					getIndivdualProduct(out, ListProductSql);
 				%>
 				<%
-				getOverallInventory(out,OverallInventory );
+					getOverallInventory(out,OverallInventory );
 				%>
 				
 	</table>

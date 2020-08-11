@@ -225,6 +225,15 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>Least4Product</servlet-name>
+        <servlet-class>servlets.Least4Product</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Least4Product</servlet-name>
+        <url-pattern>/Least4Products</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>TotalSalesDistributionSql</servlet-name>
         <servlet-class>servlets.TotalSalesDistributionSql</servlet-class>
     </servlet>
