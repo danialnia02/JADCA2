@@ -214,4 +214,22 @@
         <servlet-name>TotalProductsInCategory</servlet-name>
         <url-pattern>/TotalProductsInCategorys</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Top4Product</servlet-name>
+        <servlet-class>servlets.top4Products</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Top4Product</servlet-name>
+        <url-pattern>/Top4Products</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>TotalSalesDistributionSql</servlet-name>
+        <servlet-class>servlets.TotalSalesDistributionSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TotalSalesDistributionSql</servlet-name>
+        <url-pattern>/TotalSalesDistribution</url-pattern>
+    </servlet-mapping>
 </web-app>

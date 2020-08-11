@@ -527,6 +527,36 @@ public class database {
 		return null;
 	}
 	
+	public ResultSet top4Products() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select p.productId, count(cd.productId) as count,p.productName from cartdetails cd, product p,cart c where p.productId= cd.productId and cd.cartId= c.cartId group by cd.productId order by count desc limit 4");
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ResultSet TotalSalesDistribution() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select p.categoryName, sum(cd.itemQuantity*cd.priceEach) as totalProfitsFromCategory from product p,cartdetails cd where cd.productId=p.productId group by p.categoryName",
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+				    ResultSet.CONCUR_READ_ONLY);
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	
 	

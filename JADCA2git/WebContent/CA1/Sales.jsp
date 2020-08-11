@@ -57,8 +57,71 @@
 	request.getRequestDispatcher("../TotalProductsInCategory").include(request, response);
 	ResultSet totalProductsInCategory = (ResultSet) request.getAttribute("TotalProductsInCategory");
 	
-	String dataPoints = gsonObj.toJson(productStats(out, totalProductsInCategory,OverallInventory));
+	request.getRequestDispatcher("../TotalSalesDistributionSql").include(request, response);
+	ResultSet totalSalesDistribution = (ResultSet) request.getAttribute("TotalSalesDistribution");
+	
+	request.getRequestDispatcher("../Top4Products").include(request, response);
+	ResultSet top4Products = (ResultSet) request.getAttribute("Top4Products");
+	
+	
+	String stockData = gsonObj.toJson(productStats(out, totalProductsInCategory,OverallInventory));
+	String salesData = gsonObj.toJson(salesStats(out,totalSalesDistribution));
 	%>
+	
+<%!public void topFourProduct(JspWriter out, ResultSet rs)throws java.io.IOException {
+	try {
+		while(rs.next()) { 
+
+			out.print("<div class='overviewcard'>");
+			out.print("<div class='overviewcard__icon'>" + rs.getString("productName")+ "</div>");
+			out.print("<div class='overviewcard__info'> Qty:" +rs.getString("count")+"</div>");
+			out.print("</div>");
+
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	}
+}
+	%>
+	
+<%!public List<Map<Object,Object>> salesStats(JspWriter out, ResultSet rs) throws java.io.IOException {
+	Map<Object,Object> map = null;
+	List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
+	double totalSales = 0;
+	
+	try {
+		while(rs.next()) { 
+
+			totalSales += Double.parseDouble(rs.getString("totalProfitsFromCategory"));
+
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	}
+	
+	try {
+		System.out.println("excuted");
+		rs.beforeFirst();
+		while(rs.next()) { 
+			System.out.println("excuted");
+			String category = rs.getString("categoryName");
+			double salesFromCategory = Double.parseDouble(rs.getString("totalProfitsFromCategory"));
+			System.out.println(salesFromCategory);
+			int salesPercentage = (int)Math.round((salesFromCategory/totalSales)*100);
+			System.out.println(salesFromCategory);
+			System.out.println(salesPercentage);
+			map = new HashMap<Object,Object>(); 
+			map.put("Label", category); 
+			map.put("y", salesPercentage); 
+			list.add(map);
+
+		}
+	} catch(Exception e){
+		e.printStackTrace();
+	}
+	return list;
+}
+%>
 	
 <%!public List<Map<Object,Object>> productStats(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 	Map<Object,Object> map = null;
@@ -155,7 +218,7 @@
 <script type="text/javascript">
 window.onload = function() { 
 	 
-	var chart = new CanvasJS.Chart("chartContainer", {
+	var chart = new CanvasJS.Chart("stockChart", {
 		animationEnabled: true,
 		title:{
 			text: "Total stock distribution"
@@ -171,7 +234,28 @@ window.onload = function() {
 			indexLabelPlacement: "inside",
 			legendText: "{Label}: {y}%",
 			toolTipContent: "<b>{Label}</b>: {y}%",
-			dataPoints : <%out.print(dataPoints);%>
+			dataPoints : <%out.print(stockData);%>
+		}]
+	});
+	chart.render();
+	
+	var chart = new CanvasJS.Chart("salesChart", {
+		animationEnabled: true,
+		title:{
+			text: "Total sales distribution"
+		},
+		legend: {
+			verticalAlign: "center",
+			horizontalAlign: "right"
+		},
+		data: [{
+			type: "pie",
+			showInLegend: true,
+			indexLabel: "{y}%",
+			indexLabelPlacement: "inside",
+			legendText: "{Label}: {y}%",
+			toolTipContent: "<b>{Label}</b>: {y}%",
+			dataPoints : <%out.print(salesData);%>
 		}]
 	});
 	chart.render();
@@ -190,22 +274,7 @@ window.onload = function() {
 
   
 <div class="main-overview">
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
-  <div class="overviewcard">
-    <div class="overviewcard__icon">Overview</div>
-    <div class="overviewcard__info">Card</div>
-  </div>
+  <%  topFourProduct(out, top4Products); %>
 </div>
 
 <h1 class="salesHeader">Least selling items</h1>
@@ -244,10 +313,14 @@ window.onload = function() {
 				
 	</table>
 </div>
+
   <div class="card">
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>  
+<div id="stockChart" style="height: 370px; width: 100%;"></div>  
   </div>
-  <div class="card">Total Sales</div>
+    <div class="card">
+  
+  <div id="salesChart" style="height: 370px; width: 100%;"></div>  
+
 </div>
 
 </main>
