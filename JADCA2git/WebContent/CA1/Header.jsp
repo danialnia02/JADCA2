@@ -206,7 +206,7 @@ header {
 				out.print("<li class=nav-item><a href=Orders.jsp>Orders</a></li>");
 				out.print("<li class =nav-item><a href=Logout.jsp>Log out</a></li>");
 			} else if (role.equals("root")) {
-			response.sendRedirect("RootPage.jsp");
+			response.sendRedirect("Sales.jsp");
 			}
 			%>
 			<li>
