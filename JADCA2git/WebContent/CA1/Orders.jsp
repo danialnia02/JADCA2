@@ -26,12 +26,50 @@ response.sendRedirect("MainPage.jsp");
 %>
 <body>
 
-<button type="button" class="collapsible">Tracking id :134567</button>
+<!-- <table>
+  <tr>
+    <th>Company</th>
+
+  </tr>
+  <tr>
+    <td><button type="button" class="collapsible">Tracking id :134567</button>
+<div class="content">
+  <p>Lorem ipsum...</p>
+  <p>Lorem ipsum...</p>
+  <p>Lorem ipsum...</p>
+</div></td>
+
+  </tr>
+  <tr>
+    <td><button type="button" class="collapsible">Tracking id :134567</button>
+<div class="content">
+  <p>Lorem ipsum...</p>
+  <p>Lorem ipsum...</p>
+  <p>Lorem ipsum...</p>
+</div></td>
+
+  </tr>
+ 
+</table> -->
+
+
+<button type="button" class="collapsible">Tracking id :131232</button>
+<div class="content">
+  <p>Customer ID:</p>
+  <p>Date of purchase:</p>
+  <ul class="productList"> Product List
+  	<li>test1</li>
+  	<li>test2</li>
+  </ul>
+  <p>Total price:</p>
+</div>
+<button type="button" class="collapsible">Tracking id :1341237</button>
 <div class="content">
   <p>Lorem ipsum...</p>
   <p>Lorem ipsum...</p>
   <p>Lorem ipsum...</p>
 </div>
+
 
 </body>
 

@@ -200,6 +200,12 @@
 		}
 	}%>
 <style>
+
+body{
+	background: #27282E;
+
+}
+
 .container {
 	border: 2px solid black;
 	outline: #4CAF50 solid 10px;
