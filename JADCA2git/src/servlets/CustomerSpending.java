@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
@@ -13,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import dbaccess.database;
 
 /**
- * Servlet implementation class TrackingOrderID
+ * Servlet implementation class CustomerSpending
  */
-@WebServlet("/TrackingOrderID")
-public class TrackingOrderID extends HttpServlet {
+@WebServlet("/CustomerSpending")
+public class CustomerSpending extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TrackingOrderID() {
+    public CustomerSpending() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +33,11 @@ public class TrackingOrderID extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {			
 			database udatabase = new database();
-			ResultSet rs = udatabase.trackingOrder();			
-			request.setAttribute("TrackingOrder", rs);
+			ResultSet rs = udatabase.customerSpendingPerCategory();			
+			request.setAttribute("CustomerSpending", rs);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}	
-	}
+		}		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

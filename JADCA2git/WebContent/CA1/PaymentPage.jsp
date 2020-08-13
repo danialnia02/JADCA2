@@ -2,6 +2,10 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
 <%@page import="models.users"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.InputStreamReader"%>
+<%@page import="java.net.URL"%>
+
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="./css/Cart.css">
@@ -44,7 +48,6 @@
 	String role = userData.getRole();
 	;
 	String id = userData.getUserId();
-	
 
 	request.setAttribute("userId", id);
 
@@ -71,12 +74,13 @@
 	ResultSet currentCartSql2 = (ResultSet) request.getAttribute("currentCartSql2");
 	request.setAttribute("userId", id);
 
-
 	int itemsBuying = ItemsBuying(out, currentCartSql, currentCartSql2);
-	//session.setAttribute("noItemsBuying",Integer.toString(itemsBuying));
+	
+	System.out.println("Euro/US Dollar: " + convertExchangeRate("EUR", "USD", 1000));
+	
 	%>
 
-	<div style="margin:auto">
+	<div style="margin: auto">
 		<div id="productCol">
 			<%
 				itemCart(out, currentCartSql);
@@ -96,7 +100,8 @@
 				<input type="text" name="lastName" placeholder="Last Name" required>
 			</div>
 			<div style="display: block; width: 100%;">
-				<input type="number" name="creditCard" placeholder="Credit Card Number" min=16 required>
+				<input type="number" name="creditCard"
+					placeholder="Credit Card Number" min=16 required>
 			</div>
 			<div style="display: block; width: 100%;">
 				<a href="BuyItem.jsp" class="checkoutBtn"><b>Checkout</b></a>
@@ -106,24 +111,42 @@
 	</div>
 
 </body>
-<!-- return the total number of items in the cart -->
-<%!public int CartNumberItems(JspWriter out, ResultSet rs) throws java.io.IOException {
-		//currentCartSql
+<%!public static Double convertExchangeRate(String from, String to, int amount) {
 
 		try {
-			int totalproducts = 0;
-			rs.next();
-			do {
-				//System.out.println(totalproducts + " counting");
-				totalproducts += (Integer.parseInt(rs.getString("itemQuantity")));
-			} while (rs.next());
-			return totalproducts;
+			//Yahoo Finance API
+			URL url = new URL("http://finance.yahoo.com/d/quotes.csv?f=l1&s=" + from + to + "=X");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			String line = reader.readLine();
+			if (line.length() > 0) {
+				System.out.println(Double.parseDouble(line) * amount);
+				return Double.parseDouble(line) * amount;
+			}
+			reader.close();
 		} catch (Exception e) {
-			System.out.println("here1");
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-		return 0;
+		return null;
 	}%>
+
+<!-- return the total number of items in the cart -->
+<%!public int CartNumberItems(JspWriter out, ResultSet rs) throws java.io.IOException {
+	//currentCartSql
+
+	try {
+		int totalproducts = 0;
+		rs.next();
+		do {
+			//System.out.println(totalproducts + " counting");
+			totalproducts += (Integer.parseInt(rs.getString("itemQuantity")));
+		} while (rs.next());
+		return totalproducts;
+	} catch (Exception e) {
+		System.out.println("here1");
+		e.printStackTrace();
+	}
+	return 0;
+}%>
 <!--  Get the total number of id of buying items -->
 <%!public int ItemsBuying(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 		//currentCartSql2
@@ -149,11 +172,11 @@
 			//rs.next();
 			double totalPrice = 0;
 			int totalProducts = CartNumberItems(out, rs);
-																
-			 while (rs2.next()){
-				 totalPrice += (Double.parseDouble(rs2.getString("RetailPrice"))
-							* Double.parseDouble(rs2.getString("itemQuantity"))); 
-			 }
+
+			while (rs2.next()) {
+				totalPrice += (Double.parseDouble(rs2.getString("RetailPrice"))
+						* Double.parseDouble(rs2.getString("itemQuantity")));
+			}
 			out.print("<div class=totalQuantityRow>");
 			out.print("<h3 class=totalQuantityText>Total Quantity</h3>");
 			out.print("<div class=totalQuantity>" + totalProducts + "</div>");
@@ -215,7 +238,7 @@ body {
 }
 
 #productCol {
-	align-items:center;
+	align-items: center;
 	width: 80%;
 	display: flex;
 	flex-direction: column;
@@ -252,7 +275,7 @@ body {
 }
 
 .container {
-	align-items:center;
+	align-items: center;
 	width: 40%;
 	display: block;
 	margin: 5%;
@@ -312,3 +335,4 @@ body {
 }
 </style>
 </html>
+

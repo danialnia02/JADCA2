@@ -83,7 +83,7 @@
 
 			//needs do while for category to work
 			if(SearchSql == null){
-				out.print("hello world");
+//				out.print("hello world");
 			}
 			out.print("<div class='flex-container'>");
 			do {

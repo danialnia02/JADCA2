@@ -1,288 +1,308 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
-  <display-name>JADCA2git</display-name>  
-  
-    <welcome-file-list>
-		<welcome-file>index.html</welcome-file>		
-		<!--  <welcome-file>CA1/Login.jsp</welcome-file>-->
-	</welcome-file-list>	
 	
-	 <servlet>
-        <servlet-name>loginValidation</servlet-name>
-        <servlet-class>servlets.loginValidation</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>loginValidation</servlet-name>
-        <url-pattern>/loginUser</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GetAllCategories</servlet-name>
-        <servlet-class>servlets.GetAllCategories</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetAllCategories</servlet-name>
-        <url-pattern>/GettingAllCategories</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>MainPageSql</servlet-name>
-        <servlet-class>servlets.MainPageSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MainPageSql</servlet-name>
-        <url-pattern>/MainPage</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>HeaderSql</servlet-name>
-        <servlet-class>servlets.HeaderSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HeaderSql</servlet-name>
-        <url-pattern>/Header</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>ListProductSql</servlet-name>
-        <servlet-class>servlets.ListProductSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ListProductSql</servlet-name>
-        <url-pattern>/ListProduct</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>SearchSql</servlet-name>
-        <servlet-class>servlets.SearchSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SearchSql</servlet-name>
-        <url-pattern>/Search</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>RegisterLogic</servlet-name>
-        <servlet-class>servlets.RegisterLogic</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegisterLogic</servlet-name>
-        <url-pattern>/Register</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>EditProductSQL</servlet-name>
-        <servlet-class>servlets.EditProductSQL</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditProductSQL</servlet-name>
-        <url-pattern>/EditProduct</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>getQuantityInCartSQL</servlet-name>
-        <servlet-class>servlets.getQuantityInCartSQL</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getQuantityInCartSQL</servlet-name>
-        <url-pattern>/getQuantityInCart</url-pattern>
-    </servlet-mapping>
-    
-    
-    <servlet>
-        <servlet-name>UpdateCustomerProfileSQL</servlet-name>
-        <servlet-class>servlets.UpdateCustomerProfileSQL</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateCustomerProfileSQL</servlet-name>
-        <url-pattern>/UpdateCustomerProfile</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>EditProduct2Sql</servlet-name>
-        <servlet-class>servlets.EditProduct2Sql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditProduct2Sql</servlet-name>
-        <url-pattern>/EditProduct2</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>deleteProductSql</servlet-name>
-        <servlet-class>servlets.deleteProductSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>deleteProductSql</servlet-name>
-        <url-pattern>/deleteProduct</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>IndividualAccountSql</servlet-name>
-        <servlet-class>servlets.IndividualAccountSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>IndividualAccountSql</servlet-name>
-        <url-pattern>/IndividualAccount</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>UpdateAccountSql</servlet-name>
-        <servlet-class>servlets.UpdateAccountSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateAccountSql</servlet-name>
-        <url-pattern>/UpdateAccount</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GetRolesSql</servlet-name>
-        <servlet-class>servlets.GetRolesSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetRolesSql</servlet-name>
-        <url-pattern>/GetRoles</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GetColumnNamesSql</servlet-name>
-        <servlet-class>servlets.GetColumnNamesSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetColumnNamesSql</servlet-name>
-        <url-pattern>/GetColumnNames</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>getNoOfDistinctRoles</servlet-name>
-        <servlet-class>servlets.getNoOfDistinctRoles</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getNoOfDistinctRoles</servlet-name>
-        <url-pattern>/getNoOfDistinctRole</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>getProductLogicSql</servlet-name>
-        <servlet-class>servlets.getProductLogicSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getProductLogicSql</servlet-name>
-        <url-pattern>/getProductLogic</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>currentCartCountSql</servlet-name>
-        <servlet-class>servlets.currentCartCountSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>currentCartCountSql</servlet-name>
-        <url-pattern>/currentCartCount</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>currentCartSql</servlet-name>
-        <servlet-class>servlets.currentCartSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>currentCartSql</servlet-name>
-        <url-pattern>/currentCart</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>currentCartSql2</servlet-name>
-        <servlet-class>servlets.currentCartSql2</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>currentCartSql2</servlet-name>
-        <url-pattern>/currentCart2</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>OverallInventorySql</servlet-name>
-        <servlet-class>servlets.OverallInventorySql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OverallInventorySql</servlet-name>
-        <url-pattern>/OverallInventory</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>TotalProductsInCategory</servlet-name>
-        <servlet-class>servlets.TotalProductsInCategory</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TotalProductsInCategory</servlet-name>
-        <url-pattern>/TotalProductsInCategorys</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Top4Product</servlet-name>
-        <servlet-class>servlets.top4Products</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Top4Product</servlet-name>
-        <url-pattern>/Top4Products</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Least4Product</servlet-name>
-        <servlet-class>servlets.Least4Product</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Least4Product</servlet-name>
-        <url-pattern>/Least4Products</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>TotalSalesDistributionSql</servlet-name>
-        <servlet-class>servlets.TotalSalesDistributionSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TotalSalesDistributionSql</servlet-name>
-        <url-pattern>/TotalSalesDistribution</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>checkCartSql</servlet-name>
-        <servlet-class>servlets.checkCartSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>checkCartSql</servlet-name>
-        <url-pattern>/checkCart</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>addToCartSql</servlet-name>
-        <servlet-class>servlets.addToCartSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>addToCartSql</servlet-name>
-        <url-pattern>/addToCart</url-pattern>
-    </servlet-mapping>
-    
-        <servlet>
-        <servlet-name>TrackingOrderSql</servlet-name>
-        <servlet-class>servlets.TrackingOrderID</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TrackingOrderSql</servlet-name>
-        <url-pattern>/TrackingOrder</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>getBuyingItemIds</servlet-name>
-        <servlet-class>servlets.getBuyingItemIds</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getBuyingItemIds</servlet-name>
-        <url-pattern>/getBuyingItemId</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>changeToBoughtSql</servlet-name>
-        <servlet-class>servlets.changeToBoughtSql</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>changeToBoughtSql</servlet-name>
-        <url-pattern>/changeToBought</url-pattern>
-    </servlet-mapping>
+<display-name>JADCA2git</display-name>
+
+	 <welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<!-- <welcome-file>CA1/Login.jsp</welcome-file> -->
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>loginValidation</servlet-name>
+		<servlet-class>servlets.loginValidation</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginValidation</servlet-name>
+		<url-pattern>/loginUser</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetAllCategories</servlet-name>
+		<servlet-class>servlets.GetAllCategories</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAllCategories</servlet-name>
+		<url-pattern>/GettingAllCategories</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MainPageSql</servlet-name>
+		<servlet-class>servlets.MainPageSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MainPageSql</servlet-name>
+		<url-pattern>/MainPage</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>HeaderSql</servlet-name>
+		<servlet-class>servlets.HeaderSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HeaderSql</servlet-name>
+		<url-pattern>/Header</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ListProductSql</servlet-name>
+		<servlet-class>servlets.ListProductSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListProductSql</servlet-name>
+		<url-pattern>/ListProduct</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SearchSql</servlet-name>
+		<servlet-class>servlets.SearchSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchSql</servlet-name>
+		<url-pattern>/Search</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RegisterLogic</servlet-name>
+		<servlet-class>servlets.RegisterLogic</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegisterLogic</servlet-name>
+		<url-pattern>/Register</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EditProductSQL</servlet-name>
+		<servlet-class>servlets.EditProductSQL</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditProductSQL</servlet-name>
+		<url-pattern>/EditProduct</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>getQuantityInCartSQL</servlet-name>
+		<servlet-class>servlets.getQuantityInCartSQL</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getQuantityInCartSQL</servlet-name>
+		<url-pattern>/getQuantityInCart</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>UpdateCustomerProfileSQL</servlet-name>
+		<servlet-class>servlets.UpdateCustomerProfileSQL</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateCustomerProfileSQL</servlet-name>
+		<url-pattern>/UpdateCustomerProfile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EditProduct2Sql</servlet-name>
+		<servlet-class>servlets.EditProduct2Sql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditProduct2Sql</servlet-name>
+		<url-pattern>/EditProduct2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>deleteProductSql</servlet-name>
+		<servlet-class>servlets.deleteProductSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deleteProductSql</servlet-name>
+		<url-pattern>/deleteProduct</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>IndividualAccountSql</servlet-name>
+		<servlet-class>servlets.IndividualAccountSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IndividualAccountSql</servlet-name>
+		<url-pattern>/IndividualAccount</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UpdateAccountSql</servlet-name>
+		<servlet-class>servlets.UpdateAccountSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateAccountSql</servlet-name>
+		<url-pattern>/UpdateAccount</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetRolesSql</servlet-name>
+		<servlet-class>servlets.GetRolesSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetRolesSql</servlet-name>
+		<url-pattern>/GetRoles</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetColumnNamesSql</servlet-name>
+		<servlet-class>servlets.GetColumnNamesSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetColumnNamesSql</servlet-name>
+		<url-pattern>/GetColumnNames</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>getNoOfDistinctRoles</servlet-name>
+		<servlet-class>servlets.getNoOfDistinctRoles</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getNoOfDistinctRoles</servlet-name>
+		<url-pattern>/getNoOfDistinctRole</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>getProductLogicSql</servlet-name>
+		<servlet-class>servlets.getProductLogicSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getProductLogicSql</servlet-name>
+		<url-pattern>/getProductLogic</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>currentCartCountSql</servlet-name>
+		<servlet-class>servlets.currentCartCountSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>currentCartCountSql</servlet-name>
+		<url-pattern>/currentCartCount</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>currentCartSql</servlet-name>
+		<servlet-class>servlets.currentCartSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>currentCartSql</servlet-name>
+		<url-pattern>/currentCart</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>currentCartSql2</servlet-name>
+		<servlet-class>servlets.currentCartSql2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>currentCartSql2</servlet-name>
+		<url-pattern>/currentCart2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>OverallInventorySql</servlet-name>
+		<servlet-class>servlets.OverallInventorySql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OverallInventorySql</servlet-name>
+		<url-pattern>/OverallInventory</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TotalProductsInCategory</servlet-name>
+		<servlet-class>servlets.TotalProductsInCategory</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TotalProductsInCategory</servlet-name>
+		<url-pattern>/TotalProductsInCategorys</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Top4Product</servlet-name>
+		<servlet-class>servlets.top4Products</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Top4Product</servlet-name>
+		<url-pattern>/Top4Products</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Least4Product</servlet-name>
+		<servlet-class>servlets.Least4Product</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Least4Product</servlet-name>
+		<url-pattern>/Least4Products</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TotalSalesDistributionSql</servlet-name>
+		<servlet-class>servlets.TotalSalesDistributionSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TotalSalesDistributionSql</servlet-name>
+		<url-pattern>/TotalSalesDistribution</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>checkCartSql</servlet-name>
+		<servlet-class>servlets.checkCartSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>checkCartSql</servlet-name>
+		<url-pattern>/checkCart</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>addToCartSql</servlet-name>
+		<servlet-class>servlets.addToCartSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>addToCartSql</servlet-name>
+		<url-pattern>/addToCart</url-pattern>
+
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>TrackingOrderSql</servlet-name>
+		<servlet-class>servlets.TrackingOrderID</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrackingOrderSql</servlet-name>
+		<url-pattern>/TrackingOrder</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>getBuyingItemIds</servlet-name>
+		<servlet-class>servlets.getBuyingItemIds</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getBuyingItemIds</servlet-name>
+		<url-pattern>/getBuyingItemId</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>changeToBoughtSql</servlet-name>
+		<servlet-class>servlets.changeToBoughtSql</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>changeToBoughtSql</servlet-name>
+		<url-pattern>/changeToBought</url-pattern>
+</servlet-mapping>
+		<servlet>
+			<servlet-name>CustomerDetailsSql</servlet-name>
+			<servlet-class>servlets.CustomerDetailsSql</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>CustomerDetailsSql</servlet-name>
+			<url-pattern>/CustomerDetails</url-pattern>
+		</servlet-mapping>
+
+		<servlet>
+			<servlet-name>CustomerSpendingSql</servlet-name>
+			<servlet-class>servlets.CustomerSpending</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>CustomerSpendingSql</servlet-name>
+			<url-pattern>/customerSpending</url-pattern>
+		</servlet-mapping>
 </web-app>
