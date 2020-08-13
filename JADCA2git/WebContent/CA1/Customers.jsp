@@ -61,7 +61,6 @@ response.sendRedirect("MainPage.jsp");
 			
 			totalProduct = Double.parseDouble(rs.getString(2));
 			
-			
 		}
 }catch(Exception e){
 		e.printStackTrace();
@@ -191,7 +190,6 @@ function searchProduct() {
   }
 }
 document.addEventListener("DOMContentLoaded", searchProduct);
-</script>
 </script>
 
 </html>

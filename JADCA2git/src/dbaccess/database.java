@@ -571,6 +571,7 @@ public class database {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	public ResultSet checkCartSql(String id,String itemId) throws SQLException {
 		try {			
 			Class.forName("com.mysql.jdbc.Driver");
@@ -587,6 +588,24 @@ public class database {
 		}	
 		return null;
 	}
+=======
+	public ResultSet trackingOrder() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select c.cartId, c.trackingId, c.createdDate, p.productName, cd.priceEach, sum(cd.itemquantity*cd.priceEach) as totalPrice,c.userId, cd.itemQuantity \r\n" + 
+					"from cart c, product p, cartDetails cd \r\n" + 
+					"where c.cartId=cd.cartId and p.productId=cd.productId and c.status = 'bought' group by c.userId,cd.productId");
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+>>>>>>> 73ca5b3b077bf6d76d382eac7436951a0be0c534
 	
 	public void addToCartSql(String currentQuantity,String id,String itemId,String currentCartId,String quantity,String priceEach)  throws SQLException {
 		try {

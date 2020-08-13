@@ -242,6 +242,7 @@
         <url-pattern>/TotalSalesDistribution</url-pattern>
     </servlet-mapping>
     
+<<<<<<< HEAD
     <servlet>
         <servlet-name>checkCartSql</servlet-name>
         <servlet-class>servlets.checkCartSql</servlet-class>
@@ -260,4 +261,14 @@
         <url-pattern>/addToCart</url-pattern>
     </servlet-mapping>
     
+=======
+        <servlet>
+        <servlet-name>TrackingOrderSql</servlet-name>
+        <servlet-class>servlets.TrackingOrderID</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrackingOrderSql</servlet-name>
+        <url-pattern>/TrackingOrder</url-pattern>
+    </servlet-mapping>
+>>>>>>> 73ca5b3b077bf6d76d382eac7436951a0be0c534
 </web-app>
