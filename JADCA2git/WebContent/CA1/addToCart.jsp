@@ -53,6 +53,8 @@ if (id != null || role != "customer") {
 
 	request.getRequestDispatcher("../addToCartSql").include(request, response);
 	ResultSet addToCartSql = (ResultSet) request.getAttribute("addToCartSql");
+	
+	response.sendRedirect("MainPage.jsp");
 
 } else {
 

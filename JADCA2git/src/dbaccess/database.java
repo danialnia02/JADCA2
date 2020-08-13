@@ -451,7 +451,7 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = conn.prepareStatement(
-					"select count(*) as count from cartDetils cd, Cart c were cd.cartId= c.cartId and userid=? and status='viewing'");
+					"select count(*) as count from cartDetils cd, Cart c where cd.cartId= c.cartId and userid=? and status='viewing'");
 			pstmt.setString(1, userId);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -571,7 +571,6 @@ public class database {
 		return null;
 	}
 	
-<<<<<<< HEAD
 	public ResultSet checkCartSql(String id,String itemId) throws SQLException {
 		try {			
 			Class.forName("com.mysql.jdbc.Driver");
@@ -588,7 +587,6 @@ public class database {
 		}	
 		return null;
 	}
-=======
 	public ResultSet trackingOrder() throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -604,8 +602,9 @@ public class database {
 		}
 		return null;
 	}
-	
->>>>>>> 73ca5b3b077bf6d76d382eac7436951a0be0c534
+	public ResultSet checkCurrentCart(String cartId,String itemId) throws SQLException {
+		return null;
+	}
 	
 	public void addToCartSql(String currentQuantity,String id,String itemId,String currentCartId,String quantity,String priceEach)  throws SQLException {
 		try {
@@ -614,6 +613,8 @@ public class database {
 			PreparedStatement pstmt=null;
 			
 			if(currentCartId != "null") {
+				//check in the current cart if the item already exists
+				checkCartSql(Id, ;
 				int newQuantity = Integer.parseInt(currentQuantity)+Integer.parseInt(quantity);
 				pstmt=conn.prepareStatement("Update cartdetails set productId=?, itemQuantity =?,priceEach=? where CartId=? and productId=?");
 				pstmt.setString(1,itemId);
@@ -626,7 +627,7 @@ public class database {
 				int number = pstmt.executeUpdate();
 				if (number > 0)
 					System.out.println(number+" record updated!");
-			}else {
+			}else if(currentCartId == "null"){
 				pstmt=conn.prepareStatement("Insert into cart(status,userId) values('viewing',?)");
 				pstmt.setString(1, id);
 				int number = pstmt.executeUpdate();
