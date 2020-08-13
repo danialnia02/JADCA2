@@ -13,6 +13,7 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <%
 	
@@ -40,8 +41,11 @@
 	
 	
 %>
-<%! public void displayCustomerDetails(JspWriter out, ResultSet customerDetail, ResultSet customerSpending) throws java.io.IOException {
-
+<%! public ArrayList<String> displayCustomerDetails(JspWriter out, ResultSet customerDetail, ResultSet customerSpending) throws java.io.IOException {
+	Gson gsonObj = new Gson();
+	int count = 1;
+	ArrayList<String> spendingStats = new ArrayList<String>();
+	
 	try {
 		while(customerDetail.next()) {
 			String role = customerDetail.getString("role");
@@ -59,10 +63,12 @@
 				out.print("</div>");
 				
 				out.print("<div style='width:60%'>");
-				out.print("test");
+				spendingStats.add(gsonObj.toJson(spendingStats(out, Integer.parseInt(customerDetail.getString("userId")),Double.parseDouble(customerDetail.getString("TotalAmountSpent")),customerSpending)));
+				out.print("<div id='spendingChart"+count+"' style='height: 370px; width: 100%;''></div>");
 				out.print("</div>");
 				out.print("</div>");
 				out.print("</div>");
+				count++;
 			}
 		}
 		
@@ -71,6 +77,7 @@
 		e.printStackTrace();
 		
 	}
+	return spendingStats;
 }
 
 %>
@@ -104,8 +111,9 @@
 }
 %>
 <body>
-	<% displayCustomerDetails(out,customerDetails,customerSpending); %>
-
+	<% ArrayList<String> test = displayCustomerDetails(out,customerDetails,customerSpending); %>
+	<%System.out.println(test); %>
+	<div id="spendingChart" style="height: 370px; width: 100%;"></div>  
 </body>
 <style>
 
@@ -185,7 +193,35 @@
 
 
 <script type="text/javascript">
-
+window.onload = function() { 
+	<% int length = test.size(); %>
+	var length = <%= length %>
+	var hi = <%=test %>
+console.log(hi[1])
+for(var i = 0; i < length; i++){
+	console.log(i)
+var chart = new CanvasJS.Chart("spendingChart" + (i+1), {
+	animationEnabled: true,
+	title:{
+		text: "Total spending distribution"
+	},
+	legend: {
+		verticalAlign: "center",
+		horizontalAlign: "right"
+	},
+	data: [{
+		type: "pie",
+		showInLegend: true,
+		indexLabel: "{y}%",
+		indexLabelPlacement: "inside",
+		legendText: "{Label}: {y}%",
+		toolTipContent: "<b>{Label}</b>: {y}%",
+		dataPoints : hi[i]
+	}]
+});
+	chart.render();
+}
+}
 	
 var acc = document.getElementsByClassName("accordion");
 var i;
