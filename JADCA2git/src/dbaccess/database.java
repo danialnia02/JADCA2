@@ -451,7 +451,7 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = conn.prepareStatement(
-					"select count(*) as count from cartDetils cd, Cart c where cd.cartId= c.cartId and userid=? and status='viewing'");
+					"select count(*) as count from cartDetails cd, Cart c where cd.cartId= c.cartId and userid=? and status='viewing'");
 			pstmt.setString(1, userId);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -575,9 +575,8 @@ public class database {
 		try {			
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection(connURL);
-			PreparedStatement pstmt = conn.prepareStatement("Select * from cart c, cartDetails cd where c.userId=? and cd.productId=? and status='viewing'");			
-			pstmt.setInt(1, Integer.parseInt(id));
-			pstmt.setInt(2, Integer.parseInt(itemId));		
+			PreparedStatement pstmt = conn.prepareStatement("select * from cart where userId=? and status='viewing'");						
+			pstmt.setInt(1, Integer.parseInt(id));			
 			ResultSet rs = pstmt.executeQuery();			
 			
 			return rs;
@@ -602,78 +601,121 @@ public class database {
 		}
 		return null;
 	}
-	public ResultSet checkCurrentCart(String cartId,String itemId) throws SQLException {
-		return null;
-	}
 	
-	public void addToCartSql(String currentQuantity,String id,String itemId,String currentCartId,String quantity,String priceEach)  throws SQLException {
+	
+	public void addToCartSql(String id,String itemId,String quantity,String priceEach)  throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection(connURL);
 			PreparedStatement pstmt=null;
-			
-			if(currentCartId != "null") {
-				//check in the current cart if the item already exists
-				checkCartSql(Id, ;
-				int newQuantity = Integer.parseInt(currentQuantity)+Integer.parseInt(quantity);
-				pstmt=conn.prepareStatement("Update cartdetails set productId=?, itemQuantity =?,priceEach=? where CartId=? and productId=?");
-				pstmt.setString(1,itemId);
-				pstmt.setInt(2,newQuantity);
-				pstmt.setString(3,priceEach);
-				pstmt.setString(4,currentCartId);
-				pstmt.setString(5,itemId);
-				
-				
-				int number = pstmt.executeUpdate();
-				if (number > 0)
-					System.out.println(number+" record updated!");
-			}else if(currentCartId == "null"){
-				pstmt=conn.prepareStatement("Insert into cart(status,userId) values('viewing',?)");
-				pstmt.setString(1, id);
-				int number = pstmt.executeUpdate();
-				if (number > 0) {
-					System.out.println("Insert into cart number: "+number);	
-					PreparedStatement pstmt2= conn.prepareStatement("select cartId from cart where userId=? and status= 'viewing'");
-					pstmt2.setString(1,id);
-					ResultSet rs=pstmt2.executeQuery();
-					rs.next();					
-					String newCartId=rs.getString("cartId");
-					if(number>0) {
-						System.out.println("new cartId: "+newCartId);
-						PreparedStatement pstmt3=conn.prepareStatement("Insert into cartdetails(cartId,productId,itemQuantity,PriceEach) values(?,?,?,?)");
-						pstmt3.setString(1, newCartId);
-						pstmt3.setString(2, itemId);
-						pstmt3.setString(3, quantity);
-						pstmt3.setString(4, priceEach);
-						number=pstmt3.executeUpdate();
-						if(number>0) {
-							System.out.println("Record Inserted!");
-						}else {
-							System.out.println("error 3");
-						}
 						
+			pstmt=conn.prepareStatement("Insert into cart(status,userId) values('viewing',?)");
+			pstmt.setString(1, id);
+			int number = pstmt.executeUpdate();
+			if (number > 0) {
+				System.out.println("Insert into cart number: "+number);	
+				PreparedStatement pstmt2= conn.prepareStatement("select cartId from cart where userId=? and status= 'viewing'");
+				pstmt2.setString(1,id);
+				ResultSet rs=pstmt2.executeQuery();
+				rs.next();					
+				String newCartId=rs.getString("cartId");
+				if(number>0) {
+					System.out.println("new cartId: "+newCartId);
+					PreparedStatement pstmt3=conn.prepareStatement("Insert into cartdetails(cartId,productId,itemQuantity,PriceEach) values(?,?,?,?)");
+					pstmt3.setString(1, newCartId);
+					pstmt3.setString(2, itemId);
+					pstmt3.setString(3, quantity);
+					pstmt3.setString(4, priceEach);
+					number=pstmt3.executeUpdate();
+					if(number>0) {
+						System.out.println("Record Inserted!");
 					}else {
-						System.out.println("error 2");
+						System.out.println("error 3");
 					}
+					
+				}else {
+					System.out.println("error 2");
 				}
-				
-				
-				//PreparedStatement pstmt2=conn.prepareStatement("Insert into cartdetails(");
+			}	
+			
+																		
+		} catch (Exception e) {
+			System.out.println("here 1");
+		}	
+	}
+	
+	public void insertIntoCartNull(String currentCartId,String productId, String thisquantity,String priceEach) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt=null;
+			//System.out.println(currentCartId);
+			pstmt=conn.prepareStatement("Insert into cartDetails(cartId,productId,itemQuantity,PriceEach) values(?,?,?,?)");
+			pstmt.setString(1, currentCartId);
+			pstmt.setString(2, productId);
+			pstmt.setString(3, thisquantity);
+			pstmt.setString(4, priceEach);
+			
+			int number=pstmt.executeUpdate();
+			if(number>0) {
+				System.out.println("added a new item into cart "+currentCartId);
+			}else {
+				System.out.println("error 3");
 			}
 			
 			
-			
-			
-			
-		//"Update user set phonenumber=?, deliveryAddress=?, postalCode=?, paymentType= ? , cardNumber= ? where userId = ?");			
-			
-			
-			
-			
-		} catch (Exception e) {
-			//System.err.println("Error :" + e);
-		}	
+		}catch(Exception e) {
+			System.out.println("error 3 2");
+			e.printStackTrace();
+		}
+		
 	}
+	
+	public void updateProductInCart(String currentCartId,String productId,int newQuantity,String priceEach)  throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt=null;			
+			pstmt=conn.prepareStatement("Update cartdetails set productId=?, itemQuantity =?,priceEach=? where CartId=? and productId=?");
+			pstmt.setString(1,productId);
+			pstmt.setInt(2, newQuantity);
+			pstmt.setString(3, priceEach);			
+			pstmt.setString(4, currentCartId);
+			pstmt.setString(5,productId);
+			
+			int number = pstmt.executeUpdate();
+			if(number>0) {
+				System.out.println("updated an item in cart "+currentCartId);
+			}else {
+				System.out.println("error updating item in cart");
+			}
+			
+		}catch(Exception e) {
+			System.out.println("error 4 2");
+			e.printStackTrace();
+		}
+		
+	}
+		
+	public ResultSet checkItemInCart(String productId,String cartId) throws SQLException{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);			
+			PreparedStatement pstmt=null;			
+			pstmt=conn.prepareStatement("select * from cart c,cartdetails cd where c.cartId=? and productId=? and c.status='viewing' and c.cartId= cd.cartId");
+			pstmt.setString(1, cartId);
+			pstmt.setString(2, productId);
+			
+			ResultSet rs= pstmt.executeQuery();
+			
+			return rs;			
+					
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	
 	
