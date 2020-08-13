@@ -41,16 +41,16 @@
 		int count = 0;
 		try {
 			 countToRepeat=Integer.parseInt(rs2.getString("total_no_of_rows"));
-
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(countToRepeat);
 		try {
 			while (rs.next()) {
 				rolesArray.add(rs.getString("role"));
 			}
-			rs.first();
+			rs.beforeFirst();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

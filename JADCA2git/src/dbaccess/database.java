@@ -405,7 +405,9 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(connURL);
 			PreparedStatement pstmt = null;
-			pstmt = conn.prepareStatement("SELECT DISTINCT role FROM user");
+			pstmt = conn.prepareStatement("SELECT DISTINCT role FROM user",
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+				    ResultSet.CONCUR_READ_ONLY);
 
 			ResultSet rs = pstmt.executeQuery();
 
