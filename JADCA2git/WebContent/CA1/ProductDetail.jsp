@@ -18,18 +18,22 @@
 
 	<%try{
 		String userId= null;
-		users userInfo = (users) session.getAttribute("userInfo");		
+		users userInfo = (users) session.getAttribute("userData");	
+		session.setAttribute("userInfo",userInfo);
 		
 		//check if user exists
 		try{
-			userInfo.getUserId();
+			userId=userInfo.getUserId();			
 		}catch(Exception e){
 			userId="0";
+			System.out.println("here1");
 			e.printStackTrace();
 		}
 		
+		
 		String itemId= request.getParameter("item");		
 		request.setAttribute("itemId",itemId);
+		session.setAttribute("userId",userId);
 		
 		//get the information of the selected Item
 		request.getRequestDispatcher("../EditProductSQL").include(request,response);		
@@ -37,14 +41,14 @@
 		EditProductSql.next();			
 		
 		//check stock quantity against the number in user's cart
-		int StockQuantity = Integer.parseInt(EditProductSql.getString("StockQuantity"));
-		System.out.println(StockQuantity);
+		String StockQuantity2 = EditProductSql.getString("StockQuantity");
+		int StockQuantity= Integer.parseInt(StockQuantity2);
 		request.getRequestDispatcher("../getQuantityInCartSql").include(request,response);		
-		int quantityInCart = (int) request.getAttribute("quantityInCart");
-		System.out.println(quantityInCart);
+		int quantityInCart = (int) request.getAttribute("quantityInCart");				
 		if (quantityInCart != 0){
 			StockQuantity = StockQuantity - quantityInCart;			
 		}
+		session.setAttribute("priceEach",EditProductSql.getString("RetailPrice"));
 		
 	
 	%>
@@ -78,8 +82,8 @@
 							id="quantity" name="quantity" value="1" min="1"
 							max="<%=showOutput(out, StockQuantity)%>"> <input
 							type=hidden name=itemId
-							value='<%=EditProductSql.getString("productId")%> '> <input
-							type="submit" id="submit" value="Add to cart">
+							value='<%=EditProductSql.getString("productId")%>'> <input
+							type="submit" id="submit" name="submit" value="Add to cart">
 					</form>
 				</div>
 
@@ -88,14 +92,13 @@
 		</div>
 	</section>
 	<%
-	}catch(Exception e){
-		System.out.println("error");
+	}catch(Exception e){	
+		System.out.println("here2");
 		e.printStackTrace();
 	}
 	%>
 
-	<%!public int showOutput(JspWriter out, int number) throws java.io.IOException {
-		System.out.println(number);
+	<%!public int showOutput(JspWriter out, int number) throws java.io.IOException {		
 		return number;		
 	}%>
 

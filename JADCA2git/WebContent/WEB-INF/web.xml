@@ -241,4 +241,23 @@
         <servlet-name>TotalSalesDistributionSql</servlet-name>
         <url-pattern>/TotalSalesDistribution</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>checkCartSql</servlet-name>
+        <servlet-class>servlets.checkCartSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>checkCartSql</servlet-name>
+        <url-pattern>/checkCart</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>addToCartSql</servlet-name>
+        <servlet-class>servlets.addToCartSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addToCartSql</servlet-name>
+        <url-pattern>/addToCart</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

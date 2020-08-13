@@ -173,12 +173,10 @@ header {
 						paymentType = uBean.getPaymentType();
 						cardNumber = uBean.getCardNumber();
 						userid = (String) session.getAttribute("id");
-						session.setAttribute("userid", userid);
-						
+						session.setAttribute("userid", userid);						
 						session.setAttribute("userData",uBean);
 
-					} catch (Exception e) {
-						System.out.println("idiot");
+					} catch (Exception e) {						
 						e.printStackTrace();
 					}
 

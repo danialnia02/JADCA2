@@ -92,8 +92,7 @@
 			while (rs.next()) {				
 				 out.print("<option value='" + rs.getString("categoryName") + "'>" + rs.getString("categoryName")
 						+ "</option>"); 
-			}
-			;
+			};
 
 			out.print("</select>");
 
