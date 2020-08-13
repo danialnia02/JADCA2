@@ -45,14 +45,14 @@
 	Gson gsonObj = new Gson();
 	int count = 1;
 	ArrayList<String> spendingStats = new ArrayList<String>();
-	
+	out.print("<ul id=list>");
 	try {
 		while(customerDetail.next()) {
 			String role = customerDetail.getString("role");
 			if(role.equals("customer")) {
+				out.print("<li class=items>");
 				out.print("<button class='accordion'>"+customerDetail.getString("username")+"</button>");
 				out.print("<div class='panel'>");
-				out.print("<div> test </div>");
 				out.print("<div style='display:flex;'>");
 				out.print("<div style='width:40%'>");
 				out.print("<div style='border-bottom:1px solid gray'><b>Customer details </b></div>");
@@ -60,6 +60,8 @@
 				out.print("<div>Delivery address: "+ customerDetail.getString("deliveryAddress")+" </div>");
 				out.print("<div>Postal code: "+ customerDetail.getString("postalCode") +"</div>");		
 				out.print("<div>Payment type: " + customerDetail.getString("paymentType") + "</div>");	
+				out.print("<div class='totalSpent'>Total spent: $" + customerDetail.getString("TotalAmountSpent") + "</div>");	
+
 				out.print("</div>");
 				
 				out.print("<div style='width:60%'>");
@@ -68,6 +70,7 @@
 				out.print("</div>");
 				out.print("</div>");
 				out.print("</div>");
+				out.print("</li>");
 				count++;
 			}
 		}
@@ -77,6 +80,7 @@
 		e.printStackTrace();
 		
 	}
+	out.print("</ul>");
 	return spendingStats;
 }
 
@@ -111,10 +115,18 @@
 }
 %>
 <body>
-	<% ArrayList<String> test = displayCustomerDetails(out,customerDetails,customerSpending); %>
-	<%System.out.println(test); %>
-	<div id="spendingChart" style="height: 370px; width: 100%;"></div>  
+<div style="color:white; display:flex; justify-content:center;"><h1><b>Customers</b></h1></div>
+<div style="display:flex;justify-content:space-evenly; margin-bottom:0.5rem;">
+	<button id="sortSpending" onclick="sortByTotalSpent()">Sort spending in descending order</button>
+	<button id="sortSpend" onclick="">Sort Date in descending order</button>	
+</div>
+
+<% ArrayList<String> test = displayCustomerDetails(out,customerDetails,customerSpending); %>
+
+
 </body>
+
+
 <style>
 
 #myInput {
@@ -188,6 +200,16 @@
   transition: max-height 0.2s ease-out;
 }
 
+#fixedbutton {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem; 
+    text-decoration: none;
+    border: none;
+    border-radius: 50%;
+    padding: 25px;
+}
+
 
 </style>
 
@@ -197,9 +219,7 @@ window.onload = function() {
 	<% int length = test.size(); %>
 	var length = <%= length %>
 	var hi = <%=test %>
-console.log(hi[1])
 for(var i = 0; i < length; i++){
-	console.log(i)
 var chart = new CanvasJS.Chart("spendingChart" + (i+1), {
 	animationEnabled: true,
 	title:{
@@ -222,6 +242,81 @@ var chart = new CanvasJS.Chart("spendingChart" + (i+1), {
 	chart.render();
 }
 }
+
+function trimSpending(spending) {
+	let trimSpending = spending.replace("Total spent: $","");
+	return trimSpending
+}
+
+function sortByTotalSpent() {
+	let list = document.getElementById("list");
+	let test = document.getElementsByClassName("totalSpent");
+	switching = true;
+	let temp = list.getElementsByClassName("items");
+	var sortType = document.getElementById("sortSpending").textContent;
+
+	if(sortType === "Sort spending in descending order") {
+	 while (switching) {
+			    // start by saying: no switching is done:
+			   	
+			    switching = false;
+			    for (i = 0; i < (test.length - 1); i++) {
+			      // start by saying there should be no switching:
+			      shouldSwitch = false;
+			      /* check if the next item should
+			      switch place with the current item: */
+			      
+			      if (Number(trimSpending(test[i].innerHTML)) > Number(trimSpending(test[i+1].innerHTML))) {
+			        /* if next item is numerically
+			        lower than current item, mark as a switch
+			        and break the loop: */
+			        shouldSwitch = true;
+			        break;
+			      }
+			    }
+			    if (shouldSwitch) {
+			      /* If a switch has been marked, make the switch
+			      and mark the switch as done: */
+			      
+			      list.insertBefore(temp[i + 1], temp[i]);
+			      switching = true;
+			    }
+			  }
+	 	document.getElementById("sortSpending").textContent = "Sort spending in ascending order"
+
+	} else {
+		 while (switching) {
+			    // start by saying: no switching is done:
+			   	
+			    switching = false;
+			    for (i = 0; i < (test.length - 1); i++) {
+			      // start by saying there should be no switching:
+			      shouldSwitch = false;
+			      /* check if the next item should
+			      switch place with the current item: */
+			      
+			      if (Number(trimSpending(test[i].innerHTML)) < Number(trimSpending(test[i+1].innerHTML))) {
+			        /* if next item is numerically
+			        lower than current item, mark as a switch
+			        and break the loop: */
+			        shouldSwitch = true;
+			        break;
+			      }
+			    }
+			    if (shouldSwitch) {
+			      /* If a switch has been marked, make the switch
+			      and mark the switch as done: */
+			      
+			      list.insertBefore(temp[i + 1], temp[i]);
+			      switching = true;
+			    }
+			  }
+		 document.getElementById("sortSpending").textContent = "Sort spending in descending order"
+
+	}
+}
+	
+
 	
 var acc = document.getElementsByClassName("accordion");
 var i;
@@ -237,6 +332,8 @@ for (i = 0; i < acc.length; i++) {
     } 
   });
 }
+
+
 
 </script>
 
