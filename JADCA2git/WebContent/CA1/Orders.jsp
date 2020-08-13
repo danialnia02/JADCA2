@@ -33,7 +33,6 @@ session.setAttribute("userData", userData);
 
 	request.getRequestDispatcher("../TrackingOrderID").include(request, response);
 	ResultSet trackingOrder = (ResultSet) request.getAttribute("TrackingOrder");
-	orders(out,trackingOrder);
 	
 %>
 <%!
@@ -60,12 +59,12 @@ session.setAttribute("userData", userData);
 				out.print("<li class='trackingID' value='"+listOfCartItems.get(i).get(1)+"'>");
 				out.print("<button type='button' class='collapsible'>Tracking id :"+ listOfCartItems.get(i).get(1)+"</button>");
 				out.print("<div class='content'>");
-				out.print("<p>Customer ID: "+listOfCartItems.get(i).get(6)+"</p>");
+				out.print("<p class='customerID'>Customer ID: "+listOfCartItems.get(i).get(6)+"</p>");
 				out.print("<p class='datePurchased'>Date of purchase: "+listOfCartItems.get(i).get(2)+"</p>");
 				out.print("	<ul class='productList'> Product List");
 					for(int y = 0; y<listOfCartItems.size(); y++){
 							if(listOfCartItems.get(i).get(1).equals(listOfCartItems.get(y).get(1))){
-								out.print("<li class=product>" +listOfCartItems.get(y).get(3) +" </li>");
+								out.print("<li>" +listOfCartItems.get(y).get(3) +": "+listOfCartItems.get(y).get(7)+" </li>" );
 								totalPrice += Double.parseDouble(listOfCartItems.get(y).get(5));
 							}
 						}
@@ -79,12 +78,12 @@ session.setAttribute("userData", userData);
 
 				out.print("<button type='button' class='collapsible'>Tracking id :"+ listOfCartItems.get(i).get(1)+"</button>");
 				out.print("<div class='content'>");
-				out.print("<p>Customer ID: "+listOfCartItems.get(i).get(6)+"</p>");
+				out.print("<p class='customerID'>Customer ID: "+listOfCartItems.get(i).get(6)+"</p>");
 				out.print("<p class='datePurchased'>Date of purchase: "+listOfCartItems.get(i).get(2)+"</p>");
 				out.print("	<ul class='productList'>Product List ");
 					for(int y = 0; y<listOfCartItems.size(); y++){
 							if(listOfCartItems.get(i).get(1).equals(listOfCartItems.get(y).get(1))){
-								out.print("<li>" +listOfCartItems.get(y).get(3) +" </li>");
+								out.print("<li>" +listOfCartItems.get(y).get(3) +": "+listOfCartItems.get(y).get(7)+" </li>" );
 								totalPrice += Double.parseDouble(listOfCartItems.get(y).get(5));
 							}
 						}
@@ -101,16 +100,57 @@ session.setAttribute("userData", userData);
 }
 %>
 <body>
+<div style="display:flex">
+	<h1 style="color:white; margin:auto; ">Orders by customers</h1>	
+</div>
 
-
-<button id="sortID" onclick="sortByTrackingID()">Sort ID in descending order</button>
-<button id="sortDate" onclick="sortByDate()">Sort Date in descending order</button>
-<button> test3 </button>
 <input type="text" id="myInput" onkeyup="filterByProduct()" placeholder="Search for products">
+<input type="number" id="searchCustomerID" onkeyup="searchByCustomerID()" placeholder="Search for customer">
+
+
+<div style="display:flex;justify-content:space-evenly; margin-bottom:0.5rem;">
+	<button id="sortID" onclick="sortByTrackingID()">Sort ID in descending order</button>
+	<button id="sortDate" onclick="sortByDate()">Sort Date in descending order</button>	
+</div>
+<% 	orders(out,trackingOrder); %>
+
 
 </body>
 
 <style>
+body{
+	margin:0;
+	padding:0;
+	overflow-x:hidden;
+}
+#myInput, #searchCustomerID {
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+#sortID, #sortDate {
+	color: #fff !important;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: #ed3330;
+	padding: 20px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
+}
+
+#sortID:hover,#sortDate:hover {
+	background: #434343;
+	letter-spacing: 1px;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
+}
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
   background-color: #eee;
@@ -127,7 +167,7 @@ session.setAttribute("userData", userData);
 .collapsible:after {
   content: '\02795'; /* Unicode character for "plus" sign (+) */
   font-size: 13px;
-  color: white;
+  color: black;
   float: right;
   margin-left: 5px;
 }
@@ -144,7 +184,8 @@ session.setAttribute("userData", userData);
 /* Style the collapsible content. Note: hidden by default */
 .content {
   padding: 0 18px;
-  background-color: white;
+  background-color:#333333;
+  color:white;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
@@ -176,7 +217,7 @@ function filterByProduct() {
 	let order = list.getElementsByClassName("trackingID");
 	
 	for(let i = 0; i < productList.length; i++){
-		for(let f = 0; f < productList[i].children.length; f++){
+		for(let f = 0; f < productList[i].children.length; f++) {
 			if(productList[i].children[f].textContent.toUpperCase().indexOf(filter) > -1){
 
 				order[i].style.display = "";
@@ -262,6 +303,26 @@ function sortByDate() {
 				  }
 			 document.getElementById("sortDate").textContent = "Sort Date in descending order"
 		}
+	
+}
+
+function searchByCustomerID() {
+	var list = document.getElementById("orders");
+	var order = list.getElementsByClassName("trackingID");
+	var test = document.getElementsByClassName("customerID");
+
+	input = document.getElementById("searchCustomerID");
+
+	let filter = input.value.toUpperCase();
+	for(let i = 0; i < test.length; i++){
+		let ID = test[i].innerText.replace("Customer ID: ","");
+		
+		if(ID.indexOf(filter) > -1) {
+			order[i].style.display = "";
+		} else {
+			order[i].style.display = "none";
+		}
+	}
 	
 }
 
