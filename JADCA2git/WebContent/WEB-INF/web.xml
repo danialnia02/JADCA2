@@ -241,4 +241,13 @@
         <servlet-name>TotalSalesDistributionSql</servlet-name>
         <url-pattern>/TotalSalesDistribution</url-pattern>
     </servlet-mapping>
+    
+        <servlet>
+        <servlet-name>TrackingOrderSql</servlet-name>
+        <servlet-class>servlets.TrackingOrderID</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrackingOrderSql</servlet-name>
+        <url-pattern>/TrackingOrder</url-pattern>
+    </servlet-mapping>
 </web-app>
