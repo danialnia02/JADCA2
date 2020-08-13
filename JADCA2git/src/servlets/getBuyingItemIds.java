@@ -1,27 +1,24 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.sql.*;
 import dbaccess.database;
-
 /**
- * Servlet implementation class currentCartSql2
+ * Servlet implementation class getBuyingItemIds
  */
-@WebServlet("/currentCartSql2")
-public class currentCartSql2 extends HttpServlet {
+@WebServlet("/getBuyingItemIds")
+public class getBuyingItemIds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public currentCartSql2() {
+    public getBuyingItemIds() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,13 +28,13 @@ public class currentCartSql2 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		database udatabase= new database();
 		try {
-			database udatabase = new database();
-			String userId = (String) request.getAttribute("userId");				
-
-			ResultSet rs = udatabase.currentCartSql2(userId);
-			request.setAttribute("currentCartSql2", rs);
-		} catch (Exception e) {
+			String userId= (String) request.getAttribute("userId");
+			ResultSet rs =udatabase.getBuyingItemIds(userId);
+			request.setAttribute("getBuyingItemIds",rs);
+		}catch(Exception e) {
+			System.out.println("error getBuyingItemIds");
 			e.printStackTrace();
 		}
 	}

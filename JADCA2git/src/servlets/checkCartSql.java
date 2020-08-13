@@ -36,8 +36,7 @@ public class checkCartSql extends HttpServlet {
 			ResultSet rs= udatabase.checkCartSql(id,itemId);				
 			request.setAttribute("checkCartSql",rs);			
 			
-		}catch(Exception e) {
-		System.out.println("here223223432");
+		}catch(Exception e) {		
 		e.printStackTrace();		
 		}
 	}

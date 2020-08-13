@@ -686,8 +686,6 @@ public class database {
 			int number = pstmt.executeUpdate();
 			if(number>0) {
 				System.out.println("updated an item in cart "+currentCartId);
-			}else {
-				System.out.println("error updating item in cart");
 			}
 			
 		}catch(Exception e) {
@@ -714,6 +712,63 @@ public class database {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public ResultSet getBuyingItemIds(String userId) throws SQLException{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);			
+			PreparedStatement pstmt=null;			
+			pstmt=conn.prepareStatement("Select * from cart c,cartdetails cd where c.cartId=cd.cartId and c.userId=? and c.status='viewing'");
+			pstmt.setString(1, userId);
+			
+			ResultSet rs= pstmt.executeQuery();
+			
+			return rs;			
+		}catch(Exception e) {
+			System.out.println("backend error for get BuyingItemIds");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void minusItemSql(int itemQuantity, int productId) throws SQLException{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt= null;
+			pstmt=conn.prepareStatement("update product set StockQuantity= StockQuantity - ? where productId=?");
+			pstmt.setInt(1, itemQuantity);
+			pstmt.setInt(2, productId);
+			int number = pstmt.executeUpdate();
+			if(number>0) {
+				System.out.println("Updated item id :"+productId);
+			}
+			
+			
+		}catch(Exception e) {
+			System.out.println("backend error for error deleting item from sql");
+			e.printStackTrace();
+		}		
+	}
+	
+	public void changeToBoughtSql(String userId,String cartId) throws SQLException{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt= null;
+			pstmt=conn.prepareStatement("update cart set status = 'bought' where userId=? and cartId=?");
+			pstmt.setString(1, userId);
+			pstmt.setString(2, cartId);
+			
+			int number = pstmt.executeUpdate();
+			if(number>0) {
+				System.out.println("Updated cartid :"+cartId);
+			}
+		}catch(Exception e) {
+			System.out.println("backend error for changeToboughtSql");
+			e.printStackTrace();
+		}
 	}
 	
 	

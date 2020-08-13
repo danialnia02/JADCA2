@@ -1,47 +1,51 @@
 <%@page import="java.sql.*"%>
+<%@page import="models.users"%>
 
 <%
-	try {	
-	
-	String noItemsBuying = (String) session.getAttribute("noItemsBuying");
-	System.out.println(noItemsBuying);
+	try {
+	users userInfo = (users) session.getAttribute("userData");
+	String userid = userInfo.getUserId();
 
-	String userid = (String) session.getAttribute("id");
-	System.out.println("userid: "+userid);
-	
 	//get the number of items buying
-	ResultSet res=getBuyingItemIds(out,userid,conn);
-	
-	res.next();
-	int count=0;
-	do{
-		//save the item id as ItemId	
-		int itemId=Integer.parseInt(res.getString("productId"));
-		int ItemQuantity=Integer.parseInt(res.getString("itemQuantity"));
-		
-		//get the quantity for said item
-		ResultSet rest=EditProduct(out,itemId,conn);
-		rest.next();
-		int StockQuantity=(Integer.parseInt(rest.getString("StockQuantity")));
-				
-		//code to update the product table for new quantity
-			if (ItemQuantity < StockQuantity) {
-				minusItem(out, ItemQuantity, itemId, conn);
-			}
-		count++;
-	}while(res.next());
+	request.setAttribute("userId", userid);
+	request.getRequestDispatcher("../getBuyingItemIds").include(request, response);
+	ResultSet getBuyingItemIds = (ResultSet) request.getAttribute("getBuyingItemIds");
 
-	//code to clear the cart
-	Statement stmt = conn.createStatement();
-	PreparedStatement pstmt = conn.prepareStatement("DELETE from cart where buyerId=?");
-	pstmt.setInt(1, Integer.parseInt(userid));
-	int number = pstmt.executeUpdate();
-	if (number > 0)
-		out.println(number + " records updated!");
+	int count = 0;
+	String cartId="";
+	while (getBuyingItemIds.next()) {
+		//save the item id as ItemId	
+		int productId = Integer.parseInt(getBuyingItemIds.getString("productId"));
+		int itemQuantity = Integer.parseInt(getBuyingItemIds.getString("itemQuantity"));		
+		cartId= getBuyingItemIds.getString("cartId");		
+
+		request.setAttribute("itemId", Integer.toString(productId));
+
+		//get the quantity for said item in product table		
+		request.getRequestDispatcher("../EditProductSQL").include(request, response);
+		ResultSet rest = (ResultSet) request.getAttribute("EditProductSQL");		
+		rest.next();
+		int StockQuantity = (Integer.parseInt(rest.getString("StockQuantity")));		
+
+		//code to update the product table for new quantity
+		if (itemQuantity < StockQuantity) {
+
+		request.setAttribute("productId", productId);
+		request.setAttribute("itemQuantity", itemQuantity);
+		request.getRequestDispatcher("../minusItemSql").include(request, response);
+
+		}
+		count++;
+	}
+	;
+
+	//code to change the cart of the user to bought
+	request.setAttribute("userId", userid);
+	request.setAttribute("cartId", cartId);
+	request.getRequestDispatcher("../changeToBoughtSql").include(request, response);
 
 	response.sendRedirect("MainPage.jsp");
 } catch (Exception e) {
 	System.err.println("Error :" + e);
 }
 %>
-

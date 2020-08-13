@@ -258,6 +258,7 @@
         <servlet-name>addToCartSql</servlet-name>
         <url-pattern>/addToCart</url-pattern>
     </servlet-mapping>
+    
         <servlet>
         <servlet-name>TrackingOrderSql</servlet-name>
         <servlet-class>servlets.TrackingOrderID</servlet-class>
@@ -265,5 +266,23 @@
     <servlet-mapping>
         <servlet-name>TrackingOrderSql</servlet-name>
         <url-pattern>/TrackingOrder</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getBuyingItemIds</servlet-name>
+        <servlet-class>servlets.getBuyingItemIds</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBuyingItemIds</servlet-name>
+        <url-pattern>/getBuyingItemId</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>changeToBoughtSql</servlet-name>
+        <servlet-class>servlets.changeToBoughtSql</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changeToBoughtSql</servlet-name>
+        <url-pattern>/changeToBought</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -33,8 +33,7 @@ public class currentCartSql extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			database udatabase = new database();
-			String userId = (String) request.getAttribute("userId");	
-			System.out.println(userId);
+			String userId = (String) request.getAttribute("userId");				
 
 			ResultSet rs = udatabase.currentCartSql(userId);
 			request.setAttribute("currentCartSql", rs);

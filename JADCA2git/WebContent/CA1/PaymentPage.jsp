@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="./css/Cart.css">
 <head>
 <meta charset="ISO-8859-1">
-<title>Cart</title>
+<title>Payment Page</title>
 </head>
 <body>
 	<h1 class=backButton>
@@ -71,13 +71,12 @@
 	ResultSet currentCartSql2 = (ResultSet) request.getAttribute("currentCartSql2");
 	request.setAttribute("userId", id);
 
-	//
 
 	int itemsBuying = ItemsBuying(out, currentCartSql, currentCartSql2);
 	//session.setAttribute("noItemsBuying",Integer.toString(itemsBuying));
 	%>
 
-	<div style="display: flex;">
+	<div style="margin:auto">
 		<div id="productCol">
 			<%
 				itemCart(out, currentCartSql);
@@ -90,6 +89,15 @@
 			<%
 				totalPrice(out, currentCartSql3, currentCartSql4);
 			%>
+			<div style="display: block; width: 100%;">
+				<input type="text" name="username" placeholder="First Name" required>
+			</div>
+			<div style="display: block; width: 100%;">
+				<input type="text" name="lastName" placeholder="Last Name" required>
+			</div>
+			<div style="display: block; width: 100%;">
+				<input type="number" name="creditCard" placeholder="Credit Card Number" min=16 required>
+			</div>
 			<div style="display: block; width: 100%;">
 				<a href="BuyItem.jsp" class="checkoutBtn"><b>Checkout</b></a>
 			</div>
@@ -207,7 +215,8 @@ body {
 }
 
 #productCol {
-	width: 100%;
+	align-items:center;
+	width: 80%;
 	display: flex;
 	flex-direction: column;
 	margin-top: 4%;
@@ -243,9 +252,9 @@ body {
 }
 
 .container {
-	width: 30%;
+	align-items:center;
+	width: 40%;
 	display: block;
-	float: right;
 	margin: 5%;
 	background-color: #161618;
 }
