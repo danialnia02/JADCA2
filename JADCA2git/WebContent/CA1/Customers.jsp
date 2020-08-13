@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.sql.*"%>
+<%@ page import="com.google.gson.Gson"%>
+<%@ page import="com.google.gson.JsonObject"%>
+<%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
@@ -13,39 +15,87 @@
 </head>
 
 <%
-users userData = (users) session.getAttribute("userData");
-session.setAttribute("userData", userData);
-
-try {
-if (userData.getRole() == null || userData.getRole().equals("customer")) {
-
-	response.sendRedirect("MainPage.jsp");
-} else if(userData.getRole().equals("admin")) {
-	%> <%@ include file="Header.jsp"%> <% 
-} else {
-	%> <%@ include file="RootHeader.jsp"%> <% 
-}
-} catch (Exception e) {
-response.sendRedirect("MainPage.jsp");
-}
-%>
-
-<%!public List<Map<Object,Object>> productStats(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
-	Map<Object,Object> map = null;
-	List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
-	double totalStock = getOverallInventory(out,rs2);
+	
+	users userData = (users) session.getAttribute("userData");
+	session.setAttribute("userData", userData);
 
 	try {
-		while(rs.next()) { 
+		if (userData.getRole() == null || userData.getRole().equals("customer")) {
 
-			String category = rs.getString(1);
-			double stockQuantity = Double.parseDouble(rs.getString(2));
-			int stockPercentage = (int)Math.round((stockQuantity/totalStock)*100);
-			map = new HashMap<Object,Object>(); 
-			map.put("Label", category); 
-			map.put("y", stockPercentage); 
-			list.add(map);
+		response.sendRedirect("MainPage.jsp");
+		} else if(userData.getRole().equals("admin")) {
+			%> <%@ include file="Header.jsp"%> <% 
+		} else {
+			%> <%@ include file="RootHeader.jsp"%> <% 
+		}
+	} catch (Exception e) {
+	response.sendRedirect("MainPage.jsp");
+}
 
+	request.getRequestDispatcher("../CustomerDetails").include(request, response);
+	ResultSet customerDetails = (ResultSet) request.getAttribute("customerDetails");
+	
+	request.getRequestDispatcher("../customerSpending").include(request, response);
+	ResultSet customerSpending = (ResultSet) request.getAttribute("CustomerSpending");
+	
+	
+%>
+<%! public void displayCustomerDetails(JspWriter out, ResultSet customerDetail, ResultSet customerSpending) throws java.io.IOException {
+
+	try {
+		while(customerDetail.next()) {
+			String role = customerDetail.getString("role");
+			if(role.equals("customer")) {
+				out.print("<button class='accordion'>"+customerDetail.getString("username")+"</button>");
+				out.print("<div class='panel'>");
+				out.print("<div> test </div>");
+				out.print("<div style='display:flex;'>");
+				out.print("<div style='width:40%'>");
+				out.print("<div style='border-bottom:1px solid gray'><b>Customer details </b></div>");
+				out.print("<div>Phone number: "+customerDetail.getString("phoneNumber")+" </div>");
+				out.print("<div>Delivery address: "+ customerDetail.getString("deliveryAddress")+" </div>");
+				out.print("<div>Postal code: "+ customerDetail.getString("postalCode") +"</div>");		
+				out.print("<div>Payment type: " + customerDetail.getString("paymentType") + "</div>");	
+				out.print("</div>");
+				
+				out.print("<div style='width:60%'>");
+				out.print("test");
+				out.print("</div>");
+				out.print("</div>");
+				out.print("</div>");
+			}
+		}
+		
+		
+	} catch(Exception e) {
+		e.printStackTrace();
+		
+	}
+}
+
+%>
+	
+ <%!public List<Map<Object,Object>> spendingStats(JspWriter out, int customerID, double totalSpending, ResultSet customerSpending) throws java.io.IOException {
+	Map<Object,Object> map = null;
+	List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
+	double totalSales = 0;
+	
+	try {
+		customerSpending.beforeFirst();
+		while(customerSpending.next()) {
+			int userID = Integer.parseInt(customerSpending.getString("userId"));
+			if(userID == customerID){
+				
+				 	String category = customerSpending.getString("categoryName");
+					double salesFromCategory = Double.parseDouble(customerSpending.getString("TotalAmountSpent"));
+					int salesPercentage = (int)Math.round((salesFromCategory/totalSpending)*100);
+					
+					map = new HashMap<Object,Object>(); 
+					map.put("Label", category); 
+					map.put("y", salesPercentage); 
+					list.add(map);			
+					}
+		
 		}
 	} catch(Exception e){
 		e.printStackTrace();
@@ -53,80 +103,8 @@ response.sendRedirect("MainPage.jsp");
 	return list;
 }
 %>
-	
-<%!public double getOverallInventory(JspWriter out, ResultSet rs) throws java.io.IOException {
-	double totalProduct = 0;
-	try {
-		while(rs.next()) {
-			
-			totalProduct = Double.parseDouble(rs.getString(2));
-			
-		}
-}catch(Exception e){
-		e.printStackTrace();
-	}
-	return totalProduct;
-}
-	%>
-
-	
-<%!public void getColumnNames(JspWriter out, ResultSet rs) throws java.io.IOException {
-		try {
-			int counter = 0;			
-			
-			out.print("<tr class='header'>");
-			while (rs.next() && counter < 2) {
-				
-				out.print("<th>" + rs.getString("Column") + "</th>");
-				counter++;
-			}
-		} catch (Exception e) {
-			System.out.println("here2");
-			e.printStackTrace();
-		}
-		out.print("</tr>");
-	}%>
-	
-	<%!public void getIndivdualProduct(JspWriter out, ResultSet rs) throws java.io.IOException {
-		try {
-			//code to get all existing products			
-			while (rs.next()) {
-				int stockQuantity = Integer.parseInt(rs.getString("stockQuantity"));
-				if(stockQuantity <= 5) {
-					out.print("<tr class='low'><td>" + rs.getString("productId") + "</td>" + "<td>" + rs.getString("ProductName")
-					+ "</td>"
-					+ "<td><form action='deleteProduct.jsp?'>" + " <input type='hidden' name='itemId' value="
-					+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
-					+ "</form>" + "<td><form action='EditProduct.jsp?'>"
-					+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
-					+ "<input type='submit' class='updateBtn' value='Edit'>" + "</form>");
-					
-				} else {
-					
-					out.print("<tr><td>" + rs.getString("productId") + "</td>" + "<td>" + rs.getString("ProductName")
-					+ "</td>"
-					+ "<td><form action='deleteProduct.jsp?'>" + " <input type='hidden' name='itemId' value="
-					+ rs.getString("productId") + ">" + "<input type='submit' class='deleteBtn' value='Delete'>"
-					+ "</form>" + "<td><form action='EditProduct.jsp?'>"
-					+ " <input type='hidden' name='editProduct' value=" + rs.getString("productId") + ">"
-					+ "<input type='submit' class='updateBtn' value='Edit'>" + "</form>");
-					
-				}
-				
-				
-			}
-		} catch (Exception e) {
-			System.out.println("here3");
-			e.printStackTrace();
-		}
-		;
-	}%>
 <body>
-  <input type="text" id="myInput" onkeyup="searchProduct()" placeholder="Search for products">
- <table id="myTable">
-				
-				
-	</table>
+	<% displayCustomerDetails(out,customerDetails,customerSpending); %>
 
 </body>
 <style>
@@ -165,31 +143,65 @@ response.sendRedirect("MainPage.jsp");
   background-color: #f1f1f1;
 }
 
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+
 </style>
 
-<script>
-<script>
-function searchProduct() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
 
-  for (i = 0; i < tr.length; i++) {
+<script type="text/javascript">
 
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
+	
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
 }
-document.addEventListener("DOMContentLoaded", searchProduct);
+
 </script>
 
 </html>

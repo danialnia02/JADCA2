@@ -602,6 +602,40 @@ public class database {
 		}
 		return null;
 	}
+	
+	public ResultSet customerDetails() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement(" select u.userId, u.username,u.role,u.phoneNumber,u.deliveryAddress,u.postalCode,u.paymentType,u.cardNumber, sum(cd.itemQuantity * cd.priceEach) as TotalAmountSpent from cart c, user u, cartdetails cd where u.userId=c.userId and c.cartId = cd.cartId group by u.userId",
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+				    ResultSet.CONCUR_READ_ONLY);
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ResultSet customerSpendingPerCategory() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("select u.userId , p.categoryName ,sum(cd.itemQuantity * cd.priceEach) as TotalAmountSpent from cart c, user u, cartdetails cd,product p\r\n" + 
+					"where u.userId=c.userId and c.cartId = cd.cartId and p.productId = cd.productId and c.status='bought' group by u.userId,p.categoryName",
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+				    ResultSet.CONCUR_READ_ONLY);
+			
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public ResultSet checkCurrentCart(String cartId,String itemId) throws SQLException {
 		return null;
 	}
