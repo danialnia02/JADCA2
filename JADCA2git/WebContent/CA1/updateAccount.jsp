@@ -23,7 +23,7 @@ try{
 		UpdateAccount(out,id,role,conn);	
 	}	
 	conn.close(); */
-	response.sendRedirect("RootPage.jsp");
+	response.sendRedirect("Roles.jsp");
 }catch(Exception e){
 	System.err.println("Error :" + e);
 }
