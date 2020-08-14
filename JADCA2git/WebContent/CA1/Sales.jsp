@@ -323,10 +323,9 @@ window.onload = function() {
   <div id="salesChart" style="height: 370px; width: 100%;"></div>  
 
 </div>
-
+</div>
 </main>
   <footer class="footer"></footer>
-</div>
 
 </body>
 

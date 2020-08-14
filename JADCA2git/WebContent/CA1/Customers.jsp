@@ -51,14 +51,14 @@
 			String role = customerDetail.getString("role");
 			if(role.equals("customer")) {
 				out.print("<li class=items>");
-				out.print("<button class='accordion'>"+customerDetail.getString("username")+"</button>");
+				out.print("<button class='accordion'> Customer ID:"+customerDetail.getString("username")+"</button>");
 				out.print("<div class='panel'>");
 				out.print("<div style='display:flex;'>");
 				out.print("<div style='width:40%'>");
 				out.print("<div style='border-bottom:1px solid gray'><b>Customer details </b></div>");
 				out.print("<div>Phone number: "+customerDetail.getString("phoneNumber")+" </div>");
 				out.print("<div>Delivery address: "+ customerDetail.getString("deliveryAddress")+" </div>");
-				out.print("<div>Postal code: "+ customerDetail.getString("postalCode") +"</div>");		
+				out.print("<div class='postalCode'>Postal code: "+ customerDetail.getString("postalCode") +"</div>");		
 				out.print("<div>Payment type: " + customerDetail.getString("paymentType") + "</div>");	
 				out.print("<div class='totalSpent'>Total spent: $" + customerDetail.getString("TotalAmountSpent") + "</div>");	
 
@@ -117,50 +117,69 @@
 <body>
 <div style="color:white; display:flex; justify-content:center;"><h1><b>Customers</b></h1></div>
 <div style="display:flex;justify-content:space-evenly; margin-bottom:0.5rem;">
-	<button id="sortSpending" onclick="sortByTotalSpent()">Sort spending in descending order</button>
-	<button id="sortSpend" onclick="">Sort Date in descending order</button>	
 </div>
-
-<% ArrayList<String> test = displayCustomerDetails(out,customerDetails,customerSpending); %>
-
+	<div style="display:flex;"> 
+		<div id ="customerList">
+		<% ArrayList<String> test = displayCustomerDetails(out,customerDetails,customerSpending); %>
+		
+		</div>
+		
+		<div id="buttons"> 
+			<label><b>Postal Code</b></label>
+			<input type="number" id="searchCustomerPostalCode" onkeyup="searchByPostalCode()" placeholder="Search for postal code">
+			<button id="sortSpending" onclick="sortByTotalSpent()">Sort spending in descending order</button>
+			
+		</div>
+	</div>
 
 </body>
 
 
 <style>
 
-#myInput {
-  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
-  background-position: 10px 12px; /* Position tde search icon */
-  background-repeat: no-repeat; /* Do not repeat the icon image */
-  width: 100%; /* Full-width */
+#sortSpending {
+	color: #fff !important;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: #ed3330;
+	padding: 20px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
+	width:100%;
+	margin-bottom:3%;
+}
+
+#sortSpending:hover{
+	background: #434343;
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+}
+
+#customerList {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#buttons {
+	width: 35%;
+	max-width: 35%;
+	display: block;
+	float: right;
+	margin: 5%;
+	color: white;
+	max-height: 200px;
+}
+
+#searchCustomerPostalCode {
+  width: 80%; /* Full-width */
   font-size: 16px; /* Increase font-size */
   padding: 12px 20px 12px 40px; /* Add some padding */
   border: 1px solid #ddd; /* Add a grey border */
   margin-bottom: 12px; /* Add some space below the input */
-}
-
-#myTable {
-	
-  border-collapse: collapse; /* Collapse borders */
-  width: 100%; /* Full-width */
-  border: 1px solid #ddd; /* Add a grey border */
-  font-size: 18px; /* Increase font-size */
-}
-
-#myTable th, #myTable td {
-  text-align: left; /* Left-align text */
-  padding: 12px; /* Add padding */
-}
-
-#myTable tr {
-  /* Add a bottom border to all table rows */
-  border-bottom: 1px solid #ddd;
-}
-
-#myTable tr.header, #myTable tr:hover {
-  /* Add a grey background color to the table header and on hover */
-  background-color: #f1f1f1;
 }
 
 .accordion {
@@ -241,6 +260,32 @@ var chart = new CanvasJS.Chart("spendingChart" + (i+1), {
 });
 	chart.render();
 }
+}
+
+function searchByPostalCode() {
+	input = document.getElementById("searchCustomerPostalCode");
+
+	let filter = input.value.toUpperCase();
+	let productList = document.getElementsByClassName("items");
+	let list = document.getElementsByClassName("postalCode");
+	console.log(productList)
+	
+	for(let i = 0; i < list.length; i++){
+			if(trimPostalCode(list[i].textContent.toUpperCase()).indexOf(filter) > -1){
+
+				productList[i].style.display = "";
+				break;
+			} else {
+				productList[i].style.display = "none";
+			}
+		
+		
+	}
+}
+
+function trimPostalCode(postalCode){
+	let trimPostalCode = postalCode.replace("Postal code: ","");
+	return trimPostalCode;
 }
 
 function trimSpending(spending) {

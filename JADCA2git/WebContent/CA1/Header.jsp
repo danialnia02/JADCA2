@@ -26,7 +26,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Montserrat', sans-serif;
-	background: 3030FE;
+	background: #27282E;
 }
 
 ul {

@@ -104,30 +104,56 @@ session.setAttribute("userData", userData);
 	<h1 style="color:white; margin:auto; ">Orders by customers</h1>	
 </div>
 
-<input type="text" id="myInput" onkeyup="filterByProduct()" placeholder="Search for products">
-<input type="number" id="searchCustomerID" onkeyup="searchByCustomerID()" placeholder="Search for customer">
+<div style="display:flex;">
+	<div id ="orderList">
+		<% 	orders(out,trackingOrder); %>
+		
+	</div>
+	
+	<div id="buttons"> 
+			<label><b>Product</b></label>
+			<input type="text" id="myInput" onkeyup="filterByProduct()" placeholder="Search for products">
+			<label><b>Customer ID</b></label>
+			<input type="number" id="searchCustomerID" onkeyup="searchByCustomerID()" placeholder="Search for customer">
+			<button id="sortID" onclick="sortByTrackingID()">Sort ID in descending order</button>
+			<button id="sortDate" onclick="sortByDate()">Sort Date in descending order</button>	
+		</div>
 
-
-<div style="display:flex;justify-content:space-evenly; margin-bottom:0.5rem;">
-	<button id="sortID" onclick="sortByTrackingID()">Sort ID in descending order</button>
-	<button id="sortDate" onclick="sortByDate()">Sort Date in descending order</button>	
 </div>
-<% 	orders(out,trackingOrder); %>
 
 </body>
 
 <style>
-body{
+body {
 	margin:0;
 	padding:0;
 	overflow-x:hidden;
 }
+
+#orderList {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-top: 4%;
+	margin-left: 2%;
+}
+
+#buttons {
+	width: 35%;
+	max-width: 35%;
+	display: block;
+	float: right;
+	margin: 5%;
+	color: white;
+	max-height: 200px;
+}
+
 #myInput, #searchCustomerID {
-  width: 100%; /* Full-width */
+  width: 80%; /* Full-width */
   font-size: 16px; /* Increase font-size */
   padding: 12px 20px 12px 40px; /* Add some padding */
   border: 1px solid #ddd; /* Add a grey border */
-  margin-bottom: 12px; /* Add some space below the input */
+  margin-bottom: 1rem; /* Add some space below the input */
 }
 
 #sortID, #sortDate {
@@ -140,16 +166,14 @@ body{
 	display: inline-block;
 	border: none;
 	transition: all 0.4s ease 0s;
+	margin-bottom: 1rem;
 }
 
-#sortID:hover,#sortDate:hover {
+#sortID:hover, #sortDate:hover {
 	background: #434343;
-	letter-spacing: 1px;
-	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
-	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
-	transition: all 0.4s ease 0s;
 }
+
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
   background-color: #eee;
