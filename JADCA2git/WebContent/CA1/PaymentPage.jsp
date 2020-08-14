@@ -6,29 +6,11 @@
 <%@page import="java.io.InputStreamReader"%>
 <%@page import="java.net.URL"%>
 
-<%@page import="java.math.BigDecimal"%>
-<%@page import="org.json.JSONException"%>
-<%@page import="org.junit.BeforeClass"%>
-<%@page import="org.testng.Assert"%>
-<%@page import="org.testng.annotations.Test"%>
-<%@page import ="com.ritaja.xchangerate.api.CurrencyConverter"%>
-<%@page import ="com.ritaja.xchangerate.api.CurrencyConverterBuilder"%>
-<%@page import ="com.ritaja.xchangerate.api.CurrencyConverterBuilder"%>
-<%@page import ="com.ritaja.xchangerate.api.CurrencyNotSupportedException"%>
-<%@page import ="com.ritaja.xchangerate.endpoint.EndpointException"%>
-<%@page import ="com.ritaja.xchangerate.service.ServiceException"%>
-<%@page import ="com.ritaja.xchangerate.storage.StorageException"%>
-<%@page import ="com.ritaja.xchangerate.util.Currency"%>
-<%@page import ="com.ritaja.xchangerate.util.Strategy"%>
-
-<%@ page import="org.json.simple.JSONObject"%>
-<%@ page import="org.json.simple.JSONValue"%>
 
 
 
 
 
- 
 
 <!DOCTYPE html>
 <html>
@@ -57,11 +39,7 @@
 
 
 	<%		
-	
-	CurrencyConverter converter = new CurrencyConverterBuilder().strategy(Strategy.YAHOO_FINANCE_FILESTORE).buildConverter();
-	converter.setRefreshRateSeconds(86400);	
-	
-		users userData = (users) session.getAttribute("userData");
+	users userData = (users) session.getAttribute("userData");
 	session.setAttribute("userData", userData);
 
 	try {
@@ -102,11 +80,19 @@
 	request.getRequestDispatcher("../currentCartSql2").include(request, response);
 	ResultSet currentCartSql2 = (ResultSet) request.getAttribute("currentCartSql2");
 	request.setAttribute("userId", id);
+	
+	request.getRequestDispatcher("../IndividualAccountSql2").include(request, response);
+	ResultSet IndividualAccountSql2= (ResultSet) request.getAttribute("IndividualAccountSql2");
+	String ccNumber="";
+	try{
+		IndividualAccountSql2.next();
+		ccNumber=IndividualAccountSql2.getString("cardNumber");
+	}catch(Exception e){
+		System.out.println("Card Number doesnt exist");
+		ccNumber="";
+	}
 
 	int itemsBuying = ItemsBuying(out, currentCartSql, currentCartSql2);
-		
-	
-	
 	%>
 
 	<div style="margin: auto">
@@ -114,63 +100,59 @@
 			<%
 				itemCart(out, currentCartSql);
 			%>
-			
+
 			<div class="container">
-			<div class="cartHeader">Cart Summary</div>
-			<%
-				totalPrice(out, currentCartSql3, currentCartSql4);
-			%>
-			<form action="" style="text-align: center;" method="get">
+				<div class="cartHeader">Cart Summary</div>
+				<%
+					double totalPrice = totalPrice(out, currentCartSql3, currentCartSql4);
+				%>
+				<form action="BuyItem.jsp" style="text-align: center;" method="post">
 
-  			<ul class="form-style-1">
-    <li><label>Full Name <span class="required">*</span></label><input type="text" name="field1" class="field-divided" placeholder="First" /> <input type="text" name="field2" class="field-divided" placeholder="Last" /></li>
-    <li>
-        <label>Credit Card Number <span class="required">*</span></label>
-        <input type="email" name="field3" class="field-long" />
-    </li>
-    <li>
-        <label>Subject</label>
-        <select name="field4" class="field-select">
-        <option value="Advertise">Advertise</option>
-        <option value="Partnership">Partnership</option>
-        <option value="General Question">General</option>
-        </select>
-    </li>
-    
-</ul>
-  			
-			</form>
-			<div style="display: block; width: 100%;">
-				<a href="BuyItem.jsp" class="checkoutBtn"><b>Checkout</b></a>
+					<ul class="form-style-1">
+						<li><label>Full Name <span class="required">*</span></label>
+							<input type="text" name="field1" class="field-divided"
+							placeholder="First" /> <input type="text" name="field2"
+							class="field-divided" placeholder="Last" /></li>
+						<li><label>Credit Card Number <span class="required">*</span></label>
+							<input type="number" name="ccNumber" class="field-long" value=<%=ccNumber %> min="1" required/></li>
+
+						<li><label>Currency</label> <select name="currency"
+							class="field-select">
+								<option value="SGD">SGD</option>
+								<option value="USD">USD</option>
+								<option value="EUR">EUR</option>
+								<option value="KRW">KRW</option></li>
+					</ul>
+					<input type="submit" class="checkoutBtn" value="Checkout">
+				</form>
 			</div>
-		</div>
-			
+
 
 		</div>
 
-		
+
 	</div>
 
 </body>
 
 <!-- return the total number of items in the cart -->
 <%!public int CartNumberItems(JspWriter out, ResultSet rs) throws java.io.IOException {
-	//currentCartSql
+		//currentCartSql
 
-	try {
-		int totalproducts = 0;
-		rs.next();
-		do {
-			//System.out.println(totalproducts + " counting");
-			totalproducts += (Integer.parseInt(rs.getString("itemQuantity")));
-		} while (rs.next());
-		return totalproducts;
-	} catch (Exception e) {
-		System.out.println("here1");
-		e.printStackTrace();
-	}
-	return 0;
-}%>
+		try {
+			int totalproducts = 0;
+			rs.next();
+			do {
+				//System.out.println(totalproducts + " counting");
+				totalproducts += (Integer.parseInt(rs.getString("itemQuantity")));
+			} while (rs.next());
+			return totalproducts;
+		} catch (Exception e) {
+			System.out.println("here1");
+			e.printStackTrace();
+		}
+		return 0;
+	}%>
 <!--  Get the total number of id of buying items -->
 <%!public int ItemsBuying(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 		//currentCartSql2
@@ -190,7 +172,7 @@
 		return 0;
 	}%>
 
-<%!public void totalPrice(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
+<%!public double totalPrice(JspWriter out, ResultSet rs, ResultSet rs2) throws java.io.IOException {
 		//currentCartSql
 		try {
 			//rs.next();
@@ -213,26 +195,28 @@
 			out.print("<h3 class=priceText>Total Product Price</h3>");
 			out.print("<div class='price'>$" + totalPrice + "</div>");
 			out.print("</div>");
-			
+
 			out.print("<div class=totalQuantityRow>");
 			out.print("<h3 class=priceText>Delivery fee</h3>");
 			out.print("<div class='price'>$" + (totalProducts * 2) + "</div>");
 			out.print("</div>");
-			
+
 			out.print("<div class=priceRow>");
 			out.print("<h3 class=priceText>GST</h3>");
 			out.print("<div class='price'>$" + GST + "</div>");
 			out.print("</div>");
-			
+
 			out.print("<div class=priceRow style='margin-bottom:0.25rem;'>");
 			out.print("<h3 class=priceText>Total Price</h3>");
 			out.print("<div class='price'>$" + finalPrice + "</div>");
 			out.print("</div>");
 
+			return finalPrice;
 		} catch (Exception e) {
 			System.out.println("here3");
 			e.printStackTrace();
 		}
+		return 0;
 	}%>
 
 <%!public void itemCart(JspWriter out, ResultSet rs) throws java.io.IOException {
@@ -268,8 +252,8 @@ body {
 	background: #27282e;
 }
 
-input{
-	width:80%
+input {
+	width: 80%
 }
 
 #productContainer {
@@ -381,88 +365,89 @@ input{
 }
 
 .form-style-1 {
-	margin:10px auto;
+	margin: 10px auto;
 	max-width: 550px;
 	padding: 20px 12px 10px 20px;
 	font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
+
 .form-style-1 li {
 	padding: 0;
 	display: block;
 	list-style: none;
 	margin: 10px 0 0 0;
 }
-.form-style-1 label{
-	color:white;
-	margin:0 0 3px 0;
-	padding:0px;
-	display:block;
+
+.form-style-1 label {
+	color: white;
+	margin: 0 0 3px 0;
+	padding: 0px;
+	display: block;
 	font-weight: bold;
 }
-.form-style-1 input[type=text], 
-.form-style-1 input[type=date],
-.form-style-1 input[type=datetime],
-.form-style-1 input[type=number],
-.form-style-1 input[type=search],
-.form-style-1 input[type=time],
-.form-style-1 input[type=url],
-.form-style-1 input[type=email],
-textarea, 
-select{
+
+.form-style-1 input[type=text], .form-style-1 input[type=date],
+	.form-style-1 input[type=datetime], .form-style-1 input[type=number],
+	.form-style-1 input[type=search], .form-style-1 input[type=time],
+	.form-style-1 input[type=url], .form-style-1 input[type=email],
+	textarea, select {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	border:1px solid #BEBEBE;
+	border: 1px solid #BEBEBE;
 	padding: 7px;
-	margin:0px;
+	margin: 0px;
 	-webkit-transition: all 0.30s ease-in-out;
 	-moz-transition: all 0.30s ease-in-out;
 	-ms-transition: all 0.30s ease-in-out;
 	-o-transition: all 0.30s ease-in-out;
-	outline: none;	
+	outline: none;
 }
-.form-style-1 input[type=text]:focus, 
-.form-style-1 input[type=date]:focus,
-.form-style-1 input[type=datetime]:focus,
-.form-style-1 input[type=number]:focus,
-.form-style-1 input[type=search]:focus,
-.form-style-1 input[type=time]:focus,
-.form-style-1 input[type=url]:focus,
-.form-style-1 input[type=email]:focus,
-.form-style-1 textarea:focus, 
-.form-style-1 select:focus{
+
+.form-style-1 input[type=text]:focus, .form-style-1 input[type=date]:focus,
+	.form-style-1 input[type=datetime]:focus, .form-style-1 input[type=number]:focus,
+	.form-style-1 input[type=search]:focus, .form-style-1 input[type=time]:focus,
+	.form-style-1 input[type=url]:focus, .form-style-1 input[type=email]:focus,
+	.form-style-1 textarea:focus, .form-style-1 select:focus {
 	-moz-box-shadow: 0 0 8px #88D5E9;
 	-webkit-box-shadow: 0 0 8px #88D5E9;
 	box-shadow: 0 0 8px #88D5E9;
 	border: 1px solid #88D5E9;
 }
-.form-style-1 .field-divided{
+
+.form-style-1 .field-divided {
 	width: 49%;
 }
 
-.form-style-1 .field-long{
+.form-style-1 .field-long {
 	width: 100%;
 }
-.form-style-1 .field-select{
+
+.form-style-1 .field-select {
 	width: 100%;
 }
-.form-style-1 .field-textarea{
+
+.form-style-1 .field-textarea {
 	height: 100px;
 }
-.form-style-1 input[type=submit], .form-style-1 input[type=button]{
+
+.form-style-1 input[type=submit], .form-style-1 input[type=button] {
 	background: #4B99AD;
 	padding: 8px 15px 8px 15px;
 	border: none;
 	color: #fff;
 }
-.form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
+
+.form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover
+	{
 	background: #4691A4;
-	box-shadow:none;
-	-moz-box-shadow:none;
-	-webkit-box-shadow:none;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
 }
-.form-style-1 .required{
-	color:red;
+
+.form-style-1 .required {
+	color: red;
 }
 </style>
 </html>

@@ -261,7 +261,6 @@
 
 	</servlet-mapping>
 
-
 	<servlet>
 		<servlet-name>TrackingOrderSql</servlet-name>
 		<servlet-class>servlets.TrackingOrderID</servlet-class>
@@ -304,5 +303,14 @@
 		<servlet-mapping>
 			<servlet-name>CustomerSpendingSql</servlet-name>
 			<url-pattern>/customerSpending</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>IndividualAccountSql2</servlet-name>
+			<servlet-class>servlets.IndividualAccountSql2</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>IndividualAccountSql2</servlet-name>
+			<url-pattern>/IndividualAccount2</url-pattern>
 		</servlet-mapping>
 </web-app>

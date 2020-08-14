@@ -313,6 +313,22 @@ public class database {
 		}
 		return null;
 	}
+	
+	public ResultSet IndividualAccountSql2(String userId) throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(connURL);
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user where userId=?");
+			pstmt.setString(1,userId);
+			ResultSet rs = pstmt.executeQuery();
+			return rs;
+
+		} catch (Exception e) {
+			System.out.println("error getting individual account info");
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public ResultSet getNoOfDistinctRoles() throws SQLException {
 		try {

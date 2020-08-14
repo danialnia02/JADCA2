@@ -91,7 +91,7 @@
 				totalPrice(out, currentCartSql3, currentCartSql4);
 			%>
 			<div style="display: block; width: 100%;">
-				<a href="BuyItem.jsp" class="checkoutBtn"><b>Checkout</b></a>
+				<a href="PaymentPage.jsp" class="checkoutBtn"><b>Checkout</b></a>
 			</div>
 		</div>
 

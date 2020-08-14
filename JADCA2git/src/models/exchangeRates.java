@@ -13,7 +13,7 @@ import java.io.*;
 
 public class exchangeRates {
 
-	String url_str = "https://prime.exchangerate-api.com/v5/2864049c6b06741b289bc19f/latest/USD";
+	String url_str = "https://prime.exchangerate-api.com/v5/2864049c6b06741b289bc19f/latest/SGD";
 
 	public double exchangeRates(String rate) {
 		
