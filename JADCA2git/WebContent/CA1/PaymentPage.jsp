@@ -6,6 +6,30 @@
 <%@page import="java.io.InputStreamReader"%>
 <%@page import="java.net.URL"%>
 
+<%@page import="java.math.BigDecimal"%>
+<%@page import="org.json.JSONException"%>
+<%@page import="org.junit.BeforeClass"%>
+<%@page import="org.testng.Assert"%>
+<%@page import="org.testng.annotations.Test"%>
+<%@page import ="com.ritaja.xchangerate.api.CurrencyConverter"%>
+<%@page import ="com.ritaja.xchangerate.api.CurrencyConverterBuilder"%>
+<%@page import ="com.ritaja.xchangerate.api.CurrencyConverterBuilder"%>
+<%@page import ="com.ritaja.xchangerate.api.CurrencyNotSupportedException"%>
+<%@page import ="com.ritaja.xchangerate.endpoint.EndpointException"%>
+<%@page import ="com.ritaja.xchangerate.service.ServiceException"%>
+<%@page import ="com.ritaja.xchangerate.storage.StorageException"%>
+<%@page import ="com.ritaja.xchangerate.util.Currency"%>
+<%@page import ="com.ritaja.xchangerate.util.Strategy"%>
+
+<%@ page import="org.json.simple.JSONObject"%>
+<%@ page import="org.json.simple.JSONValue"%>
+
+
+
+
+
+ 
+
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="./css/Cart.css">
@@ -31,7 +55,12 @@
 		</a>
 	</h1>
 
-	<%
+
+	<%		
+	
+	CurrencyConverter converter = new CurrencyConverterBuilder().strategy(Strategy.YAHOO_FINANCE_FILESTORE).buildConverter();
+	converter.setRefreshRateSeconds(86400);	
+	
 		users userData = (users) session.getAttribute("userData");
 	session.setAttribute("userData", userData);
 
@@ -75,8 +104,8 @@
 	request.setAttribute("userId", id);
 
 	int itemsBuying = ItemsBuying(out, currentCartSql, currentCartSql2);
+		
 	
-	System.out.println("Euro/US Dollar: " + convertExchangeRate("EUR", "USD", 1000));
 	
 	%>
 
@@ -318,4 +347,6 @@ body {
 }
 </style>
 </html>
+
+
 
