@@ -1,4 +1,5 @@
-	<%@page import="java.sql.*"%>	
+	<%@page import="java.sql.*"%>
+	<%@page import="java.io.*"%>		
 	<%@page import="models.product"%>
 	<%
 	try{
@@ -9,7 +10,8 @@
 		String Stock = request.getParameter("stock");
 		String categoryName = request.getParameter("categoryName");		
 		String itemId= request.getParameter("itemId");
-		String imgLocation = request.getParameter("image");		
+		String imgLocation= request.getParameter("imgLocation");		
+		
 		product updatedProduct= new product();
 		
 		updatedProduct.setProductId(itemId);

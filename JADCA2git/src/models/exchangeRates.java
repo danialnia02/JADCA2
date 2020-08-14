@@ -41,5 +41,4 @@ public class exchangeRates {
 		}			
 		return 0;
 	}
-
 }

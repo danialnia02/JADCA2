@@ -12,7 +12,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
 	rel="stylesheet" />
-<body style="background: #27282E">	
+<body style="background: #27282E">
 
 	<%
 		if ((String) session.getAttribute("role") == null || (Boolean) session.getAttribute("role").equals("customer")) {
@@ -88,7 +88,7 @@
 
 
 		<div class="contact-form">
-			<form action="EditProductLogic.jsp" method="post">
+			<form action="../FileUploadSql" method="post"  enctype="multipart/form-data">
 				<div id="imgContainer">
 					<img src="<%=productInfo.getImageLocation()%>">
 				</div>
@@ -130,11 +130,9 @@
 				</div>
 
 				<div class="txtb">
-					<label>Image location :</label> <input type="text" name="image"
-						placeholder="Enter an image"
-						value=<%=productInfo.getImageLocation()%> required>
-						
-						<input type=hidden name=itemId value=<%=productInfo.getProductId()%>>
+					<label>Image :</label> <input type="file" name="image"
+						required> <input type=hidden name=ProductId
+						value=<%=productInfo.getProductId()%>>
 				</div>
 				<input class="btn" type="submit" value="Update product">
 

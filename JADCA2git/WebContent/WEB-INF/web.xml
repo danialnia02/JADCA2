@@ -313,4 +313,13 @@
 			<servlet-name>IndividualAccountSql2</servlet-name>
 			<url-pattern>/IndividualAccount2</url-pattern>
 		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>FileUploadSql</servlet-name>
+			<servlet-class>servlets.FileUploadSql</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>FileUploadSql</servlet-name>
+			<url-pattern>/FileUpload</url-pattern>
+		</servlet-mapping>
 </web-app>
