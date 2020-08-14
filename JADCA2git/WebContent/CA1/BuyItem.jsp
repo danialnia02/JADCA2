@@ -7,11 +7,15 @@
 	String userid = userInfo.getUserId();
 	String ccNumber = request.getParameter("ccNumber");
 	String currency=request.getParameter("currency");	
-
+	
+	if(ccNumber.length() <16){
+		response.sendRedirect("PaymentPage.jsp?errCode=not16");
+	}
 	boolean ccValid = creditCardCheck(ccNumber);
+	
 
 	if (ccValid == false) {		
-		response.sendRedirect("PaymentPage.jsp");
+		response.sendRedirect("PaymentPage.jsp?errCode=InvalidCard");
 	} else {
 
  		//get the number of items buying

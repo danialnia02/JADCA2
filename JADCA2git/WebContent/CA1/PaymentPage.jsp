@@ -13,11 +13,21 @@
 
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="./css/Cart.css">
 <head>
 <meta charset="ISO-8859-1">
 <title>Payment Page</title>
 </head>
+
+<%
+String errorCode = request.getParameter("errCode");
+if(errorCode == null) {
+
+} else if(errorCode.equals("not16")){
+	out.print("<script> window.addEventListener('load', (event) => { alert('Credit Card digits must be more than 16 digits!')});</script>");
+} else if(errorCode.equals("InvalidCard")){
+	out.print("<script> window.addEventListener('load', (event) => { alert('Invalid credit card!')});</script>");
+} 
+%>
 <body>
 	<h1 class=backButton>
 		<a href="MainPage.jsp" style="color: white; text-decoration: none;">
@@ -56,8 +66,11 @@
 	%>
 
 	<%
+	
 	users userData = (users) session.getAttribute("userData");
 	session.setAttribute("userData", userData);
+	
+	
 	
 	try {
 		if (userData.getRole() == null || !userData.getRole().equals("customer")) {
