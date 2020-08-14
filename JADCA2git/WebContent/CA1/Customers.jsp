@@ -4,8 +4,6 @@
 <%@ page import="com.google.gson.JsonObject"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List"%>
 <%@page import=" models.users"%>
 <!DOCTYPE html>
 <html>
@@ -38,7 +36,6 @@
 	
 	request.getRequestDispatcher("../customerSpending").include(request, response);
 	ResultSet customerSpending = (ResultSet) request.getAttribute("CustomerSpending");
-	
 	
 %>
 <%! public ArrayList<String> displayCustomerDetails(JspWriter out, ResultSet customerDetail, ResultSet customerSpending) throws java.io.IOException {
@@ -74,7 +71,6 @@
 				count++;
 			}
 		}
-		
 		
 	} catch(Exception e) {
 		e.printStackTrace();

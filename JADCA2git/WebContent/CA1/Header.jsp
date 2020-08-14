@@ -162,7 +162,7 @@ header {
 					String paymentType = null;
 					try {
 						users uBean = (users) session.getAttribute("userData");
-						;
+						
 						// all of userInfo
 						username = uBean.getUsername();
 						role = uBean.getRole();

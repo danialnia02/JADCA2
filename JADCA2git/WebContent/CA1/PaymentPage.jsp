@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ page import="com.google.gson.Gson"%>
+<%@ page import="com.google.gson.JsonObject"%>
 <%@page import="java.sql.*"%>
 <%@page import="models.users"%>
+<%@page import="models.exchangeRates"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.InputStreamReader"%>
 <%@page import="java.net.URL"%>
-
-
-
-
-
+<%@ page import="java.util.*"%>
 
 
 <!DOCTYPE html>
@@ -36,24 +35,41 @@
 			Back
 		</a>
 	</h1>
+	<%!
+		public String getConversion(String SGD, double totalPrice) {
+		Gson gsonObj = new Gson();
+		exchangeRates exchangeRate = new exchangeRates();
+		ArrayList<String> countries = new ArrayList<String>();
+		HashMap<String, Double> currency = new HashMap<String, Double>();
+		countries.add("USD");
+		countries.add("EUR");
+		countries.add("MYR");
+		
+		for (int i = 0; i < countries.size(); i++) {
+			double convertedRate = exchangeRate.exchangeRates(countries.get(i));
+			currency.put(countries.get(i), convertedRate);
+		}
+		currency.put(SGD, totalPrice);
+		String array = gsonObj.toJson(currency);
+		return array;
+	}
+	%>
 
-
-	<%		
+	<%
 	users userData = (users) session.getAttribute("userData");
 	session.setAttribute("userData", userData);
-
+	
 	try {
 		if (userData.getRole() == null || !userData.getRole().equals("customer")) {
-
 			response.sendRedirect("MainPage.jsp");
 		}
 	} catch (Exception e) {
 		response.sendRedirect("MainPage.jsp");
 	}
 	String username = userData.getUsername();
-	;
+
 	String role = userData.getRole();
-	;
+
 	String id = userData.getUserId();
 
 	request.setAttribute("userId", id);
@@ -80,16 +96,16 @@
 	request.getRequestDispatcher("../currentCartSql2").include(request, response);
 	ResultSet currentCartSql2 = (ResultSet) request.getAttribute("currentCartSql2");
 	request.setAttribute("userId", id);
-	
+
 	request.getRequestDispatcher("../IndividualAccountSql2").include(request, response);
-	ResultSet IndividualAccountSql2= (ResultSet) request.getAttribute("IndividualAccountSql2");
-	String ccNumber="";
-	try{
+	ResultSet IndividualAccountSql2 = (ResultSet) request.getAttribute("IndividualAccountSql2");
+	String ccNumber = "";
+	try {
 		IndividualAccountSql2.next();
-		ccNumber=IndividualAccountSql2.getString("cardNumber");
-	}catch(Exception e){
+		ccNumber = IndividualAccountSql2.getString("cardNumber");
+	} catch (Exception e) {
 		System.out.println("Card Number doesnt exist");
-		ccNumber="";
+		ccNumber = "";
 	}
 
 	int itemsBuying = ItemsBuying(out, currentCartSql, currentCartSql2);
@@ -105,6 +121,7 @@
 				<div class="cartHeader">Cart Summary</div>
 				<%
 					double totalPrice = totalPrice(out, currentCartSql3, currentCartSql4);
+					String currency = getConversion("SGD", totalPrice);
 				%>
 				<form action="BuyItem.jsp" style="text-align: center;" method="post">
 
@@ -114,26 +131,26 @@
 							placeholder="First" /> <input type="text" name="field2"
 							class="field-divided" placeholder="Last" /></li>
 						<li><label>Credit Card Number <span class="required">*</span></label>
-							<input type="number" name="ccNumber" class="field-long" value=<%=ccNumber %> min="1" required/></li>
+							<input id="creditCardInput" type="number" name="ccNumber" class="field-long"
+							value=<%=ccNumber%> min="1" required /></li>
 
-						<li><label>Currency</label> <select name="currency"
-							class="field-select">
+						<li><label>Currency</label> 
+						<select name="currency" class="field-select" onchange="checkCurrency()">
 								<option value="SGD">SGD</option>
 								<option value="USD">USD</option>
 								<option value="EUR">EUR</option>
-								<option value="KRW">KRW</option></li>
+								<option value="MYR">MYR</option>
+						</select>
+						</li>
+
 					</ul>
-					<input type="submit" class="checkoutBtn" value="Checkout">
+					<input type="submit" class="checkoutBtn" value="Checkout" onSubmit="validateLength()">
 				</form>
 			</div>
-
-
 		</div>
-
-
 	</div>
-
 </body>
+
 
 <!-- return the total number of items in the cart -->
 <%!public int CartNumberItems(JspWriter out, ResultSet rs) throws java.io.IOException {
@@ -450,6 +467,39 @@ input {
 	color: red;
 }
 </style>
+
+<script>
+function checkCurrency() {
+	var test = <%=currency %>
+	
+	var priceList = document.getElementsByClassName("price")
+	var e = document.getElementsByClassName("field-select");
+	if(e.currency.options[e.currency.selectedIndex].value==="SGD") {
+		priceList[3].textContent = "$"+test.SGD;
+	} else if(e.currency.options[e.currency.selectedIndex].value==="USD") {
+		priceList[3].textContent = "(Converted to USD)$" + +(test.USD * test.SGD).toFixed(2);
+	} else if(e.currency.options[e.currency.selectedIndex].value==="EUR") {
+		priceList[3].textContent = "(Converted to Euro)$" + +(test.EUR * test.SGD).toFixed(2);
+	} else if(e.currency.options[e.currency.selectedIndex].value==="MYR") {
+		priceList[3].textContent = "(Converted to Malaysian Ringgit) $" + +(test.MYR * test.SGD).toFixed(2);
+	} 
+}
+
+function validateLength() {
+	 // check if input is bigger than 3
+	 var value = document.getElementById('creditCardInput').value;
+	 if (value.length < 16) {
+		 console.log("gg")
+	   return false; // keep form from submitting
+	 }
+	console.log("ok")
+	 // else form is good let it submit, of course you will 
+	 // probably want to alert the user WHAT went wrong.
+
+	 return true;
+	}
+	
+</script>
 </html>
 
 
