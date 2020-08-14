@@ -66,10 +66,7 @@
 			
 			out.print("</select>");
 			
-			while(count<countToRepeat){				
-				
-				count++;
-			}
+			
 			
 
 		} catch (Exception e) {
