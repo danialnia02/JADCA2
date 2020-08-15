@@ -322,4 +322,13 @@
 			<servlet-name>FileUploadSql</servlet-name>
 			<url-pattern>/FileUpload</url-pattern>
 		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>transactionPageSql</servlet-name>
+			<servlet-class>servlets.transactionPageSql</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>transactionPageSql</servlet-name>
+			<url-pattern>/transactionPage</url-pattern>
+		</servlet-mapping>
 </web-app>
