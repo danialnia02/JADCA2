@@ -111,7 +111,7 @@ if(errorCode == null) {
 	request.setAttribute("userId", id);
 
 	request.getRequestDispatcher("../IndividualAccountSql2").include(request, response);
-	ResultSet IndividualAccountSql2 = (ResultSet) request.getAttribute("IndividualAccountSql2");
+	ResultSet IndividualAccountSql2 = (ResultSet) request.getAttribute("userId");
 	String ccNumber = "";
 	try {
 		IndividualAccountSql2.next();

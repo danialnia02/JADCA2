@@ -59,7 +59,7 @@ Back</a></h1>
 				</div>
 				
 				<div class="txtb">
-					<label>cardNumber :</label> <input type="text" name="cardNumber"
+					<label>cardNumber :</label> <input type="number" name="cardNumber"
 						value="<%=userData.getCardNumber() %>"
 						required>
 				</div>
