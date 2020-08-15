@@ -133,6 +133,8 @@
 					<label>Image :</label> <input type="file" name="image"
 						required> <input type=hidden name=ProductId
 						value=<%=productInfo.getProductId()%>>
+						<input type = hidden name = function
+						value ="update">
 				</div>
 				<input class="btn" type="submit" value="Update product">
 

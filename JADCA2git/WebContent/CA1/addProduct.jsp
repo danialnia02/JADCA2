@@ -35,7 +35,7 @@
 		<h1>Add product</h1>
 
 		<div class="contact-form">
-			<form action="addProductLogic.jsp" method="post">
+			<form action="../FileUploadSql" method="post" enctype="multipart/form-data">
 				<div id="imgContainer">
 					<img src="img/ramenlogo.jpeg">
 				</div>
@@ -72,8 +72,9 @@
 				</div>
 
 				<div class="txtb">
-					<label>Image location :</label> <input type="text" name="image"
-						placeholder="Enter an image" value="img/noImg.jpg" required>
+					<label>Image location :</label> <input type="file" name="image"
+						required>
+						<input type="hidden" name = "function" value = "addProduct">
 				</div>
 				<input class="btn" type="submit" value="Send">
 			</form>
@@ -87,7 +88,7 @@
 
 		try {
 						
-			out.print("<select name='CategoryName' class='select-css' size='1'>");
+			out.print("<select name='categoryName' class='select-css' size='1'>");
 			
 			while (rs.next()) {				
 				 out.print("<option value='" + rs.getString("categoryName") + "'>" + rs.getString("categoryName")

@@ -43,14 +43,14 @@ public class FileUploadSql extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		String productName = "", description = "", ProductId = "", DetailDescription = "", Price = "",
-				categoryName = "", stock = "", imgURL = "";
+				categoryName = "", stock = "", imgURL = "", function = "";
 
 		try {
 			List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 
 			for (FileItem item : multiparts) {
 				if (!item.isFormField()) {
-					String name = new File(item.getName()).getName();					
+					String name = new File(item.getName()).getName();
 					item.write(new File(this.getServletContext().getRealPath("/CA1/img") + File.separator + name));
 					imgURL = "img/" + name;
 				} else {
@@ -70,20 +70,33 @@ public class FileUploadSql extends HttpServlet {
 					case "categoryName":
 						categoryName = item.getString();
 						break;
-					case "stock":  
+					case "stock":
 						stock = item.getString();
 						break;
 					case "ProductId":
 						ProductId = item.getString();
 						break;
+					case "function":
+						function = item.getString();
+						break;
 					}
 				}
 			}
+			System.out.println(function);
+
 			database udatabase = new database();
-			ResultSet rs = udatabase.EditProduct2(productName, description, DetailDescription, Price, stock,
-					categoryName, imgURL, ProductId);
-			request.setAttribute("FileUploadSql", rs);
-			response.sendRedirect("/JADCA2git/CA1/MainPage.jsp");
+			
+			if(function.equals("update")) {
+				ResultSet rs = udatabase.EditProduct2(productName, description, DetailDescription, Price, stock,
+						categoryName, imgURL, ProductId);
+				request.setAttribute("FileUploadSql", rs);
+				response.sendRedirect("/JADCA2git/CA1/MainPage.jsp");	
+			}else if(function.equals("addProduct")) {
+				udatabase.addProductLogic(productName,description,DetailDescription,Price,stock,categoryName,imgURL);
+				response.sendRedirect("/JADCA2git/CA1/MainPage.jsp");
+			}
+			
+			
 
 		} catch (Exception e) {
 			System.out.println("error uploading Image");
