@@ -26,17 +26,20 @@
 		} else {
 			input = category;
 			out.print("<h1>Viewing " + category + " products!</h1>");
-		};
+		};		
 		
-		request.getRequestDispatcher("../ListProductSql").include(request,response);
-		ResultSet ListProductSql = (ResultSet)request.getAttribute("ListProductSql");
-		
+		request.getRequestDispatcher("../ListProductSql").include(request,response);		
+		ResultSet ListProductSql = (ResultSet)request.getAttribute("ListProductSql");		
 		myFunction(out,ListProductSql,(String) session.getAttribute("role"));
 		
 	} else {		
+		String searchName=request.getParameter("searchName");
+		request.setAttribute("searchName",searchName);		
 		request.getRequestDispatcher("../SearchSql").include(request,response);
 		ResultSet SearchSql = (ResultSet)request.getAttribute("SearchSql");
-		
+		System.out.println("error searching12");
+		/* SearchSql.next();
+		System.out.println(SearchSql.getString("ProductName")); */
 		searchInput(out,SearchSql,(String)session.getAttribute("role"));
 	}
 	%>
@@ -72,21 +75,20 @@
 			} while (ListProductSql.next());
 			out.print("</div>");			
 		} catch (Exception e) {
+			System.out.println("error searching3");
 			System.err.println("Error :" + e);
 		}
 	}%>
 
 	<%!public void searchInput(JspWriter out, ResultSet SearchSql, String role) throws java.io.IOException {		
 		try {
-						
-			SearchSql.next();
 
 			//needs do while for category to work
 			if(SearchSql == null){
 //				out.print("hello world");
 			}
 			out.print("<div class='flex-container'>");
-			do {
+			while(SearchSql.next()){
 				out.print("<div class='card'> <div>" + "<img src= img/ramenlogo.jpeg alt='"
 						+ SearchSql.getString("ProductName")
 						+ "' style='width:100%; vertical-align: middle; height:100%; min-height:200px;'>" + "</div>"
@@ -103,10 +105,11 @@
 							+ "<input type = hidden name = 'editProduct' value = " + SearchSql.getString("ProductId") + ">"
 							+ "<input id = detailBtn type = submit value = Edit></form>" + "</div>");
 				}
-			} while (SearchSql.next());
+			} 
 			out.print("</div>");
 			// Step 7: Close connection			
 		} catch (Exception e) {
+			System.out.println("error searchin4");
 			System.err.println("Error :" + e);
 		}
 	}%>

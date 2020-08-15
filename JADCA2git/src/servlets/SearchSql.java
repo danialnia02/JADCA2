@@ -28,8 +28,7 @@ public class SearchSql extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		Connection conn = null;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {				
 		try {
 			String search=request.getParameter("searchName");
 			database udatabase = new database();

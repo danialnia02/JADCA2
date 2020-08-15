@@ -191,7 +191,7 @@ header {
 
 			<%
 				if (username == null || role == null) {
-				out.print("<li class =nav-item><a href=Login.jsp>Login</a></li>"
+				out.print("<li class =nav-item><a href=../>Login</a></li>"
 				+ "<li class = nav-item><a href=Register.jsp>Register</a></li>");
 			} else if (role.equals("customer")) {
 				out.print("<li class =nav-item><a href=Cart.jsp>Cart</a>");

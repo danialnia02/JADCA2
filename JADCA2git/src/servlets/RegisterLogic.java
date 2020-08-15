@@ -39,8 +39,7 @@ public class RegisterLogic extends HttpServlet {
 			String deliveryAddress = newAccount.getDeliveryAddress();
 			String postalCode = newAccount.getPostalCode();
 			String paymentType = newAccount.getPaymentType();
-			String cardNumber = newAccount.getCardNumber();
-			
+			String cardNumber = newAccount.getCardNumber();						
 						
 			database udatabase = new database();
 			boolean accountCreated =udatabase.RegisterLogic(username,email,password,phoneNumber,deliveryAddress,postalCode,paymentType,cardNumber);			

@@ -4,8 +4,7 @@ import java.sql.*;
 import models.users;
 
 public class database {
-	// String connURL =
-	// "jdbc:mysql://us-cdbr-east-02.cleardb.com/heroku_74e134f8b35c7fb?user=b3f5d9ea8a0e54&password=59c9e3b1&serverTimezone=UTC";
+	//String connURL = "jdbc:mysql://us-cdbr-east-02.cleardb.com/heroku_74e134f8b35c7fb?user=b3f5d9ea8a0e54&password=59c9e3b1&serverTimezone=UTC";
 	String connURL = "jdbc:mysql://localhost:3306/jaeproject?user=root&password=password&serverTimezone=UTC";
 
 	Connection conn = null;
@@ -138,7 +137,7 @@ public class database {
 			pstmt.setString(1, "%" + input + "%");
 
 			ResultSet rs = pstmt.executeQuery();
-			conn.close();
+			
 			return rs;
 		} catch (Exception e) {
 			System.out.println(e);

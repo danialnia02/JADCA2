@@ -42,7 +42,7 @@
 	</header>
 
 	<h1>
-		<a href="MainPage.jsp" style="color: white; text-decoration: none;">
+		<a href="CA1/MainPage.jsp" style="color: white; text-decoration: none;">
 			<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="26"
 				height="26" viewBox="0 0 172 172" style="fill: #000000;">
 				<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1"
@@ -58,14 +58,14 @@
 		</a>
 	</h1>
 
-	<form class="loginBox" action="loginValidation.jsp" method="post">
+	<form class="loginBox" action="CA1/loginValidation.jsp" method="post">
 		<h1>Login</h1>
 		<input type="text" name="username" placeholder="Username" required>
 		<input type="password" name="password" placeholder="Password" required>
 		<input type="submit" value="Login">
 	</form>
 
-	<form class="registerBox" action="Register.jsp">
+	<form class="registerBox" action="CA1/Register.jsp">
 		<h1>New user? Register here!</h1>
 		<input type="submit" value="Register">
 	</form>
