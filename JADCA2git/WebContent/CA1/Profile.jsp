@@ -78,7 +78,7 @@ Back</a></h1>
     <img src="img/Redemption.jpg" alt="Snow" style="width:75%">
     
   </div>
-	<p style="padding-top:4%;">asdasd</p>
+	<p style="padding-top:4%"></p>
 	
 </div>
 

@@ -45,8 +45,7 @@
 	%>
 
 	<%!public void myFunction(JspWriter out, ResultSet ListProductSql, String role) throws java.io.IOException {
-		
-		
+				
 		try {			
 			
 			ListProductSql.next();
@@ -89,7 +88,7 @@
 			}
 			out.print("<div class='flex-container'>");
 			while(SearchSql.next()){
-				out.print("<div class='card'> <div>" + "<img src= img/ramenlogo.jpeg alt='"
+				out.print("<div class='card'> <div>" + "<img src= "+SearchSql.getString("ImageLocation") + " alt='"
 						+ SearchSql.getString("ProductName")
 						+ "' style='width:100%; vertical-align: middle; height:100%; min-height:200px;'>" + "</div>"
 						+ "<div class='container'>" + "<p style='margin:0;'><b>" + SearchSql.getString("ProductName")
