@@ -9,6 +9,7 @@
 <%@page import="java.io.InputStreamReader"%>
 <%@page import="java.net.URL"%>
 <%@ page import="java.util.*"%>
+<%@page import="org.apache.commons.math3.util.Precision" %>
 
 
 <!DOCTYPE html>
@@ -213,8 +214,10 @@ if(errorCode == null) {
 				totalPrice += (Double.parseDouble(rs2.getString("RetailPrice"))
 						* Double.parseDouble(rs2.getString("itemQuantity")));
 			}
+			totalPrice = Precision.round(totalPrice,2);
 			double deliveryFee = (totalProducts * 2);
-			double GST = Math.round(((totalPrice + deliveryFee) * 1.07) - totalPrice);
+			double GST = Precision.round(((totalPrice + deliveryFee) * 1.07) - totalPrice,2);
+
 			double finalPrice = totalPrice + deliveryFee + GST;
 			out.print("<div class=totalQuantityRow>");
 			out.print("<h3 class=totalQuantityText>Total Quantity</h3>");
@@ -223,7 +226,7 @@ if(errorCode == null) {
 
 			out.print("<div class=totalQuantityRow>");
 			out.print("<h3 class=priceText>Total Product Price</h3>");
-			out.print("<div class='price'>$" + totalPrice + "</div>");
+			out.print("<div class='price'>$" + Precision.round(totalPrice,2) + "</div>");
 			out.print("</div>");
 
 			out.print("<div class=totalQuantityRow>");
