@@ -95,6 +95,16 @@
 					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
 			</plugin>
+			<!-- here -->
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.3</version>
+				<configuration>
+					<appName>jadca2git</appName>
+				</configuration>
+			</plugin>
+			<!-- here -->
 		</plugins>
 	</build>
 
