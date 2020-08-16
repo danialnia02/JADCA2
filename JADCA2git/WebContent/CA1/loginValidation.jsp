@@ -26,10 +26,10 @@
 			session.setAttribute("userData", uBean);
 			response.sendRedirect("MainPage.jsp");
 		} else {
-			response.sendRedirect("Login.jsp");
+			response.sendRedirect("../");
 		}
 	} catch (Exception e) {
-		response.sendRedirect("Login.jsp");
+		response.sendRedirect("../");
 		e.printStackTrace();
 	}
 	%>
