@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
 <%@page import="models.users"%>
+<%@page import="org.apache.commons.math3.util.Precision" %>
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="./css/Cart.css">
@@ -153,7 +154,7 @@
 
 			out.print("<div class=priceRow>");
 			out.print("<h3 class=priceText>Total Price</h3>");
-			out.print("<div class='price'>$" + totalPrice + "</div>");
+			out.print("<div class='price'>$" + Precision.round(totalPrice,2) + "</div>");
 			out.print("</div>");
 
 		} catch (Exception e) {
