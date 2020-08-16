@@ -31,9 +31,9 @@ try{
 	request.getRequestDispatcher("../RegisterLogic").include(request,response);
 	boolean accountCreated = (boolean) request.getAttribute("RegisterLogicSql");
 	if(accountCreated == true){
-		response.sendRedirect("Login.jsp?errCode=true");
+		response.sendRedirect("../");
 	}else{
-		response.sendRedirect("Login.jsp?errCode=invalidLogin");  
+		response.sendRedirect("../");  
 	}	
  } catch (Exception e) {
  out.println("Error :" + e);

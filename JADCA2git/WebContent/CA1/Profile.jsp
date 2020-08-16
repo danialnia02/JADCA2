@@ -13,6 +13,10 @@
 	rel="stylesheet" />
 <body style="background: #27282E">	
 	<%
+	
+	try{
+		
+	
 	users userData = (users) session.getAttribute("userData");
 	String userId=userData.getUserId();
 	session.setAttribute("userId",userId);	
@@ -83,7 +87,13 @@ Back</a></h1>
 </div>
 
 </body>
-
+<%
+	}catch(Exception e){
+		System.out.println("Error gettng user information");
+		//e.printStackTrace();
+		response.sendRedirect("../");
+	}
+%>
 	
 
 <style>
