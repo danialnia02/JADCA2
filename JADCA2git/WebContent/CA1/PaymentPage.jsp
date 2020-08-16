@@ -505,10 +505,8 @@ function validateLength() {
 	 // check if input is bigger than 3
 	 var value = document.getElementById('creditCardInput').value;
 	 if (value.length < 16) {
-		 console.log("gg")
 	   return false; // keep form from submitting
 	 }
-	console.log("ok")
 	 // else form is good let it submit, of course you will 
 	 // probably want to alert the user WHAT went wrong.
 
