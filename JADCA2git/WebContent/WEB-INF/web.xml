@@ -331,4 +331,13 @@
 			<servlet-name>transactionPageSql</servlet-name>
 			<url-pattern>/transactionPage</url-pattern>
 		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>transactionPageSql2</servlet-name>
+			<servlet-class>servlets.transactionPageSql2</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>transactionPageSql2</servlet-name>
+			<url-pattern>/transactionPage2</url-pattern>
+		</servlet-mapping>
 </web-app>

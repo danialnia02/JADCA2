@@ -773,8 +773,26 @@ public class database {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection(connURL);			
 			PreparedStatement pstmt=null;			
-			pstmt=conn.prepareStatement("select * from cart c,cartdetails cd where c.userId=? and c.status='bought' and c.cartId= cd.cartId");
+			pstmt=conn.prepareStatement("select distinct(c.cartId) from cart c,cartdetails cd where c.userId=? and c.status='bought' and c.cartId= cd.cartId"
+					);
 			pstmt.setString(1, userId);			
+			
+			ResultSet rs= pstmt.executeQuery();
+			
+			return rs;			
+					
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public ResultSet transactionPageSql2(String cartId) throws SQLException{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(connURL);			
+			PreparedStatement pstmt=null;			
+			pstmt=conn.prepareStatement("select * from cart c,cartdetails cd,product p where c.cartId=? and c.status='bought' and c.cartId= cd.cartId and cd.productId= p.productId");
+			pstmt.setString(1, cartId);			
 			
 			ResultSet rs= pstmt.executeQuery();
 			

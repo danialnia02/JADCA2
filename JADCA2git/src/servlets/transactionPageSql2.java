@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,17 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dbaccess.database;
 import java.sql.*;
+
 /**
- * Servlet implementation class transactionPageSql
+ * Servlet implementation class transactionPageSql2
  */
-@WebServlet("/transactionPageSql")
-public class transactionPageSql extends HttpServlet {
+@WebServlet("/transactionPageSql2")
+public class transactionPageSql2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public transactionPageSql() {
+    public transactionPageSql2() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,10 +32,10 @@ public class transactionPageSql extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String userId=(String) request.getAttribute("userId");			
+			String cartId=(String) request.getAttribute("cartId");			
 			database udatabase = new database();
-			ResultSet rs = udatabase.transactionPageSql(userId);
-			request.setAttribute("transactionPageSql", rs);
+			ResultSet rs = udatabase.transactionPageSql2(cartId);
+			request.setAttribute("transactionPageSql2", rs);
 		}catch(Exception e) {
 			System.out.println("error getting transction history");
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+<%@page import="java.util.*"%>
 <%@page import="models.users"%>
 <!DOCTYPE html>
 <html>
@@ -11,165 +12,210 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
 	rel="stylesheet" />
-<body style="background: #27282E">	
+<body style="background: #27282E">
+
+
+
 	<%
-	
-	try{
+		try {		
+		users userData = (users) session.getAttribute("userData");
+		String userId = userData.getUserId();
+		session.setAttribute("userId", userId);
+		request.setAttribute("userId", userId);
+
+
 		
-	
-	users userData = (users) session.getAttribute("userData");
-	String userId=userData.getUserId();
-	session.setAttribute("userId",userId);	
-	
-
-	request.getRequestDispatcher("../transactionPage").include(request, response);
-	ResultSet transactionHistory = (ResultSet) request.getAttribute("transactionPageSql");
-	test(out, transactionHistory);
-	%>
-	
-	<%!
-		public void test(JspWriter out, ResultSet rs) throws java.io.IOException{
-		System.out.println("activated");
-
-			try{
-				while(rs.next()){
-					System.out.println("asdas");
-
-					System.out.println(1);
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-	}
 	%>
 
-	
-	<h1 class=backButton><a href="MainPage.jsp" style="color:white; text-decoration:none;">
-<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-width="26" height="26" viewBox="0 0 172 172"style=" fill:#000000;">
-<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M70.08173,86l56.79928,-57.98798c2.53245,-2.58413 2.50661,-6.71875 -0.05169,-9.30288l-10.15565,-10.15565c-2.60997,-2.58413 -6.79628,-2.58413 -9.38041,0.02584l-72.27824,72.74339c-1.29207,1.29206 -1.9381,2.97176 -1.9381,4.67728c0,1.70553 0.64603,3.38522 1.9381,4.67728l72.27824,72.74339c2.58413,2.60997 6.77044,2.60997 9.38041,0.02584l10.15565,-10.15565c2.55829,-2.58413 2.58413,-6.71875 0.05169,-9.30288z"></path></g></g></svg>
-Back</a></h1>
-	
 
-	
+
+
+	<h1 class=backButton>
+		<a href="MainPage.jsp" style="color: white; text-decoration: none;">
+			<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="26"
+				height="26" viewBox="0 0 172 172" style="fill: #000000;">
+<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1"
+					stroke-linecap="butt" stroke-linejoin="miter"
+					stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+					font-family="none" font-weight="none" font-size="none"
+					text-anchor="none" style="mix-blend-mode: normal">
+				<path d="M0,172v-172h172v172z" fill="none"></path>
+				<g fill="#ffffff">
+				<path
+					d="M70.08173,86l56.79928,-57.98798c2.53245,-2.58413 2.50661,-6.71875 -0.05169,-9.30288l-10.15565,-10.15565c-2.60997,-2.58413 -6.79628,-2.58413 -9.38041,0.02584l-72.27824,72.74339c-1.29207,1.29206 -1.9381,2.97176 -1.9381,4.67728c0,1.70553 0.64603,3.38522 1.9381,4.67728l72.27824,72.74339c2.58413,2.60997 6.77044,2.60997 9.38041,0.02584l10.15565,-10.15565c2.55829,-2.58413 2.58413,-6.71875 0.05169,-9.30288z"></path></g></g></svg>
+			Back
+		</a>
+	</h1>
+
+
+
 
 	<section>
 		<h1>Edit Your Profile</h1>
 
 		<div class="contact-form">
-			<form action="UpdateProfile.jsp" method="post">								
-				
+			<form action="UpdateProfile.jsp" method="post">
+
 				<div class="txtb">
-					<label>phoneNumber :</label> <input type="number" name="phoneNumber"
-						value="<%=userData.getPhoneNumber() %>"
+					<label>phoneNumber :</label> <input type="number"
+						name="phoneNumber" value="<%=userData.getPhoneNumber()%>"
 						required>
 				</div>
-				
+
 				<div class="txtb">
-					<label>deliveryAddress :</label> <input type="text" name="deliveryAddress"
-						value="<%=userData.getDeliveryAddress() %>"
+					<label>deliveryAddress :</label> <input type="text"
+						name="deliveryAddress" value="<%=userData.getDeliveryAddress()%>"
 						required>
 				</div>
-				
+
 				<div class="txtb">
 					<label>postalCode :</label> <input type="text" name="postalCode"
-						value="<%=userData.getPostalCode() %>"
-						required>
+						value="<%=userData.getPostalCode()%>" required>
 				</div>
-				
+
 				<div class="txtb">
 					<label>paymentType :</label> <input type="text" name="paymentType"
-						value="<%=userData.getPaymentType() %>"
-						required>
+						value="<%=userData.getPaymentType()%>" required>
 				</div>
-				
+
 				<div class="txtb">
 					<label>cardNumber :</label> <input type="number" name="cardNumber"
-						value="<%=userData.getCardNumber() %>"
-						required>
+						value="<%=userData.getCardNumber()%>" required>
 				</div>
-				
+
 
 				<input class="btn" type="submit" value="Update account">
-				
-			</form>			
+
+			</form>
 		</div>
 
 	</section>
-	
+
 	<div class="transactionTitle">Transaction History</div>
+
+		<%
+		//get the total number of unique cartId that the user has bought
+		request.getRequestDispatcher("../transactionPageSql").include(request, response);
+		ResultSet transactionHistory = (ResultSet) request.getAttribute("transactionPageSql");
+		//get all the information
+		/* request.getRequestDispatcher("../transactionPageSql2").include(request, response);
+		ResultSet transactionHistory2 = (ResultSet) request.getAttribute("transactionPageSql"); */
+				
+		//rs is cartIds, rs2 is all the cart + cartDetails
+		ArrayList<String> cartIds = new ArrayList<String>();
+
+		try {
+			while (transactionHistory.next()) {			
+				cartIds.add(transactionHistory.getString("cartId"));
+			}
+		} catch (Exception e) {
+			System.out.println("errror getting all the cartIds");
+			e.printStackTrace();
+		}
+
+		try {			
+			for (int i = 0; i < cartIds.size(); i++) {				
+				request.setAttribute("cartId",cartIds.get(i));
+				
+				request.getRequestDispatcher("../transactionPageSql2").include(request, response);
+				ResultSet rs2 = (ResultSet) request.getAttribute("transactionPageSql2");
+				
+				out.println("<button class='accordion'>"+cartIds.get(i)+"</button>"
+						+"<div class='panel'>");
+			 while (rs2.next()) {
+				System.out.println(rs2.getString("ProductName"));
+					
+					if(rs2.getString("cartId").equals(cartIds.get(i))) {
+						out.println("<p>"+rs2.getString("ProductName")+
+									"<p>"+rs2.getString("Description")+
+									"<p>"+rs2.getString("RetailPrice")
+									);
+					}
+					
+				}
+			 out.println("</div>");
+			}
+		} catch (Exception e) {
+			System.out.println("Error inserting into each cart with the cart information");
+		}
+		
+		
+
+	%>
 	
-<button class="accordion">Section 1</button>
-<div class="panel">
-  <p>Lorem ipsum...</p>
-</div>
+<!-- 	<button class="accordion">Section 1</button>
+	<div class="panel">
+		<p>Lorem ipsum...</p>
+	</div>
 
-<button class="accordion">Section 2</button>
-<div class="panel">
-  <p>Lorem ipsum...</p>
-</div>
+	<button class="accordion">Section 2</button>
+	<div class="panel">
+		<p>Lorem ipsum...</p>
+	</div>
 
-<button class="accordion">Section 3</button>
-<div class="panel">
-  <p>Lorem ipsum...</p>
-</div>
+	<button class="accordion">Section 3</button>
+	<div class="panel">
+		<p>Lorem ipsum...</p>
+	</div> -->
 
 </body>
+
 <%
-	}catch(Exception e){
-		System.out.println("Error gettng user information");
-		//e.printStackTrace();
-		response.sendRedirect("../");
-	}
+	} catch (Exception e) {
+	System.out.println("Error gettng user information");
+	//e.printStackTrace();
+	response.sendRedirect("../");
+}
 %>
-	
+
+
+
 
 <style>
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  text-align: left;
-  border: none;
-  outline: none;
-  transition: 0.4s;
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	text-align: left;
+	border: none;
+	outline: none;
+	transition: 0.4s;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
-  background-color: #ccc;
+	background-color: #ccc;
 }
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
-  padding: 0 18px;
-  background-color: white;
-  display: none;
-  overflow: hidden;
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+	overflow: hidden;
 }
 
 .row {
-  display: flex;
-  border-style: solid;
-  margin: 0 10% 0 10%;
+	display: flex;
+	border-style: solid;
+	margin: 0 10% 0 10%;
 }
 
-
-h1.backButton{
-	display:block;
-	margin:0;
+h1.backButton {
+	display: block;
+	margin: 0;
 }
 
-.column{
+.column {
 	margin: 3% 0 3% 10%;
 }
 
 p {
-	color:black;
+	color: black;
 	font-size: 24px;
 }
 
@@ -179,7 +225,6 @@ h1 {
 	justify-content: center;
 	margin: 5% auto;
 }
-
 
 #description {
 	margin-top: 2%;
@@ -338,30 +383,27 @@ img {
 .select-css option {
 	font-weight: normal;
 }
-
-
-
 </style>
 
 <script>
-var acc = document.getElementsByClassName("accordion");
-var i;
+	var acc = document.getElementsByClassName("accordion");
+	var i;
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
+	for (i = 0; i < acc.length; i++) {
+		acc[i].addEventListener("click", function() {
+			/* Toggle between adding and removing the "active" class,
+			to highlight the button that controls the panel */
+			this.classList.toggle("active");
 
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-}
+			/* Toggle between hiding and showing the active panel */
+			var panel = this.nextElementSibling;
+			if (panel.style.display === "block") {
+				panel.style.display = "none";
+			} else {
+				panel.style.display = "block";
+			}
+		});
+	}
 </script>
 
 </html>
